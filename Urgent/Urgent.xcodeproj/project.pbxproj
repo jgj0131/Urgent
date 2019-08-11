@@ -16,7 +16,7 @@
 		15BA30D822FC9AE500B8B971 /* UrgentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30D722FC9AE500B8B971 /* UrgentTests.swift */; };
 		15BA30E322FC9AE500B8B971 /* UrgentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30E222FC9AE500B8B971 /* UrgentUITests.swift */; };
 		15BA311A2300198100B8B971 /* RestroomDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA31192300198100B8B971 /* RestroomDataSource.swift */; };
-		15BA311E23001AE500B8B971 /* NationalPublicRestroomData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15BA311D23001AE500B8B971 /* NationalPublicRestroomData.plist */; };
+		15BA3121230025A600B8B971 /* NationalPublicRestroomData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15BA311D23001AE500B8B971 /* NationalPublicRestroomData.plist */; };
 		93AEAFA663F6DDD503D3FD34 /* Pods_Urgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD5EDCB017F1AA4AC35DA0A7 /* Pods_Urgent.framework */; };
 		E040EEB9F44741FA5528AAB1 /* Pods_UrgentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 843173705604A1046857EA99 /* Pods_UrgentTests.framework */; };
 /* End PBXBuildFile section */
@@ -295,7 +295,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15BA311E23001AE500B8B971 /* NationalPublicRestroomData.plist in Resources */,
+				15BA3121230025A600B8B971 /* NationalPublicRestroomData.plist in Resources */,
 				15BA30CD22FC9AE500B8B971 /* LaunchScreen.storyboard in Resources */,
 				15BA30CA22FC9AE500B8B971 /* Assets.xcassets in Resources */,
 				15BA30C822FC9AE400B8B971 /* Main.storyboard in Resources */,

@@ -16,11 +16,11 @@ class ViewController: UIViewController {
     var mapView: GMSMapView!
     var placesClient: GMSPlacesClient!
     var zoomLevel: Float = 15.0
-    let excel = Excel()
+    let restroomData = RestroomDataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(excel.getDataForFata(data: "명사십리")[0])
+        //print(excel.getDataForFata(data: "명사십리")[0])
 
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -42,6 +42,14 @@ class ViewController: UIViewController {
         view.addSubview(mapView)
         mapView.isHidden = true
         
+        // Creates a marker in the center of the map.
+        for datum in restroomData.getDataForFata(data: "명사십리") {
+            let marker = GMSMarker()
+            marker.position = CLLocationCoordinate2D(latitude: Double(datum["위도"] ?? "0.00") ?? 0.00, longitude: Double(datum["경도"] ?? "0.00") ?? 0)
+            marker.title = datum["화장실명"]
+            marker.snippet = datum["구분"]
+            marker.map = mapView
+        }
     }
 }
 

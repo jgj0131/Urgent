@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Excel {
+struct RestroomDataSource {
     func getSwiftArrayFromPlist(name: String) -> Array<Dictionary<String,String>> {
         let path = Bundle.main.path(forResource: name, ofType: "plist")
         var arr: NSArray?
