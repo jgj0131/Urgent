@@ -10,7 +10,12 @@ import UIKit
 import GooglePlaces
 import GoogleMaps
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, GMSMapViewDelegate {
+    // MARK: IBOutlet
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    // MARK: Property
+    var originY: CGFloat?
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var mapView: GMSMapView!
@@ -18,9 +23,10 @@ class ViewController: UIViewController {
     var zoomLevel: Float = 15.0
     let restroomData = RestroomDataSource()
     
+    // MARK: LifeCyle
     override func viewDidLoad() {
         super.viewDidLoad()
-        //print(excel.getDataForFata(data: "명사십리")[0])
+        scrollView.isHidden = true
 
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -35,21 +41,51 @@ class ViewController: UIViewController {
                                               longitude: 151.20,
                                               zoom: zoomLevel)
         mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
+        //mapView.settings.compassButton = true
+        mapView.delegate = self
         mapView.settings.myLocationButton = true
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.isMyLocationEnabled = true
-        // Add the map to the view, hide it until we've got a location update.
         view.addSubview(mapView)
         mapView.isHidden = true
         
-        // Creates a marker in the center of the map.
+        originY = mapView.frame.origin.y
+
         for datum in restroomData.getDataForFata(data: "명사십리") {
             let marker = GMSMarker()
             marker.position = CLLocationCoordinate2D(latitude: Double(datum["위도"] ?? "0.00") ?? 0.00, longitude: Double(datum["경도"] ?? "0.00") ?? 0)
             marker.title = datum["화장실명"]
             marker.snippet = datum["구분"]
+            marker.userData = datum
             marker.map = mapView
         }
+    }
+    
+    // MARK: Custom Method
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        scrollView.isHidden = false
+        UIView.animate(withDuration: 0.33, animations: { () -> Void in
+            if self.originY == nil { self.originY = mapView.frame.origin.y }
+            mapView.frame.origin.y = self.originY! - self.scrollView.frame.height
+        })
+        print(marker.title)
+        let restroomData = marker.userData as! [String:String]
+        print(restroomData["소재지지번주소"] == nil ? "정보없음" : restroomData["소재지지번주소"]!)
+        print(restroomData["남여공용화장실여부"] == nil ? "정보없음" : restroomData["남여공용화장실여부"]!)
+        print(restroomData["개방시간"] == nil ? "정보없음" : restroomData["개방시간"]!)
+        print(restroomData["남성용-대변기수"] == nil ? "정보없음" : restroomData["남성용-대변기수"]!)
+        print(restroomData["남성용-장애인용대변기수"] == nil ? "정보없음" :  restroomData["남성용-장애인용대변기수"]!)
+        print(restroomData["여성용-대변기수"] == nil ? "정보없음" : restroomData["여성용-대변기수"]!)
+        print(restroomData["여성용-장애인용대변기수"] == nil ? "정보없음" : restroomData["여성용-장애인용대변기수"]!)
+        
+        return true
+    }
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        UIView.animate(withDuration: 0.33, animations: { () -> Void in
+            guard let originY = self.originY else { return }
+            mapView.frame.origin.y = self.originY!
+        })
+        print("창 눌렀당")
     }
 }
 
