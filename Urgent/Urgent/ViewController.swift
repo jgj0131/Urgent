@@ -59,11 +59,20 @@ class ViewController: UIViewController, GMSMapViewDelegate {
             marker.userData = datum
             marker.map = mapView
         }
+        
+        cardViewController = CardViewController(nibName:"CardViewController", bundle:nil)
+        self.addChild(cardViewController)
+        self.view.addSubview(cardViewController.view)
+        cardViewController.view.removeFromSuperview()
     }
     
     // MARK: Custom Method
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        if cardViewController.isViewLoaded {
+            cardViewController.view.removeFromSuperview()
+        }
         setupCard()
+        mapView.selectedMarker = marker
         let restroomDatas: [String:String] = marker.userData as? [String:String] ?? ["":""]
         dataDelegate?.sendData(data: restroomDatas)
         dismiss(animated: true, completion: nil)
