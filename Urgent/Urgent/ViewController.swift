@@ -11,9 +11,6 @@ import GooglePlaces
 import GoogleMaps
 
 class ViewController: UIViewController, GMSMapViewDelegate {
-    // MARK: IBOutlet
-    @IBOutlet weak var scrollView: UIScrollView!
-    
     // MARK: Property
     var originY: CGFloat?
     var locationManager = CLLocationManager()
@@ -22,12 +19,17 @@ class ViewController: UIViewController, GMSMapViewDelegate {
     var placesClient: GMSPlacesClient!
     var zoomLevel: Float = 15.0
     let restroomData = RestroomDataSource()
+    var dataDelegate: SendDataDelegate?
+    
+    enum CardState {
+        case expanded
+        case collapsed
+    }
     
     // MARK: LifeCyle
     override func viewDidLoad() {
         super.viewDidLoad()
-        scrollView.isHidden = true
-
+        
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
@@ -41,14 +43,12 @@ class ViewController: UIViewController, GMSMapViewDelegate {
                                               longitude: 151.20,
                                               zoom: zoomLevel)
         mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
-        //mapView.settings.compassButton = true
         mapView.delegate = self
         mapView.settings.myLocationButton = true
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.isMyLocationEnabled = true
         view.addSubview(mapView)
         mapView.isHidden = true
-        
         originY = mapView.frame.origin.y
 
         for datum in restroomData.getDataForFata(data: "명사십리") {
@@ -63,32 +63,157 @@ class ViewController: UIViewController, GMSMapViewDelegate {
     
     // MARK: Custom Method
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        scrollView.isHidden = false
-        UIView.animate(withDuration: 0.33, animations: { () -> Void in
-            if self.originY == nil { self.originY = mapView.frame.origin.y }
-            mapView.frame.origin.y = self.originY! - self.scrollView.frame.height
-        })
-        print(marker.title)
-        let restroomData = marker.userData as! [String:String]
-        print(restroomData["소재지지번주소"] == nil ? "정보없음" : restroomData["소재지지번주소"]!)
-        print(restroomData["남여공용화장실여부"] == nil ? "정보없음" : restroomData["남여공용화장실여부"]!)
-        print(restroomData["개방시간"] == nil ? "정보없음" : restroomData["개방시간"]!)
-        print(restroomData["남성용-대변기수"] == nil ? "정보없음" : restroomData["남성용-대변기수"]!)
-        print(restroomData["남성용-장애인용대변기수"] == nil ? "정보없음" :  restroomData["남성용-장애인용대변기수"]!)
-        print(restroomData["여성용-대변기수"] == nil ? "정보없음" : restroomData["여성용-대변기수"]!)
-        print(restroomData["여성용-장애인용대변기수"] == nil ? "정보없음" : restroomData["여성용-장애인용대변기수"]!)
-        
+        setupCard()
+        let restroomDatas: [String:String] = marker.userData as? [String:String] ?? ["":""]
+        dataDelegate?.sendData(data: restroomDatas)
+        dismiss(animated: true, completion: nil)
+        cardViewController.output(data:restroomDatas)
         return true
     }
+    
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        UIView.animate(withDuration: 0.33, animations: { () -> Void in
-            guard let originY = self.originY else { return }
-            mapView.frame.origin.y = self.originY!
-        })
         print("창 눌렀당")
+        cardViewController.view.removeFromSuperview()
     }
+    
+    var cardViewController:CardViewController!
+    var visualEffectView:UIVisualEffectView!
+    
+    let cardHeight:CGFloat = 600
+    let cardHandleAreaHeight:CGFloat = 65
+    
+    var cardVisible = false
+    var nextState:CardState {
+        return cardVisible ? .collapsed : .expanded
+    }
+    
+    var runningAnimations = [UIViewPropertyAnimator]()
+    var animationProgressWhenInterrupted:CGFloat = 0
+    
+    
+    func setupCard() {
+        visualEffectView = UIVisualEffectView()
+        visualEffectView.frame = self.view.frame
+        self.view.addSubview(visualEffectView)
+        
+        
+        cardViewController = CardViewController(nibName:"CardViewController", bundle:nil)
+        self.addChild(cardViewController)
+        self.view.addSubview(cardViewController.view)
+        
+        cardViewController.view.frame = CGRect(x: 0, y: self.view.frame.height - (cardHandleAreaHeight * 3), width: self.view.bounds.width, height: cardHeight)
+        
+        cardViewController.view.clipsToBounds = true
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleCardTap(recognzier:)))
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ViewController.handleCardPan(recognizer:)))
+        
+        cardViewController.handleArea.addGestureRecognizer(tapGestureRecognizer)
+        cardViewController.handleArea.addGestureRecognizer(panGestureRecognizer)
+        visualEffectView.removeFromSuperview()
+    }
+    
+    @objc
+    func handleCardTap(recognzier:UITapGestureRecognizer) {
+        switch recognzier.state {
+        case .ended:
+            animateTransitionIfNeeded(state: nextState, duration: 0.9)
+        default:
+            break
+        }
+    }
+    
+    @objc
+    func handleCardPan (recognizer:UIPanGestureRecognizer) {
+        switch recognizer.state {
+        case .began:
+            startInteractiveTransition(state: nextState, duration: 0.9)
+        case .changed:
+            let translation = recognizer.translation(in: self.cardViewController.handleArea)
+            var fractionComplete = translation.y / cardHeight
+            fractionComplete = cardVisible ? fractionComplete : -fractionComplete
+            updateInteractiveTransition(fractionCompleted: fractionComplete)
+        case .ended:
+            continueInteractiveTransition()
+        default:
+            break
+        }
+        
+    }
+    
+    func animateTransitionIfNeeded (state:CardState, duration:TimeInterval) {
+        if runningAnimations.isEmpty {
+            let frameAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
+                switch state {
+                case .expanded:
+                    self.cardViewController.view.frame.origin.y = self.view.frame.height - self.cardHeight
+                case .collapsed:
+                    self.cardViewController.view.frame.origin.y = self.view.frame.height - (self.cardHandleAreaHeight * 3)
+                }
+            }
+            
+            frameAnimator.addCompletion { _ in
+                self.cardVisible = !self.cardVisible
+                self.runningAnimations.removeAll()
+            }
+            
+            frameAnimator.startAnimation()
+            runningAnimations.append(frameAnimator)
+            
+            
+            let cornerRadiusAnimator = UIViewPropertyAnimator(duration: duration, curve: .linear) {
+                switch state {
+                case .expanded:
+                    self.cardViewController.view.layer.cornerRadius = 12
+                case .collapsed:
+                    self.cardViewController.view.layer.cornerRadius = 0
+                }
+            }
+            
+            cornerRadiusAnimator.startAnimation()
+            runningAnimations.append(cornerRadiusAnimator)
+            
+            let blurAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
+                switch state {
+                case .expanded:
+                    self.visualEffectView.effect = UIBlurEffect(style: .dark)
+                case .collapsed:
+                    self.visualEffectView.effect = nil
+                }
+            }
+            
+            blurAnimator.startAnimation()
+            runningAnimations.append(blurAnimator)
+            
+        }
+    }
+    
+    func startInteractiveTransition(state:CardState, duration:TimeInterval) {
+        if runningAnimations.isEmpty {
+            animateTransitionIfNeeded(state: state, duration: duration)
+        }
+        for animator in runningAnimations {
+            animator.pauseAnimation()
+            animationProgressWhenInterrupted = animator.fractionComplete
+        }
+    }
+    
+    func updateInteractiveTransition(fractionCompleted:CGFloat) {
+        for animator in runningAnimations {
+            animator.fractionComplete = fractionCompleted + animationProgressWhenInterrupted
+        }
+    }
+    
+    func continueInteractiveTransition (){
+        for animator in runningAnimations {
+            animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+        }
+    }
+    
+
 }
 
+// MARK: Extension
 extension ViewController: CLLocationManagerDelegate {
     
     // Handle incoming location events.
