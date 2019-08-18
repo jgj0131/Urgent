@@ -22,6 +22,13 @@ class CardViewController: UIViewController {
     @IBOutlet weak var disabledWomanToiletCount: UILabel!
     @IBOutlet weak var useButton: UIButton!
     
+    @IBAction func pushUseButton(_ sender: UIButton) {
+        if sender.currentTitle == "사용하기" {
+            sender.setTitle("사용완료", for: .normal)
+        } else {
+            sender.setTitle("사용하기", for: .normal)
+        }
+    }
     // MARK: LifeCyvle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,5 +72,6 @@ extension CardViewController: SendDataDelegate {
         disabledManToiletCount.text = data["남성용-장애인용대변기수"] == "" ? "정보없음" : data["남성용-장애인용대변기수"]!
         womanToiletCount.text = data["여성용-대변기수"] == "" ? "정보없음" : data["여성용-대변기수"]!
         disabledWomanToiletCount.text = data["여성용-장애인용대변기수"] == "" ? "정보없음" : data["여성용-장애인용대변기수"]!
+        useButton.setTitle("사용하기", for: .normal)
     }
 }
