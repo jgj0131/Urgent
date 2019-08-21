@@ -23,8 +23,10 @@ class CardViewController: UIViewController {
     @IBOutlet weak var useButton: UIButton!
     @IBOutlet weak var backgroundArea: UIView!
     
+    // MARK: IBOutlet Collection
     @IBOutlet var titles: [UILabel]!
     
+    // MARK: IBAction
     @IBAction func pushUseButton(_ sender: UIButton) {
         if sender.currentTitle == "사용하기" {
             sender.setTitle("사용완료", for: .normal)
@@ -32,6 +34,7 @@ class CardViewController: UIViewController {
             sender.setTitle("사용하기", for: .normal)
         }
     }
+    
     // MARK: LifeCyvle
     override func viewDidLoad() {
         let inputTitle = ["주소:", "남녀공용여부:", "운영시간:", "남성용 대변기수:", "남성용 장애인 대변기수:", "여성용 대변기수:", "여성용 장애인 대변기수:"]
@@ -43,14 +46,7 @@ class CardViewController: UIViewController {
         }
     }
     
-    // MARK: Custom Method
-    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    //        if segue.identifier == "Sub View" {
-    //            let viewController = segue.destination as! ViewController
-    //            viewController.dataDelegate = self
-    //        }
-    //    }
-    
+    // View가 Load 되었을 때 데이터들을 불러오는 메소드
     func output(data: [String:String]) {
         print(isViewLoaded)
         guard self.isViewLoaded == true else {
@@ -73,6 +69,7 @@ extension CardViewController: SendDataDelegate {
         restroomName.text = data["화장실명"] == "" ? "정보없음" : data["화장실명"]
         restroomSubTitle.text = data["구분"] == "" ? "정보없음" : data["구분"]
         restroomAddress.text = data["소재지도로명주소"] == "" ? "정보없음" : data["소재지도로명주소"]!
+        restroomAddress.numberOfLines = 0
         publicManAndWoman.text = data["남녀공용화장실여부"] == "" ? "정보없음" : data["남녀공용화장실여부"]!
         openingTime.text = data["개방시간"] == "" ? "정보없음" : data["개방시간"]!
         manToiletCount.text = data["남성용-대변기수"] == "" ? "정보없음" : data["남성용-대변기수"]!

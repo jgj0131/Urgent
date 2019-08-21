@@ -122,10 +122,8 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         cardViewController.view.clipsToBounds = true
         cardViewController.view.layer.cornerRadius = cardViewController.view.frame.height/40
         
-//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleCardTap(recognzier:)))
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ViewController.handleCardPan(recognizer:)))
 
-        //cardViewController.handleArea.addGestureRecognizer(tapGestureRecognizer)
         cardViewController.backgroundArea.addGestureRecognizer(panGestureRecognizer)
         visualEffectView.removeFromSuperview()
     }
@@ -150,7 +148,6 @@ class ViewController: UIViewController, GMSMapViewDelegate {
                 print("\(fractionComplete)")
                 animateTransitionIfNeeded(state: nextState, duration: 0.9)
             }
-            
         default:
             break
         }
