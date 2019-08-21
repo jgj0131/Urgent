@@ -16,9 +16,8 @@ struct RestroomDataSource {
         return (arr as? Array<Dictionary<String,String>>)!
     }
     
-    func getDataForFata(data: String) -> Array<[String:String]> {
+    func getDataForFata() -> Array<[String:String]> {
         let array = getSwiftArrayFromPlist(name: "NationalPublicRestroomData")
-        //let namePredicate = NSPredicate(format: "화장실명", data)
-        return array//[array.filter {namePredicate.evaluate(with: $0)}[0]]
+        return array
     }
 }

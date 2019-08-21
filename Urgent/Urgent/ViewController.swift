@@ -69,7 +69,7 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         mapView.isHidden = true
         originY = mapView.frame.origin.y
 
-        for datum in restroomData.getDataForFata(data: "명사십리") {
+        for datum in restroomData.getDataForFata() {
             let marker = GMSMarker()
             marker.position = CLLocationCoordinate2D(latitude: Double(datum["위도"] ?? "0.00") ?? 0.00, longitude: Double(datum["경도"] ?? "0.00") ?? 0)
             marker.title = datum["화장실명"]
@@ -96,6 +96,7 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         dataDelegate?.sendData(data: restroomDatas)
         dismiss(animated: true, completion: nil)
         cardViewController.output(data:restroomDatas)
+        mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 170, right: 0)
         return true
     }
     
@@ -103,6 +104,7 @@ class ViewController: UIViewController, GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         print("창 눌렀당")
         cardViewController.view.removeFromSuperview()
+        mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     
