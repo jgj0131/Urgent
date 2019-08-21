@@ -10,6 +10,10 @@ import UIKit
 import GooglePlaces
 import GoogleMaps
 
+//class POIItem: NSObject, GMUClusterItem {
+//
+//}
+
 class ViewController: UIViewController, GMSMapViewDelegate {
     // MARK: Property
     var originY: CGFloat?
@@ -20,6 +24,20 @@ class ViewController: UIViewController, GMSMapViewDelegate {
     var zoomLevel: Float = 15.0
     let restroomData = RestroomDataSource()
     var dataDelegate: SendDataDelegate?
+    
+    var cardViewController:CardViewController!
+    var visualEffectView:UIVisualEffectView!
+    
+    let cardHeight:CGFloat = 600
+    let cardHandleAreaHeight:CGFloat = 65
+    
+    var cardVisible = false
+    var nextState:CardState {
+        return cardVisible ? .collapsed : .expanded
+    }
+    
+    var runningAnimations = [UIViewPropertyAnimator]()
+    var animationProgressWhenInterrupted:CGFloat = 0
     
     enum CardState {
         case expanded
@@ -67,6 +85,7 @@ class ViewController: UIViewController, GMSMapViewDelegate {
     }
     
     // MARK: Custom Method
+    /// marker를 터치했을 때 동작하는 메소드
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if cardViewController.isViewLoaded {
             cardViewController.view.removeFromSuperview()
@@ -80,26 +99,14 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         return true
     }
     
+    /// mapView를 터치했을 때 동작하는 메소드
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         print("창 눌렀당")
         cardViewController.view.removeFromSuperview()
     }
     
-    var cardViewController:CardViewController!
-    var visualEffectView:UIVisualEffectView!
     
-    let cardHeight:CGFloat = 600
-    let cardHandleAreaHeight:CGFloat = 65
-    
-    var cardVisible = false
-    var nextState:CardState {
-        return cardVisible ? .collapsed : .expanded
-    }
-    
-    var runningAnimations = [UIViewPropertyAnimator]()
-    var animationProgressWhenInterrupted:CGFloat = 0
-    
-    
+    /// CardView를 setUp하는 메소드
     func setupCard() {
         visualEffectView = UIVisualEffectView()
         visualEffectView.frame = self.view.frame
@@ -113,43 +120,43 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         cardViewController.view.frame = CGRect(x: 0, y: self.view.frame.height - (cardHandleAreaHeight * 3), width: self.view.bounds.width, height: cardHeight)
         
         cardViewController.view.clipsToBounds = true
+        cardViewController.view.layer.cornerRadius = cardViewController.view.frame.height/40
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleCardTap(recognzier:)))
+//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleCardTap(recognzier:)))
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ViewController.handleCardPan(recognizer:)))
-        
-        cardViewController.handleArea.addGestureRecognizer(tapGestureRecognizer)
-        cardViewController.handleArea.addGestureRecognizer(panGestureRecognizer)
+
+        //cardViewController.handleArea.addGestureRecognizer(tapGestureRecognizer)
+        cardViewController.backgroundArea.addGestureRecognizer(panGestureRecognizer)
         visualEffectView.removeFromSuperview()
     }
     
-    @objc
-    func handleCardTap(recognzier:UITapGestureRecognizer) {
-        switch recognzier.state {
-        case .ended:
-            animateTransitionIfNeeded(state: nextState, duration: 0.9)
-        default:
-            break
-        }
-    }
-    
+    /// Pan했을 때의 동작을 나타내는 메소드
     @objc
     func handleCardPan (recognizer:UIPanGestureRecognizer) {
+        let translation = recognizer.translation(in: self.cardViewController.handleArea)
+        var fractionComplete = (translation.y * 1.8) / cardHeight
+        fractionComplete = cardVisible ? fractionComplete : -fractionComplete
         switch recognizer.state {
         case .began:
             startInteractiveTransition(state: nextState, duration: 0.9)
         case .changed:
-            let translation = recognizer.translation(in: self.cardViewController.handleArea)
-            var fractionComplete = translation.y / cardHeight
-            fractionComplete = cardVisible ? fractionComplete : -fractionComplete
-            updateInteractiveTransition(fractionCompleted: fractionComplete)
+            if fractionComplete > 0 {
+                updateInteractiveTransition(fractionCompleted: fractionComplete)
+            }
+            print("\(cardVisible),\(translation.y),\(fractionComplete)")
         case .ended:
             continueInteractiveTransition()
+            if fractionComplete > 0, fractionComplete < 0.3 {
+                print("\(fractionComplete)")
+                animateTransitionIfNeeded(state: nextState, duration: 0.9)
+            }
+            
         default:
             break
         }
-        
     }
     
+    /// cardView가 올라온 상태와 내려가있을 떄의 높이를 설정하고, 애니메이션을 시작하는 메소드
     func animateTransitionIfNeeded (state:CardState, duration:TimeInterval) {
         if runningAnimations.isEmpty {
             let frameAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
@@ -165,38 +172,13 @@ class ViewController: UIViewController, GMSMapViewDelegate {
                 self.cardVisible = !self.cardVisible
                 self.runningAnimations.removeAll()
             }
-            
+
             frameAnimator.startAnimation()
             runningAnimations.append(frameAnimator)
-            
-            
-            let cornerRadiusAnimator = UIViewPropertyAnimator(duration: duration, curve: .linear) {
-                switch state {
-                case .expanded:
-                    self.cardViewController.view.layer.cornerRadius = 12
-                case .collapsed:
-                    self.cardViewController.view.layer.cornerRadius = 0
-                }
-            }
-            
-            cornerRadiusAnimator.startAnimation()
-            runningAnimations.append(cornerRadiusAnimator)
-            
-            let blurAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
-                switch state {
-                case .expanded:
-                    self.visualEffectView.effect = UIBlurEffect(style: .dark)
-                case .collapsed:
-                    self.visualEffectView.effect = nil
-                }
-            }
-            
-            blurAnimator.startAnimation()
-            runningAnimations.append(blurAnimator)
-            
         }
     }
     
+    /// 애니메이션 배열이 비어있다면 채워넣고 현재 실행중인 애니메이션을 중지하는 메소드
     func startInteractiveTransition(state:CardState, duration:TimeInterval) {
         if runningAnimations.isEmpty {
             animateTransitionIfNeeded(state: state, duration: duration)
@@ -207,19 +189,19 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
+    /// 이동한 거리만큼 화면을 업데이트하는 메소드
     func updateInteractiveTransition(fractionCompleted:CGFloat) {
         for animator in runningAnimations {
             animator.fractionComplete = fractionCompleted + animationProgressWhenInterrupted
         }
     }
     
+    /// 일시 중지된 애미메이션의 최종 타이밍 및 지속 시간을 조정하는 메소드
     func continueInteractiveTransition (){
         for animator in runningAnimations {
             animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
         }
     }
-    
-
 }
 
 // MARK: Extension

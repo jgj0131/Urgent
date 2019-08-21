@@ -5,6 +5,7 @@ target 'Urgent' do
   # Comment the next line if you don't want to use dynamic frameworks
 pod 'GoogleMaps'
 pod 'GooglePlaces'
+pod 'Google-Maps-iOS-Utils'
   use_frameworks!
 
   # Pods for Urgent

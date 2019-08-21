@@ -62,6 +62,7 @@
 		15BA31662303258D00B8B971 /* SendDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendDataDelegate.swift; sourceTree = "<group>"; };
 		15BA31B22305FA9F00B8B971 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		15BA31B32305FA9F00B8B971 /* CardViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardViewController.xib; sourceTree = "<group>"; };
+		15BA327F230BCFBD00B8B971 /* Urgent-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Urgent-Bridging-Header.h"; sourceTree = "<group>"; };
 		248DA4DC4800F00E5DDAC078 /* Pods-UrgentTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrgentTests.release.xcconfig"; path = "Target Support Files/Pods-UrgentTests/Pods-UrgentTests.release.xcconfig"; sourceTree = "<group>"; };
 		7311BE1F9F93D715FDF6E8A2 /* Pods-Urgent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Urgent.debug.xcconfig"; path = "Target Support Files/Pods-Urgent/Pods-Urgent.debug.xcconfig"; sourceTree = "<group>"; };
 		843173705604A1046857EA99 /* Pods_UrgentTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UrgentTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +103,7 @@
 		15BA30B622FC9AE400B8B971 = {
 			isa = PBXGroup;
 			children = (
+				15BA327F230BCFBD00B8B971 /* Urgent-Bridging-Header.h */,
 				15BA30C122FC9AE400B8B971 /* Urgent */,
 				15BA311B2300199600B8B971 /* DataSource */,
 				15BA311C230019F900B8B971 /* Plist */,
@@ -608,6 +610,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "jang-gukjin.Urgent";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Urgent-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -627,6 +630,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "jang-gukjin.Urgent";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Urgent-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

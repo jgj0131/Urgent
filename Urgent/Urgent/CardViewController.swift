@@ -21,6 +21,9 @@ class CardViewController: UIViewController {
     @IBOutlet weak var womanToiletCount: UILabel!
     @IBOutlet weak var disabledWomanToiletCount: UILabel!
     @IBOutlet weak var useButton: UIButton!
+    @IBOutlet weak var backgroundArea: UIView!
+    
+    @IBOutlet var titles: [UILabel]!
     
     @IBAction func pushUseButton(_ sender: UIButton) {
         if sender.currentTitle == "사용하기" {
@@ -31,9 +34,13 @@ class CardViewController: UIViewController {
     }
     // MARK: LifeCyvle
     override func viewDidLoad() {
+        let inputTitle = ["주소:", "남녀공용여부:", "운영시간:", "남성용 대변기수:", "남성용 장애인 대변기수:", "여성용 대변기수:", "여성용 장애인 대변기수:"]
         super.viewDidLoad()
         useButton.roundedCorner()
-        
+        for index in 0..<titles.count {
+            titles[index].text = inputTitle[index]
+            titles[index].font = UIFont.boldSystemFont(ofSize: 17.0)
+        }
     }
     
     // MARK: Custom Method
@@ -65,7 +72,7 @@ extension CardViewController: SendDataDelegate {
     func sendData(data: [String:String]) {
         restroomName.text = data["화장실명"] == "" ? "정보없음" : data["화장실명"]
         restroomSubTitle.text = data["구분"] == "" ? "정보없음" : data["구분"]
-        restroomAddress.text = data["소재지변주소"] == "" ? "정보없음" : data["소재지지번주소"]!
+        restroomAddress.text = data["소재지도로명주소"] == "" ? "정보없음" : data["소재지도로명주소"]!
         publicManAndWoman.text = data["남녀공용화장실여부"] == "" ? "정보없음" : data["남녀공용화장실여부"]!
         openingTime.text = data["개방시간"] == "" ? "정보없음" : data["개방시간"]!
         manToiletCount.text = data["남성용-대변기수"] == "" ? "정보없음" : data["남성용-대변기수"]!
