@@ -10,16 +10,23 @@ import UIKit
 import GooglePlaces
 import GoogleMaps
 
-//class POIItem: NSObject, GMUClusterItem {
-//
-//}
+class POIItem: NSObject, GMUClusterItem {
+    var position: CLLocationCoordinate2D
+    var data: [String:String]
+    
+    init(position: CLLocationCoordinate2D, data: [String:String]) {
+        self.position = position
+        self.data = data
+    }
+}
 
-class ViewController: UIViewController, GMSMapViewDelegate {
+class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDelegate {
     // MARK: Property
     var originY: CGFloat?
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
-    var mapView: GMSMapView!
+    private var mapView: GMSMapView!
+    private var clusterManager: GMUClusterManager!
     var placesClient: GMSPlacesClient!
     var zoomLevel: Float = 15.0
     let restroomData = RestroomDataSource()
@@ -48,6 +55,9 @@ class ViewController: UIViewController, GMSMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let iconGenerator = GMUDefaultClusterIconGenerator()
+        let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
+        
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
@@ -69,14 +79,20 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         mapView.isHidden = true
         originY = mapView.frame.origin.y
 
+        let renderer = GMUDefaultClusterRenderer(mapView: mapView,
+                                                 clusterIconGenerator: iconGenerator)
+        clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm,
+                                           renderer: renderer)
+        
+        
         for datum in restroomData.getDataForFata() {
-            let marker = GMSMarker()
-            marker.position = CLLocationCoordinate2D(latitude: Double(datum["위도"] ?? "0.00") ?? 0.00, longitude: Double(datum["경도"] ?? "0.00") ?? 0)
-            marker.title = datum["화장실명"]
-            marker.snippet = datum["구분"]
-            marker.userData = datum
-            marker.map = mapView
+            let data = datum
+            let item =
+                POIItem(position: CLLocationCoordinate2DMake(Double(datum["위도"] ?? "0.00") ?? 0.00, Double(datum["경도"] ?? "0.00") ?? 0), data: data)
+            clusterManager.add(item)
         }
+        clusterManager.cluster()
+        clusterManager.setDelegate(self, mapDelegate: self)
         
         cardViewController = CardViewController(nibName:"CardViewController", bundle:nil)
         self.addChild(cardViewController)
@@ -87,22 +103,29 @@ class ViewController: UIViewController, GMSMapViewDelegate {
     // MARK: Custom Method
     /// marker를 터치했을 때 동작하는 메소드
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        if cardViewController.isViewLoaded {
-            cardViewController.view.removeFromSuperview()
+        if let poiItem = marker.userData as? POIItem {
+            if cardViewController.isViewLoaded {
+                cardViewController.view.removeFromSuperview()
+            }
+            setupCard()
+            mapView.selectedMarker = marker
+            marker.title = poiItem.data["화장실명"]
+            marker.snippet = poiItem.data["구분"]
+            marker.userData = poiItem.data
+            let restroomDatas: [String:String] = marker.userData as? [String:String] ?? ["":""]
+            dataDelegate?.sendData(data: restroomDatas)
+            dismiss(animated: true, completion: nil)
+            cardViewController.output(data:restroomDatas)
+            mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 170, right: 0)
+            NSLog("Did tap marker for cluster item \(poiItem.data)")
+        } else {
+            NSLog("Did tap a normal marker")
         }
-        setupCard()
-        mapView.selectedMarker = marker
-        let restroomDatas: [String:String] = marker.userData as? [String:String] ?? ["":""]
-        dataDelegate?.sendData(data: restroomDatas)
-        dismiss(animated: true, completion: nil)
-        cardViewController.output(data:restroomDatas)
-        mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 170, right: 0)
         return true
     }
     
     /// mapView를 터치했을 때 동작하는 메소드
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        print("창 눌렀당")
         cardViewController.view.removeFromSuperview()
         mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
@@ -143,11 +166,11 @@ class ViewController: UIViewController, GMSMapViewDelegate {
             if fractionComplete > 0 {
                 updateInteractiveTransition(fractionCompleted: fractionComplete)
             }
-            print("\(cardVisible),\(translation.y),\(fractionComplete)")
+            //print("\(cardVisible),\(translation.y),\(fractionComplete)")
         case .ended:
             continueInteractiveTransition()
             if fractionComplete > 0, fractionComplete < 0.3 {
-                print("\(fractionComplete)")
+                //print("\(fractionComplete)")
                 animateTransitionIfNeeded(state: nextState, duration: 0.9)
             }
         default:
@@ -200,6 +223,15 @@ class ViewController: UIViewController, GMSMapViewDelegate {
         for animator in runningAnimations {
             animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
         }
+    }
+
+    /// clustering된 item을 탭할때 해당 item을 기준으로 화면을 이동하고 줌하는 메소드
+    func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
+        let newCamera = GMSCameraPosition.camera(withTarget: cluster.position,
+                                                 zoom: mapView.camera.zoom + 1)
+        let update = GMSCameraUpdate.setCamera(newCamera)
+        mapView.moveCamera(update)
+        return false
     }
 }
 

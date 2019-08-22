@@ -54,7 +54,6 @@ class CardViewController: UIViewController {
         }
         sendData(data: data)
     }
-
 }
 
 // MARK: Extension

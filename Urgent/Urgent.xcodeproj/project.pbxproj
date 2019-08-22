@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		147950E5918E78AA3ABE0ED7 /* Pods_UrgentUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042FD039288E48A7A37E80D5 /* Pods_UrgentUITests.framework */; };
 		15BA30C322FC9AE400B8B971 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30C222FC9AE400B8B971 /* AppDelegate.swift */; };
 		15BA30C522FC9AE400B8B971 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30C422FC9AE400B8B971 /* ViewController.swift */; };
 		15BA30C822FC9AE400B8B971 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15BA30C622FC9AE400B8B971 /* Main.storyboard */; };
@@ -20,8 +19,9 @@
 		15BA31672303258D00B8B971 /* SendDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA31662303258D00B8B971 /* SendDataDelegate.swift */; };
 		15BA31B42305FA9F00B8B971 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA31B22305FA9F00B8B971 /* CardViewController.swift */; };
 		15BA31B52305FA9F00B8B971 /* CardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15BA31B32305FA9F00B8B971 /* CardViewController.xib */; };
-		93AEAFA663F6DDD503D3FD34 /* Pods_Urgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD5EDCB017F1AA4AC35DA0A7 /* Pods_Urgent.framework */; };
-		E040EEB9F44741FA5528AAB1 /* Pods_UrgentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 843173705604A1046857EA99 /* Pods_UrgentTests.framework */; };
+		214A89FC3FD57B6A7D250119 /* libPods-UrgentTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 549BBEDDB94CBD9289A0A4C2 /* libPods-UrgentTests.a */; };
+		3890625C1D7C67BFCD9730EF /* libPods-UrgentUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2386241B4FFEF87585D24552 /* libPods-UrgentUITests.a */; };
+		5353F734F9A8D4352351FD16 /* libPods-Urgent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDBDE64ABCE11DF1CC3ABA5 /* libPods-Urgent.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +42,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		042FD039288E48A7A37E80D5 /* Pods_UrgentUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UrgentUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D6FC85DC288E11A52E66C09 /* Pods-UrgentUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrgentUITests.debug.xcconfig"; path = "Target Support Files/Pods-UrgentUITests/Pods-UrgentUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		15BA30BF22FC9AE400B8B971 /* Urgent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Urgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15BA30C222FC9AE400B8B971 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -63,12 +62,13 @@
 		15BA31B22305FA9F00B8B971 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		15BA31B32305FA9F00B8B971 /* CardViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardViewController.xib; sourceTree = "<group>"; };
 		15BA327F230BCFBD00B8B971 /* Urgent-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Urgent-Bridging-Header.h"; sourceTree = "<group>"; };
+		2386241B4FFEF87585D24552 /* libPods-UrgentUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UrgentUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		248DA4DC4800F00E5DDAC078 /* Pods-UrgentTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrgentTests.release.xcconfig"; path = "Target Support Files/Pods-UrgentTests/Pods-UrgentTests.release.xcconfig"; sourceTree = "<group>"; };
+		549BBEDDB94CBD9289A0A4C2 /* libPods-UrgentTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UrgentTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FDBDE64ABCE11DF1CC3ABA5 /* libPods-Urgent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Urgent.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7311BE1F9F93D715FDF6E8A2 /* Pods-Urgent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Urgent.debug.xcconfig"; path = "Target Support Files/Pods-Urgent/Pods-Urgent.debug.xcconfig"; sourceTree = "<group>"; };
-		843173705604A1046857EA99 /* Pods_UrgentTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UrgentTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF3DA2D84441723A34B21FD /* Pods-UrgentTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrgentTests.debug.xcconfig"; path = "Target Support Files/Pods-UrgentTests/Pods-UrgentTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D3EF5BB30E0DBA4649F62BE5 /* Pods-Urgent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Urgent.release.xcconfig"; path = "Target Support Files/Pods-Urgent/Pods-Urgent.release.xcconfig"; sourceTree = "<group>"; };
-		DD5EDCB017F1AA4AC35DA0A7 /* Pods_Urgent.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Urgent.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E201E7FDEE1280A9363350D9 /* Pods-UrgentUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrgentUITests.release.xcconfig"; path = "Target Support Files/Pods-UrgentUITests/Pods-UrgentUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,7 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93AEAFA663F6DDD503D3FD34 /* Pods_Urgent.framework in Frameworks */,
+				5353F734F9A8D4352351FD16 /* libPods-Urgent.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,7 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E040EEB9F44741FA5528AAB1 /* Pods_UrgentTests.framework in Frameworks */,
+				214A89FC3FD57B6A7D250119 /* libPods-UrgentTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				147950E5918E78AA3ABE0ED7 /* Pods_UrgentUITests.framework in Frameworks */,
+				3890625C1D7C67BFCD9730EF /* libPods-UrgentUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,7 +103,6 @@
 		15BA30B622FC9AE400B8B971 = {
 			isa = PBXGroup;
 			children = (
-				15BA327F230BCFBD00B8B971 /* Urgent-Bridging-Header.h */,
 				15BA30C122FC9AE400B8B971 /* Urgent */,
 				15BA311B2300199600B8B971 /* DataSource */,
 				15BA311C230019F900B8B971 /* Plist */,
@@ -128,6 +127,7 @@
 		15BA30C122FC9AE400B8B971 /* Urgent */ = {
 			isa = PBXGroup;
 			children = (
+				15BA327F230BCFBD00B8B971 /* Urgent-Bridging-Header.h */,
 				15BA30C222FC9AE400B8B971 /* AppDelegate.swift */,
 				15BA31662303258D00B8B971 /* SendDataDelegate.swift */,
 				15BA30C422FC9AE400B8B971 /* ViewController.swift */,
@@ -191,9 +191,9 @@
 		863082E058E46BC56EAC7A8C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DD5EDCB017F1AA4AC35DA0A7 /* Pods_Urgent.framework */,
-				843173705604A1046857EA99 /* Pods_UrgentTests.framework */,
-				042FD039288E48A7A37E80D5 /* Pods_UrgentUITests.framework */,
+				5FDBDE64ABCE11DF1CC3ABA5 /* libPods-Urgent.a */,
+				549BBEDDB94CBD9289A0A4C2 /* libPods-UrgentTests.a */,
+				2386241B4FFEF87585D24552 /* libPods-UrgentUITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -610,7 +610,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "jang-gukjin.Urgent";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Urgent-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Urgent/Urgent-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -630,7 +630,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "jang-gukjin.Urgent";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Urgent-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Urgent/Urgent-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
