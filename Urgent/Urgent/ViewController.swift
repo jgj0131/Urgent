@@ -109,6 +109,9 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             }
             setupCard()
             mapView.selectedMarker = marker
+            mapView.camera = GMSCameraPosition.camera(withLatitude: marker.position.latitude,
+                                                     longitude: marker.position.longitude,
+                                                     zoom: zoomLevel)
             marker.title = poiItem.data["화장실명"]
             marker.snippet = poiItem.data["구분"]
             marker.userData = poiItem.data
