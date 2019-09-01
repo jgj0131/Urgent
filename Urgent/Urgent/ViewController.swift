@@ -37,6 +37,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     
     var cardViewController:CardViewController!
     var visualEffectView:UIVisualEffectView!
+    var settingButtonUpAndDown = false
     
     //let cardHeight:CGFloat = self.view
     let cardHandleAreaHeight:CGFloat = 65
@@ -102,6 +103,8 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         self.addChild(cardViewController)
         self.view.addSubview(cardViewController.view)
         cardViewController.view.removeFromSuperview()
+        
+        print(settingButton.frame.origin.y)
     }
     
     // MARK: Custom Method
@@ -124,6 +127,8 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             dismiss(animated: true, completion: nil)
             cardViewController.output(data:restroomDatas)
             mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 185, right: 0)
+            settingButton.frame.origin.y = settingButtonUpAndDown == false ? settingButton.frame.origin.y - 185.0 : settingButton.frame.origin.y
+            settingButtonUpAndDown = true
             NSLog("Did tap marker for cluster item \(poiItem.data)")
         } else {
             NSLog("Did tap a normal marker")
@@ -135,6 +140,8 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         cardViewController.view.removeFromSuperview()
         mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        settingButton.frame.origin.y = settingButtonUpAndDown == true ? settingButton.frame.origin.y + 185.0 : settingButton.frame.origin.y
+        settingButtonUpAndDown = false
     }
     
     

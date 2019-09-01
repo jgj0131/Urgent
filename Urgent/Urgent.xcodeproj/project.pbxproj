@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		156F85A3231C355F00EAEBF5 /* EmergencyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F85A2231C355F00EAEBF5 /* EmergencyTableViewController.swift */; };
 		15BA30C322FC9AE400B8B971 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30C222FC9AE400B8B971 /* AppDelegate.swift */; };
 		15BA30C522FC9AE400B8B971 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30C422FC9AE400B8B971 /* ViewController.swift */; };
 		15BA30C822FC9AE400B8B971 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15BA30C622FC9AE400B8B971 /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		0D6FC85DC288E11A52E66C09 /* Pods-UrgentUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrgentUITests.debug.xcconfig"; path = "Target Support Files/Pods-UrgentUITests/Pods-UrgentUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		156F85A2231C355F00EAEBF5 /* EmergencyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyTableViewController.swift; sourceTree = "<group>"; };
 		15BA30BF22FC9AE400B8B971 /* Urgent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Urgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15BA30C222FC9AE400B8B971 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15BA30C422FC9AE400B8B971 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				15BA31662303258D00B8B971 /* SendDataDelegate.swift */,
 				15BA30C422FC9AE400B8B971 /* ViewController.swift */,
 				15BA31B22305FA9F00B8B971 /* CardViewController.swift */,
+				156F85A2231C355F00EAEBF5 /* EmergencyTableViewController.swift */,
 				15BA30C622FC9AE400B8B971 /* Main.storyboard */,
 				15BA31B32305FA9F00B8B971 /* CardViewController.xib */,
 				15BA30C922FC9AE500B8B971 /* Assets.xcassets */,
@@ -422,6 +425,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15BA31672303258D00B8B971 /* SendDataDelegate.swift in Sources */,
+				156F85A3231C355F00EAEBF5 /* EmergencyTableViewController.swift in Sources */,
 				15BA311A2300198100B8B971 /* RestroomDataSource.swift in Sources */,
 				15BA31B42305FA9F00B8B971 /* CardViewController.swift in Sources */,
 				15BA30C522FC9AE400B8B971 /* ViewController.swift in Sources */,
