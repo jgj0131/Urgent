@@ -22,6 +22,7 @@ class CardViewController: UIViewController {
     @IBOutlet weak var disabledWomanToiletCount: UILabel!
     @IBOutlet weak var useButton: UIButton!
     @IBOutlet weak var backgroundArea: UIView!
+    @IBOutlet weak var addressTitle: UILabel!
     
     // MARK: IBOutlet Collection
     @IBOutlet var titles: [UILabel]!
@@ -37,8 +38,10 @@ class CardViewController: UIViewController {
     
     // MARK: LifeCyvle
     override func viewDidLoad() {
-        let inputTitle = ["주소:", "남녀공용여부:", "운영시간:", "남성용 대변기수:", "남성용 장애인 대변기수:", "여성용 대변기수:", "여성용 장애인 대변기수:"]
+        let inputTitle = ["남녀공용여부:", "운영시간:", "남성용 대변기수:", "남성용 장애인 대변기수:", "여성용 대변기수:", "여성용 장애인 대변기수:"]
         super.viewDidLoad()
+        addressTitle.text = "주소:"
+        addressTitle.font = UIFont.boldSystemFont(ofSize: 17.0)
         useButton.roundedCorner()
         for index in 0..<titles.count {
             titles[index].text = inputTitle[index]

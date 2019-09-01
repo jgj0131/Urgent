@@ -21,6 +21,9 @@ class POIItem: NSObject, GMUClusterItem {
 }
 
 class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDelegate {
+    // MARK: IBOutlet
+    @IBOutlet weak var settingButton: UIButton!
+    
     // MARK: Property
     var originY: CGFloat?
     var locationManager = CLLocationManager()
@@ -35,7 +38,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     var cardViewController:CardViewController!
     var visualEffectView:UIVisualEffectView!
     
-    let cardHeight:CGFloat = 600
+    //let cardHeight:CGFloat = self.view
     let cardHandleAreaHeight:CGFloat = 65
     
     var cardVisible = false
@@ -76,6 +79,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.isMyLocationEnabled = true
         view.addSubview(mapView)
+        mapView.addSubview(settingButton)
         mapView.isHidden = true
         originY = mapView.frame.origin.y
 
@@ -119,7 +123,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             dataDelegate?.sendData(data: restroomDatas)
             dismiss(animated: true, completion: nil)
             cardViewController.output(data:restroomDatas)
-            mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 170, right: 0)
+            mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 185, right: 0)
             NSLog("Did tap marker for cluster item \(poiItem.data)")
         } else {
             NSLog("Did tap a normal marker")
@@ -144,8 +148,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         cardViewController = CardViewController(nibName:"CardViewController", bundle:nil)
         self.addChild(cardViewController)
         self.view.addSubview(cardViewController.view)
-        
-        cardViewController.view.frame = CGRect(x: 0, y: self.view.frame.height - (cardHandleAreaHeight * 3), width: self.view.bounds.width, height: cardHeight)
+        cardViewController.view.frame = CGRect(x: 0, y: self.view.frame.height - (cardHandleAreaHeight * 3), width: self.view.bounds.width, height: self.view.bounds.height * 0.8)
         
         cardViewController.view.clipsToBounds = true
         cardViewController.view.layer.cornerRadius = cardViewController.view.frame.height/40
@@ -154,13 +157,14 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
 
         cardViewController.backgroundArea.addGestureRecognizer(panGestureRecognizer)
         visualEffectView.removeFromSuperview()
+        hiddenTitle(true)
     }
     
     /// Pan했을 때의 동작을 나타내는 메소드
     @objc
     func handleCardPan (recognizer:UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: self.cardViewController.handleArea)
-        var fractionComplete = (translation.y * 1.8) / cardHeight
+        var fractionComplete = (translation.y * 1.8) / self.view.bounds.height * 0.8//cardHeight
         fractionComplete = cardVisible ? fractionComplete : -fractionComplete
         switch recognizer.state {
         case .began:
@@ -169,16 +173,30 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             if fractionComplete > 0 {
                 updateInteractiveTransition(fractionCompleted: fractionComplete)
             }
-            //print("\(cardVisible),\(translation.y),\(fractionComplete)")
         case .ended:
             continueInteractiveTransition()
             if fractionComplete > 0, fractionComplete < 0.3 {
-                //print("\(fractionComplete)")
                 animateTransitionIfNeeded(state: nextState, duration: 0.9)
+            }
+            if cardVisible == true {
+                hiddenTitle(true)
             }
         default:
             break
         }
+    }
+    
+    /// CardVisible의 유무에 따라 Label들을 숨길지 표시할지 정하는 메소드
+    func hiddenTitle(_ bool: Bool) {
+        for title in self.cardViewController.titles {
+            title.isHidden = bool
+        }
+        self.cardViewController.publicManAndWoman.isHidden = bool
+        self.cardViewController.openingTime.isHidden = bool
+        self.cardViewController.manToiletCount.isHidden = bool
+        self.cardViewController.disabledManToiletCount.isHidden = bool
+        self.cardViewController.womanToiletCount.isHidden = bool
+        self.cardViewController.disabledWomanToiletCount.isHidden = bool
     }
     
     /// cardView가 올라온 상태와 내려가있을 떄의 높이를 설정하고, 애니메이션을 시작하는 메소드
@@ -187,9 +205,14 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             let frameAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
                 switch state {
                 case .expanded:
-                    self.cardViewController.view.frame.origin.y = self.view.frame.height - self.cardHeight
+                    self.cardViewController.view.frame.origin.y = self.view.frame.height - (self.view.bounds.height * 0.8)//self.cardHeight
+                    self.hiddenTitle(false)
                 case .collapsed:
                     self.cardViewController.view.frame.origin.y = self.view.frame.height - (self.cardHandleAreaHeight * 3)
+                    for title in self.cardViewController.titles {
+                        title.isHidden = false
+                    }
+                    self.hiddenTitle(false)
                 }
             }
             
