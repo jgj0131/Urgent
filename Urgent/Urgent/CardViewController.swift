@@ -23,6 +23,7 @@ class CardViewController: UIViewController {
     @IBOutlet weak var useButton: UIButton!
     @IBOutlet weak var backgroundArea: UIView!
     @IBOutlet weak var addressTitle: UILabel!
+    @IBOutlet weak var handleBar: UIView!
     
     // MARK: IBOutlet Collection
     @IBOutlet var titles: [UILabel]!
@@ -38,6 +39,19 @@ class CardViewController: UIViewController {
     
     // MARK: LifeCyvle
     override func viewDidLoad() {
+        self.backgroundArea.layer.cornerRadius = 15
+        self.handleArea.layer.cornerRadius = 15
+        
+        self.backgroundArea.layer.shadowColor = UIColor.black.cgColor
+        self.backgroundArea.layer.shadowOpacity = 0.2
+        self.backgroundArea.layer.shadowOffset = .zero
+        self.backgroundArea.layer.shadowRadius = 3
+
+        self.backgroundArea.layer.shadowPath = UIBezierPath(rect: backgroundArea.bounds).cgPath
+        self.backgroundArea.layer.shouldRasterize = true
+        self.backgroundArea.layer.rasterizationScale = UIScreen.main.scale
+        
+        self.handleBar.layer.cornerRadius = handleBar.frame.height/4
         let inputTitle = ["남녀공용여부:", "운영시간:", "남성용 대변기수:", "남성용 장애인 대변기수:", "여성용 대변기수:", "여성용 장애인 대변기수:"]
         super.viewDidLoad()
         addressTitle.text = "주소:"

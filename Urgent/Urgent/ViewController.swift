@@ -150,15 +150,15 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         visualEffectView = UIVisualEffectView()
         visualEffectView.frame = self.view.frame
         self.view.addSubview(visualEffectView)
-        
-        
+
         cardViewController = CardViewController(nibName:"CardViewController", bundle:nil)
         self.addChild(cardViewController)
         self.view.addSubview(cardViewController.view)
+        
         cardViewController.view.frame = CGRect(x: 0, y: self.view.frame.height - (cardHandleAreaHeight * 3), width: self.view.bounds.width, height: self.view.bounds.height * 0.8)
         
         cardViewController.view.clipsToBounds = true
-        cardViewController.view.layer.cornerRadius = cardViewController.view.frame.height/40
+        cardViewController.view.layer.cornerRadius = 15//cardViewController.view.frame.height/40
         
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ViewController.handleCardPan(recognizer:)))
 
