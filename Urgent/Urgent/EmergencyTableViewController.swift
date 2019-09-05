@@ -2,7 +2,7 @@
 //  EmergencyTableViewController.swift
 //  Urgent
 //
-//  Created by jang gukjin on 02/09/2019.
+//  Created by jang gukjin on 04/09/2019.
 //  Copyright © 2019 jang gukjin. All rights reserved.
 //
 
@@ -10,6 +10,9 @@ import UIKit
 
 class EmergencyTableViewController: UITableViewController {
 
+    @IBAction func close(_ sender: Any) {
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,16 +35,14 @@ class EmergencyTableViewController: UITableViewController {
         return 0
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
+        cell.textLabel?.text
 
         return cell
     }
-    */
-
+ 
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

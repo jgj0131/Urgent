@@ -88,6 +88,7 @@ extension CardViewController: SendDataDelegate {
         restroomAddress.numberOfLines = 0
         publicManAndWoman.text = data["남녀공용화장실여부"] == "" ? "정보없음" : data["남녀공용화장실여부"]!
         openingTime.text = data["개방시간"] == "" ? "정보없음" : data["개방시간"]!
+        openingTime.numberOfLines = 0
         manToiletCount.text = data["남성용-대변기수"] == "" ? "정보없음" : data["남성용-대변기수"]!
         disabledManToiletCount.text = data["남성용-장애인용대변기수"] == "" ? "정보없음" : data["남성용-장애인용대변기수"]!
         womanToiletCount.text = data["여성용-대변기수"] == "" ? "정보없음" : data["여성용-대변기수"]!
