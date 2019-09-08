@@ -278,7 +278,7 @@ extension ViewController: CLLocationManagerDelegate {
         
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
                                               longitude: location.coordinate.longitude,
-                                              zoom: zoomLevel)
+                                              zoom: mapView.camera.zoom )//zoomLevel)
         
         if mapView.isHidden {
             mapView.isHidden = false
