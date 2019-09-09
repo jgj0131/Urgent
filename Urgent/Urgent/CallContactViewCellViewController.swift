@@ -27,6 +27,7 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
             }
         })
         fetchContacts()
+        contacts.sort()
         // Do any additional setup after loading the view.
     }
     

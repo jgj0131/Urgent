@@ -61,9 +61,15 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.selectionStyle = .none
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Contact") as! UITableViewCell
-            cell.selectionStyle = .none
-            return cell
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Contact") as! UITableViewCell
+                cell.selectionStyle = .none
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "UserContacts") as! UITableViewCell
+                cell.textLabel?.text = "전화번호"
+                return cell
+            }
         }
     }
     /*
