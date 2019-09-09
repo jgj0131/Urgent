@@ -15,6 +15,7 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
     
     var contactStore = CNContactStore()
     var contacts = [ContactStruct]()
+    var emergencyViewController: EmergencyViewController!
     
     //let request = CNContactFetchRequest(keysToFetch: keys)
     override func viewDidLoad() {
@@ -50,7 +51,6 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
         let contactToDisplay = contacts[indexPath.row]
         cell.textLabel?.text = contactToDisplay.givenName + " " + contactToDisplay.familyName
         cell.detailTextLabel?.text = contactToDisplay.number
-        cell.accessoryType = .detailButton
         return cell
     }
     
@@ -66,8 +66,16 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
             self.contacts.append(contactToAppend)
         })
         tableView.reloadData()
-        print(contacts.first?.givenName)
+//        print(contacts.first?.givenName)
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.navigationController?.popToRootViewController(animated: true)
+        var currentContact: [String:String] = [:]
+        currentContact["name"] = contacts[indexPath.row].givenName + " " + contacts[indexPath.row].familyName
+        currentContact["phone"] = contacts[indexPath.row].number
+        emergencyViewController = EmergencyViewController(nibName: "EmergencyViewController", bundle: nil)
+        emergencyViewController.addContact(data: currentContact)
+    }
 }
 

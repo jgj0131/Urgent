@@ -116,10 +116,17 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HUX-pO-dRB">
                                                     <rect key="frame" x="364" y="7" width="30" height="30"/>
                                                     <state key="normal" title="Edit"/>
+                                                    <connections>
+                                                        <action selector="editRows:" destination="69T-uc-7F1" eventType="touchUpInside" id="sRZ-xn-kcm"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Evp-yb-a9o">
-                                                    <rect key="frame" x="20" y="7" width="30" height="30"/>
-                                                    <state key="normal" title="Plus"/>
+                                                    <rect key="frame" x="20" y="1" width="42" height="42"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="Evp-yb-a9o" secondAttribute="height" multiplier="1:1" id="j3t-Ca-wZZ"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                    <state key="normal" title="+"/>
                                                     <connections>
                                                         <segue destination="MKh-Qu-ybT" kind="show" id="2jg-Nq-ZE1"/>
                                                     </connections>
@@ -133,14 +140,6 @@
                                                 <constraint firstItem="Evp-yb-a9o" firstAttribute="leading" secondItem="aXV-Id-Eos" secondAttribute="leading" constant="20" id="TX9-W1-dYp"/>
                                                 <constraint firstItem="HUX-pO-dRB" firstAttribute="centerY" secondItem="aXV-Id-Eos" secondAttribute="centerY" id="Vhc-3l-eLc"/>
                                             </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserContacts" id="6Jr-vC-UvE">
-                                        <rect key="frame" x="0.0" y="160" width="414" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6Jr-vC-UvE" id="xjR-ry-N1d" customClass="UsersContactsTableViewCell" customModule="Urgent" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -188,7 +187,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9SH-ET-7IQ">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -201,6 +200,8 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lc8-e8-R1y"/>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="9SH-ET-7IQ" id="o0L-dt-dOQ"/>
                     </connections>

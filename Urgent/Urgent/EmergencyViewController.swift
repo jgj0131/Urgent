@@ -8,6 +8,9 @@
 
 import UIKit
 
+var contacts: [[String:String]] = []
+var contactAppend: Bool = false
+
 class EmergencyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // MARK: IBOutlets
     @IBOutlet weak var tableView: UITableView!
@@ -17,20 +20,51 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func editRows(_ sender: UIButton) {
+        if tableView.isEditing {
+            sender.titleLabel?.text = "Edit"
+            tableView.setEditing(false, animated: true)
+        } else {
+            sender.titleLabel?.text = "Done"
+            tableView.setEditing(true, animated: true)
+        }
+    }
+    
+    //var userContacts : UserContactsTableViewCell!
+    
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
-//        self.tableView.separatorStyle = .none
-        // Do any additional setup after loading the view.
+        
+        let nibName = UINib(nibName: "UserContactsTableViewCell", bundle: nil)
+        tableView.register(nibName, forCellReuseIdentifier: "UserContacts")
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+//        tableView.reloadData()
+        if contactAppend == true {
+            let indexPath = IndexPath(row: contacts.count, section: 2)
+            tableView.beginUpdates()
+            tableView.insertRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+            tableView.endUpdates()
+            contactAppend = false
+        }
     }
     
     // MARK: Custom Methods
+    func addContact(data: [String:String]) {
+        if !contacts.contains(data) {
+            contacts.append(data)
+            contactAppend = true
+        }
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 2:
-            return 3
+            return contacts.count + 1
         default:
             return 1
         }
@@ -62,15 +96,43 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             return cell
         } else {
             if indexPath.row == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Contact") as! UITableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Contact") as! ContactTableViewCell
                 cell.selectionStyle = .none
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "UserContacts") as! UITableViewCell
-                cell.textLabel?.text = "전화번호"
+                let cell = tableView.dequeueReusableCell(withIdentifier: "UserContacts") as! UserContactsTableViewCell
+                cell.name.text = contacts[indexPath.row - 1]["name"]
+                cell.phone.text = contacts[indexPath.row - 1]["phone"]
                 return cell
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        if indexPath.section < 2 || indexPath.row < 1 {
+            return UITableViewCell.EditingStyle.none
+        } else {
+            return UITableViewCell.EditingStyle.delete
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == 2, indexPath.row > 0 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCell.EditingStyle.delete, indexPath.section == 2, indexPath.row > 0 {
+            contacts.remove(at: indexPath.row - 1)
+            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+        }
+    }
+
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
     }
     /*
     // MARK: - Navigation
