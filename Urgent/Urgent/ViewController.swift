@@ -118,7 +118,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             mapView.selectedMarker = marker
             mapView.camera = GMSCameraPosition.camera(withLatitude: marker.position.latitude,
                                                      longitude: marker.position.longitude,
-                                                     zoom: zoomLevel)
+                                                     zoom: mapView.camera.zoom)
             marker.title = poiItem.data["화장실명"]
             marker.snippet = poiItem.data["구분"]
             marker.userData = poiItem.data
@@ -278,7 +278,7 @@ extension ViewController: CLLocationManagerDelegate {
         
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
                                               longitude: location.coordinate.longitude,
-                                              zoom: mapView.camera.zoom )//zoomLevel)
+                                              zoom: mapView.camera.zoom )
         
         if mapView.isHidden {
             mapView.isHidden = false
