@@ -10,8 +10,13 @@ import UIKit
 
 var contacts: [[String:String]] = []
 var contactAppend: Bool = false
+var onOffStatus: Bool = true
 
 class EmergencyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    // MARK: Properties
+    var dataPickerIndexPath: IndexPath?
+    var cellHeight: CGFloat?
+    
     // MARK: IBOutlets
     @IBOutlet weak var tableView: UITableView!
     
@@ -30,6 +35,10 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+//    @IBAction func OnOff(_ sender: UISwitch) {
+//        tableView.beginUpdates()
+//        tableView.endUpdates()
+//    }
     //var userContacts : UserContactsTableViewCell!
     
     // MARK: LifeCycle
@@ -38,8 +47,14 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
-        let nibName = UINib(nibName: "UserContactsTableViewCell", bundle: nil)
-        tableView.register(nibName, forCellReuseIdentifier: "UserContacts")
+        let onOffNibName = UINib(nibName: "OnOffTableViewCell", bundle: nil)
+        tableView.register(onOffNibName, forCellReuseIdentifier: "OnOff")
+        let userContactsNibName = UINib(nibName: "UserContactsTableViewCell", bundle: nil)
+        tableView.register(userContactsNibName, forCellReuseIdentifier: "UserContacts")
+        let timeSettingNibName = UINib(nibName: "TimeSettingTableViewCell", bundle: nil)
+        tableView.register(timeSettingNibName, forCellReuseIdentifier: "TimeSetting")
+        let timerPickerNibName = UINib(nibName: "TimerPickerTableViewCell", bundle: nil)
+        tableView.register(timerPickerNibName, forCellReuseIdentifier: "TimerPicker")
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -60,9 +75,34 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             contactAppend = true
         }
     }
+    
+    @objc
+    func onOffSwitching(sender : UISwitch){
+//        tableView.beginUpdates()
+//        tableView.endUpdates()
+        onOffStatus = !onOffStatus
+//        if sender.isOn {
+//            tableView.deleteSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
+//        } else {
+////            tableView.insertSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
+////            tableView.reloadData()
+//        }
+        tableView.reloadData()
+//        tableView.beginUpdates()
+//        tableView.deleteSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
+//        tableView.endUpdates()
+        print(onOffStatus)
+    }
 
+    /// section 별 row를 정의하는 메소드
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
+        case 1:
+            if dataPickerIndexPath != nil {
+                return 2
+            } else {
+                return 1
+            }
         case 2:
             return contacts.count + 1
         default:
@@ -70,10 +110,16 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    /// OnOff의 상태에 따라 section의 개수를 정하는 메소드
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        if onOffStatus == true {
+            return 3
+        } else {
+            return 1
+        }
     }
     
+    /// section 별 제목을 붙이는 메소드
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
@@ -85,15 +131,30 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
 
+    /// 각 cell들을 정의하는 메소드
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "OnOff") as! UITableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "OnOff") as! OnOffTableViewCell
+            cell.onOffLabel.text = "활성화"
+            cell.onOffSwitch.isOn = onOffStatus
+            cell.onOffSwitch.addTarget(self, action: #selector(self.onOffSwitching(sender:)), for: .valueChanged);
+
             cell.selectionStyle = .none
+            cellHeight = cell.frame.height
             return cell
         } else if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TimeSetting") as! UITableViewCell
-            cell.selectionStyle = .none
-            return cell
+            if dataPickerIndexPath == indexPath {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TimerPicker") as! TimerPickerTableViewCell
+                cell.timerPicker.datePickerMode = .countDownTimer
+                cell.timerPicker.countDownDuration = 5
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TimeSetting") as! TimeSettingTableViewCell
+                cell.timeTitle.text = "설정된 시간"
+//                cell.timerPicker.countDownDuration = 5
+                cell.selectionStyle = .default
+                return cell
+            }
         } else {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Contact") as! ContactTableViewCell
@@ -108,14 +169,70 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        if indexPath.section < 2 || indexPath.row < 1 {
-            return UITableViewCell.EditingStyle.none
+    /// cell의 높이를 지정하는 메소드
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 1, indexPath.row == 1 {
+            return cellHeight! * 4
         } else {
-            return UITableViewCell.EditingStyle.delete
+            return cellHeight!
         }
     }
     
+    /// 1 section이 선택되었을 때 Date Picker를 삽입하거나 삭제하는 메소드
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.beginUpdates()
+//        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == 1, let dataPickerIndexPath = dataPickerIndexPath, dataPickerIndexPath.row - 1 == indexPath.row{
+            tableView.deleteRows(at: [dataPickerIndexPath], with: .fade)
+            self.dataPickerIndexPath = nil
+        } else {
+            if let dataPickerIndexPath = dataPickerIndexPath {
+                tableView.deleteRows(at: [dataPickerIndexPath], with: .fade)
+            }
+            dataPickerIndexPath = indexPathToInsertDataPicker(indexPath: indexPath)
+            tableView.insertRows(at: [dataPickerIndexPath!], with: .fade)
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.endUpdates()
+//        if indexPath.section == 1, indexPath.row == 0 {
+//            print("생성")
+//            tableView.insertRows(at: [indexPath], with: .fade)
+//        } else {
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//        }
+    }
+    
+    /// Date Picker의 삽입을 위해 indexPath를 수정하는 함수
+    func indexPathToInsertDataPicker(indexPath: IndexPath) -> IndexPath {
+        if let dataPickerIndexPath = dataPickerIndexPath, dataPickerIndexPath.row < indexPath.row {
+            return indexPath
+        } else {
+            return IndexPath(row: indexPath.row + 1, section: indexPath.section)
+        }
+    }
+//    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+//        if indexPath!.row == 0 {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "OnOff") as! OnOffTableViewCell
+//            if !cell.onOffSwitch.isOn {
+//                print("yes")
+//                tableView.beginUpdates()
+//                tableView.deleteSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
+//                tableView.endUpdates()
+//            } else {
+//                print("No")
+//            }
+//        }
+//    }
+    /// 2 section의 cell들을 Edit하는 메소드
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        if indexPath.section == 2, indexPath.row > 0 {
+            return UITableViewCell.EditingStyle.delete
+        } else {
+            return UITableViewCell.EditingStyle.none
+        }
+    }
+    
+    /// Edit 할 수 있는 cell들에 대한 조건을 정의하는 메소드
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if indexPath.section == 2, indexPath.row > 0 {
             return true
@@ -124,6 +241,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    /// Edit Style을 정의하는 메소드
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCell.EditingStyle.delete, indexPath.section == 2, indexPath.row > 0 {
             contacts.remove(at: indexPath.row - 1)
@@ -131,6 +249,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
 
+    /// row를 변경할 수 있도록 하는 메소드
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
     }

@@ -6,6 +6,7 @@
 //  Copyright © 2019 jang gukjin. All rights reserved.
 //
 
+import MessageUI
 import UIKit
 
 class CardViewController: UIViewController {
@@ -31,6 +32,21 @@ class CardViewController: UIViewController {
     // MARK: IBAction
     @IBAction func pushUseButton(_ sender: UIButton) {
         if sender.currentTitle == "사용하기" {
+            guard MFMessageComposeViewController.canSendText() else {
+                print("메세지를 보낼 수 없습니다.")
+                return
+            }
+            let messageViewController = MFMessageComposeViewController()
+            messageViewController.messageComposeDelegate = self
+            messageViewController.recipients = ["01026104118"]
+            messageViewController.body = """
+            [급해(App)]
+            장소: 광명역
+            날짜 및 시간: 2019년 9월 16일 17:00:00
+            30분 이내에 응답이 없으면 경찰서에 연락 부탁드립니다.
+            """
+            
+            present(messageViewController, animated: true, completion: nil)
             sender.setTitle("사용완료", for: .normal)
         } else {
             sender.setTitle("사용하기", for: .normal)
@@ -94,5 +110,24 @@ extension CardViewController: SendDataDelegate {
         womanToiletCount.text = data["여성용-대변기수"] == "" ? "정보없음" : data["여성용-대변기수"]!
         disabledWomanToiletCount.text = data["여성용-장애인용대변기수"] == "" ? "정보없음" : data["여성용-장애인용대변기수"]!
         useButton.setTitle("사용하기", for: .normal)
+    }
+}
+
+extension CardViewController: MFMessageComposeViewControllerDelegate {
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        switch result {
+        case .cancelled:
+            print("cancelled")
+            dismiss(animated: true, completion: nil)
+        case .sent:
+            print("sent message:", controller.body ?? "")
+            dismiss(animated: true, completion: nil)
+        case .failed:
+            print("failed")
+            dismiss(animated: true, completion: nil)
+        @unknown default:
+            print("unkown Error")
+            dismiss(animated: true, completion: nil)
+        }
     }
 }

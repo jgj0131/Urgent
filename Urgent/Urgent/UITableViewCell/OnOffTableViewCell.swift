@@ -1,17 +1,17 @@
 //
-//  TimeSettingTableViewCell.swift
+//  OnOffTableViewCell.swift
 //  Urgent
 //
-//  Created by jang gukjin on 17/09/2019.
+//  Created by jang gukjin on 10/09/2019.
 //  Copyright © 2019 jang gukjin. All rights reserved.
 //
 
 import UIKit
 
-class TimeSettingTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var timeTitle: UILabel!
-    @IBOutlet weak var setTime: UILabel!
+class OnOffTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var onOffLabel: UILabel!
+    @IBOutlet weak var onOffSwitch: UISwitch!
     
     override func awakeFromNib() {
         super.awakeFromNib()

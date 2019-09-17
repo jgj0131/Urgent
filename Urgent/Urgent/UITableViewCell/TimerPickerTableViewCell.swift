@@ -1,5 +1,5 @@
 //
-//  TimeSettingTableViewCell.swift
+//  TimerPickerTableViewCell.swift
 //  Urgent
 //
 //  Created by jang gukjin on 17/09/2019.
@@ -8,10 +8,9 @@
 
 import UIKit
 
-class TimeSettingTableViewCell: UITableViewCell {
+class TimerPickerTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var timeTitle: UILabel!
-    @IBOutlet weak var setTime: UILabel!
+    @IBOutlet weak var timerPicker: UIDatePicker!
     
     override func awakeFromNib() {
         super.awakeFromNib()
