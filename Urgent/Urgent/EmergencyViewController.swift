@@ -11,11 +11,13 @@ import UIKit
 var contacts: [[String:String]] = []
 var contactAppend: Bool = false
 var onOffStatus: Bool = true
+var timerData: Double = 1800.0
 
 class EmergencyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // MARK: Properties
     var dataPickerIndexPath: IndexPath?
     var cellHeight: CGFloat?
+    
     
     // MARK: IBOutlets
     @IBOutlet weak var tableView: UITableView!
@@ -44,6 +46,11 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        onOffStatus = UserDefaults.standard.bool(forKey: "OnOffSwitch")
+        timerData = UserDefaults.standard.double(forKey: "Timer")
+        contacts = UserDefaults.standard.object(forKey: "Contacts") as? [[String : String]] ?? [[String:String]]()
+        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
@@ -68,30 +75,41 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    // MARK: Objc Methods
+    /// Switch의 상태가 변할 때 tableView를 reload하는 메소드
+    @objc
+    func onOffSwitching(sender : UISwitch){
+        //        tableView.beginUpdates()
+        //        tableView.endUpdates()
+        onOffStatus = !onOffStatus
+        //        if sender.isOn {
+        //            tableView.deleteSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
+        //        } else {
+        ////            tableView.insertSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
+        ////            tableView.reloadData()
+        //        }
+        tableView.reloadData()
+        //        tableView.beginUpdates()
+        //        tableView.deleteSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
+        //        tableView.endUpdates()
+        print(onOffStatus)
+        UserDefaults.standard.set(sender.isOn, forKey: "OnOffSwitch")
+    }
+    
+    /// Date Picker의 값이 변할 때 1 section 0 row의 label을 수정하는 메소드
+    @objc
+    func changed(sender: UIDatePicker) {
+        timerData = sender.countDownDuration
+        tableView.reloadData()
+        UserDefaults.standard.set(timerData, forKey: "Timer")
+    }
+    
     // MARK: Custom Methods
     func addContact(data: [String:String]) {
         if !contacts.contains(data) {
             contacts.append(data)
             contactAppend = true
         }
-    }
-    
-    @objc
-    func onOffSwitching(sender : UISwitch){
-//        tableView.beginUpdates()
-//        tableView.endUpdates()
-        onOffStatus = !onOffStatus
-//        if sender.isOn {
-//            tableView.deleteSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
-//        } else {
-////            tableView.insertSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
-////            tableView.reloadData()
-//        }
-        tableView.reloadData()
-//        tableView.beginUpdates()
-//        tableView.deleteSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
-//        tableView.endUpdates()
-        print(onOffStatus)
     }
 
     /// section 별 row를 정의하는 메소드
@@ -137,8 +155,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             let cell = tableView.dequeueReusableCell(withIdentifier: "OnOff") as! OnOffTableViewCell
             cell.onOffLabel.text = "활성화"
             cell.onOffSwitch.isOn = onOffStatus
-            cell.onOffSwitch.addTarget(self, action: #selector(self.onOffSwitching(sender:)), for: .valueChanged);
-
+            cell.onOffSwitch.addTarget(self, action: #selector(self.onOffSwitching(sender:)), for: .valueChanged)
             cell.selectionStyle = .none
             cellHeight = cell.frame.height
             return cell
@@ -146,12 +163,13 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             if dataPickerIndexPath == indexPath {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TimerPicker") as! TimerPickerTableViewCell
                 cell.timerPicker.datePickerMode = .countDownTimer
-                cell.timerPicker.countDownDuration = 5
+                cell.timerPicker.countDownDuration = timerData
+                cell.timerPicker.addTarget(self, action: #selector(self.changed(sender:)), for: .valueChanged)
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TimeSetting") as! TimeSettingTableViewCell
                 cell.timeTitle.text = "설정된 시간"
-//                cell.timerPicker.countDownDuration = 5
+                cell.setTime.text = "\(Int(timerData) / 3600)시간 \((Int(timerData) % 3600) / 60)분"
                 cell.selectionStyle = .default
                 return cell
             }
@@ -164,6 +182,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UserContacts") as! UserContactsTableViewCell
                 cell.name.text = contacts[indexPath.row - 1]["name"]
                 cell.phone.text = contacts[indexPath.row - 1]["phone"]
+                UserDefaults.standard.set(contacts, forKey: "Contacts")
                 return cell
             }
         }
@@ -246,6 +265,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         if editingStyle == UITableViewCell.EditingStyle.delete, indexPath.section == 2, indexPath.row > 0 {
             contacts.remove(at: indexPath.row - 1)
             tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+            UserDefaults.standard.set(contacts, forKey: "Contacts")
         }
     }
 

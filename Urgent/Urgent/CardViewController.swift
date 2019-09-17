@@ -10,6 +10,8 @@ import MessageUI
 import UIKit
 
 class CardViewController: UIViewController {
+    // MARK: Properties
+    var latitudeAndLongitude: String?
     // MARK: IBOutlet
     @IBOutlet weak var handleArea: UIView!
     @IBOutlet weak var restroomName: UILabel!
@@ -31,25 +33,38 @@ class CardViewController: UIViewController {
     
     // MARK: IBAction
     @IBAction func pushUseButton(_ sender: UIButton) {
-        if sender.currentTitle == "사용하기" {
-            guard MFMessageComposeViewController.canSendText() else {
-                print("메세지를 보낼 수 없습니다.")
-                return
-            }
-            let messageViewController = MFMessageComposeViewController()
-            messageViewController.messageComposeDelegate = self
-            messageViewController.recipients = ["01026104118"]
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH:mm:ss"
+        guard MFMessageComposeViewController.canSendText() else {
+            print("메세지를 보낼 수 없습니다.")
+            return
+        }
+        let messageViewController = MFMessageComposeViewController()
+        messageViewController.messageComposeDelegate = self
+        messageViewController.recipients = ["01081552661","01038783608","01099632661"]
+        
+        if sender.currentTitle == "위험대비문자 발송" {
             messageViewController.body = """
             [급해(App)]
-            장소: 광명역
-            날짜 및 시간: 2019년 9월 16일 17:00:00
+            화장실명: \(restroomName.text!)
+            주소: \(restroomAddress.text!)
+            위경도: \(latitudeAndLongitude!)
+            날짜 및 시간: \(dateFormatter.string(from: Date()))
+            화장실에 용무를 보기 전 불안하여 연락드립니다.
             30분 이내에 응답이 없으면 경찰서에 연락 부탁드립니다.
             """
             
             present(messageViewController, animated: true, completion: nil)
-            sender.setTitle("사용완료", for: .normal)
-        } else {
-            sender.setTitle("사용하기", for: .normal)
+            
+        } else if sender.currentTitle == "안심문자 발송"{
+            messageViewController.body = """
+            [급해(App)]
+            무사히 용무를 마쳤습니다. 걱정 안 하셔도 됩니다.
+            감사합니다.
+            """
+            
+            present(messageViewController, animated: true, completion: nil)
+            sender.setTitle("위험대비문자 발송", for: .normal)
         }
     }
     
@@ -109,7 +124,8 @@ extension CardViewController: SendDataDelegate {
         disabledManToiletCount.text = data["남성용-장애인용대변기수"] == "" ? "정보없음" : data["남성용-장애인용대변기수"]!
         womanToiletCount.text = data["여성용-대변기수"] == "" ? "정보없음" : data["여성용-대변기수"]!
         disabledWomanToiletCount.text = data["여성용-장애인용대변기수"] == "" ? "정보없음" : data["여성용-장애인용대변기수"]!
-        useButton.setTitle("사용하기", for: .normal)
+        useButton.setTitle("위험대비문자 발송", for: .normal)
+        latitudeAndLongitude = "\(data["위도"]!), \(data["경도"]!)"
     }
 }
 
@@ -122,6 +138,11 @@ extension CardViewController: MFMessageComposeViewControllerDelegate {
         case .sent:
             print("sent message:", controller.body ?? "")
             dismiss(animated: true, completion: nil)
+            if useButton.currentTitle == "위험대비문자 발송" {
+                useButton.setTitle("안심문자 발송", for: .normal)
+            } else if useButton.currentTitle == "안심문자 발송"{
+                useButton.setTitle("위험대비문자 발송", for: .normal)
+            }
         case .failed:
             print("failed")
             dismiss(animated: true, completion: nil)
