@@ -8,10 +8,15 @@
 
 import MessageUI
 import UIKit
+import UserNotifications
 
 class CardViewController: UIViewController {
     // MARK: Properties
+    var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
     var latitudeAndLongitude: String?
+    var secondTimer: Timer?
+    var number = 0.0
+    
     // MARK: IBOutlet
     @IBOutlet weak var handleArea: UIView!
     @IBOutlet weak var restroomName: UILabel!
@@ -39,11 +44,15 @@ class CardViewController: UIViewController {
             print("메세지를 보낼 수 없습니다.")
             return
         }
+    
+        let userContacts = contacts.map() { $0["phone"]! }
+        let timerText = (Int(timerData) / 3600 == 0 ? "" : "\(Int(timerData) / 3600) 시간 ") + "\((Int(timerData) % 3600) / 60)분"
+    
         let messageViewController = MFMessageComposeViewController()
         messageViewController.messageComposeDelegate = self
-        messageViewController.recipients = ["01081552661","01038783608","01099632661"]
+        messageViewController.recipients = userContacts
         
-        if sender.currentTitle == "위험대비문자 발송" {
+        if sender.currentTitle == "위험대비문자 발송", userContacts.count >= 1, onOffStatus == true {
             messageViewController.body = """
             [급해(App)]
             화장실명: \(restroomName.text!)
@@ -51,12 +60,12 @@ class CardViewController: UIViewController {
             위경도: \(latitudeAndLongitude!)
             날짜 및 시간: \(dateFormatter.string(from: Date()))
             화장실에 용무를 보기 전 불안하여 연락드립니다.
-            30분 이내에 응답이 없으면 경찰서에 연락 부탁드립니다.
+            \(timerText) 이내에 응답이 없으면 경찰서에 연락 부탁드립니다.
             """
             
             present(messageViewController, animated: true, completion: nil)
             
-        } else if sender.currentTitle == "안심문자 발송"{
+        } else if sender.currentTitle == "안심문자 발송", userContacts.count >= 1, onOffStatus == true {
             messageViewController.body = """
             [급해(App)]
             무사히 용무를 마쳤습니다. 걱정 안 하셔도 됩니다.
@@ -64,7 +73,18 @@ class CardViewController: UIViewController {
             """
             
             present(messageViewController, animated: true, completion: nil)
-            sender.setTitle("위험대비문자 발송", for: .normal)
+        }
+    }
+    
+    // MARK: Objc Method
+    @objc
+    func timeCallback() {
+        number += 1
+        print(number)
+        if number == timerData - 300 {
+            notificate()
+        } else if number == timerData, useButton.currentTitle == "안심문자 발송"{
+            useButton.setTitle("위험대비문자 발송", for: .normal)
         }
     }
     
@@ -73,6 +93,9 @@ class CardViewController: UIViewController {
         self.backgroundArea.layer.cornerRadius = 15
         self.handleArea.layer.cornerRadius = 15
         
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert], completionHandler: {(didAllow, error) in })
+        UNUserNotificationCenter.current().delegate = self
+  
         self.backgroundArea.layer.shadowColor = UIColor.black.cgColor
         self.backgroundArea.layer.shadowOpacity = 0.2
         self.backgroundArea.layer.shadowOffset = .zero
@@ -94,6 +117,12 @@ class CardViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        onOffStatus = UserDefaults.standard.bool(forKey: "OnOffSwitch")
+        timerData = UserDefaults.standard.double(forKey: "Timer")
+        contacts = UserDefaults.standard.object(forKey: "Contacts") as? [[String : String]] ?? [[String:String]]()
+    }
+    
     // View가 Load 되었을 때 데이터들을 불러오는 메소드
     func output(data: [String:String]) {
         print(isViewLoaded)
@@ -101,6 +130,19 @@ class CardViewController: UIViewController {
             return
         }
         sendData(data: data)
+    }
+    
+    func notificate() {
+        let content = UNMutableNotificationContent()
+        content.title = "5분 남았습니다."
+//        content.subtitle = "This is Subtitle : UserNotifications tutorial"
+        content.body = "화장실 이용은 잘 하셨나요? 혹시 안심문자를 보내지 않았다면 지금 보내주세요"
+        
+        let TimeIntervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: "\(index)timerdone", content: content, trigger: TimeIntervalTrigger)
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 }
 
@@ -140,8 +182,24 @@ extension CardViewController: MFMessageComposeViewControllerDelegate {
             dismiss(animated: true, completion: nil)
             if useButton.currentTitle == "위험대비문자 발송" {
                 useButton.setTitle("안심문자 발송", for: .normal)
+                backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+                    UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
+                })
+                if let timer = secondTimer {
+                    if !timer.isValid {
+                        secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
+                    }
+                } else {
+                    secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
+                }
             } else if useButton.currentTitle == "안심문자 발송"{
                 useButton.setTitle("위험대비문자 발송", for: .normal)
+                if let timer = secondTimer {
+                    if timer.isValid {
+                        timer.invalidate()
+                    }
+                }
+                number = 0
             }
         case .failed:
             print("failed")
@@ -150,5 +208,16 @@ extension CardViewController: MFMessageComposeViewControllerDelegate {
             print("unkown Error")
             dismiss(animated: true, completion: nil)
         }
+    }
+}
+
+extension CardViewController: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound, .badge])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+        let settingsViewController = UIViewController()
+        self.present(settingsViewController, animated: true, completion: nil)
     }
 }
