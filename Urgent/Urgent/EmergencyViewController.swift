@@ -88,10 +88,11 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         ////            tableView.insertSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
         ////            tableView.reloadData()
         //        }
-        tableView.reloadData()
-        //        tableView.beginUpdates()
-        //        tableView.deleteSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
-        //        tableView.endUpdates()
+//        tableView.reloadData()
+        UIView.transition(with: tableView, duration: 0.35, options: .transitionCrossDissolve, animations: tableView.reloadData, completion: nil)
+//        tableView.beginUpdates()
+//        tableView.deleteSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
+//        tableView.endUpdates()
         print(onOffStatus)
         UserDefaults.standard.set(sender.isOn, forKey: "OnOffSwitch")
     }
@@ -100,7 +101,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     @objc
     func changed(sender: UIDatePicker) {
         timerData = sender.countDownDuration
-        tableView.reloadData()
+        tableView.reloadRows(at: [IndexPath(row: 0, section: 1)], with: .automatic)
         UserDefaults.standard.set(timerData, forKey: "Timer")
     }
     

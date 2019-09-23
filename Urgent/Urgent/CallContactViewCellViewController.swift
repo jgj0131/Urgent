@@ -62,7 +62,7 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
             let familyName = contact.familyName
             let number = contact.phoneNumbers.first?.value.stringValue
             
-            let contactToAppend = ContactStruct(givenName: name, familyName: familyName, number: number!)
+            let contactToAppend = ContactStruct(givenName: name, familyName: familyName, number: number ?? "")
             self.contacts.append(contactToAppend)
         })
         tableView.reloadData()

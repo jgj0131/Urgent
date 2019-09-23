@@ -50,6 +50,12 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     var runningAnimations = [UIViewPropertyAnimator]()
     var animationProgressWhenInterrupted:CGFloat = 0
     
+    var settingButtonConstraint: NSLayoutConstraint!
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     enum CardState {
         case expanded
         case collapsed
@@ -58,6 +64,10 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     // MARK: LifeCyle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        settingButtonConstraint = settingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -105)
+        settingButtonConstraint.isActive = true
+        settingButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.7).isActive = true
         
         let iconGenerator = GMUDefaultClusterIconGenerator()
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
@@ -79,6 +89,16 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         mapView.settings.myLocationButton = true
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.isMyLocationEnabled = true
+        
+//        if traitCollection.userInterfaceStyle == .dark {
+//            do {
+//              // Set the map style by passing a valid JSON string.
+//              mapView.mapStyle = try GMSMapStyle(jsonString: kMapStyle)
+//            } catch {
+//              NSLog("One or more of the map styles failed to load. \(error)")
+//            }
+//        }
+        
         view.addSubview(mapView)
         mapView.addSubview(settingButton)
         mapView.isHidden = true
@@ -89,12 +109,13 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm,
                                            renderer: renderer)
         
-        
         for datum in restroomData.getDataForFata() {
-            let data = datum
-            let item =
-                POIItem(position: CLLocationCoordinate2DMake(Double(datum["위도"] ?? "0.00") ?? 0.00, Double(datum["경도"] ?? "0.00") ?? 0), data: data)
-            clusterManager.add(item)
+            if datum["위도"] != "", datum["경도"] != "", datum["소재지도로명주소"] != nil {
+                let data = datum
+                let item =
+                    POIItem(position: CLLocationCoordinate2DMake(Double(datum["위도"] ?? "0.00") ?? 0.00, Double(datum["경도"] ?? "0.00") ?? 0), data: data)
+                clusterManager.add(item)
+            }
         }
         clusterManager.cluster()
         clusterManager.setDelegate(self, mapDelegate: self)
@@ -103,8 +124,6 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         self.addChild(cardViewController)
         self.view.addSubview(cardViewController.view)
         cardViewController.view.removeFromSuperview()
-        
-        print(settingButton.frame.origin.y)
     }
     
     // MARK: Custom Method
@@ -114,6 +133,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             if cardViewController.isViewLoaded {
                 cardViewController.view.removeFromSuperview()
             }
+//            print(poiItem)
             setupCard()
             mapView.selectedMarker = marker
             mapView.camera = GMSCameraPosition.camera(withLatitude: marker.position.latitude,
@@ -121,13 +141,13 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
                                                      zoom: mapView.camera.zoom)
             marker.title = poiItem.data["화장실명"]
             marker.snippet = poiItem.data["구분"]
-            marker.userData = poiItem.data
-            let restroomDatas: [String:String] = marker.userData as? [String:String] ?? ["":""]
+            let restroomDatas: [String:String] = poiItem.data
             dataDelegate?.sendData(data: restroomDatas)
             dismiss(animated: true, completion: nil)
             cardViewController.output(data:restroomDatas)
             mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 185, right: 0)
-            settingButton.frame.origin.y = settingButtonUpAndDown == false ? settingButton.frame.origin.y - 185.0 : settingButton.frame.origin.y
+            settingButton.translatesAutoresizingMaskIntoConstraints = false
+            settingButtonConstraint.constant = -290
             settingButtonUpAndDown = true
             NSLog("Did tap marker for cluster item \(poiItem.data)")
         } else {
@@ -140,7 +160,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         cardViewController.view.removeFromSuperview()
         mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        settingButton.frame.origin.y = settingButtonUpAndDown == true ? settingButton.frame.origin.y + 185.0 : settingButton.frame.origin.y
+        settingButtonConstraint.constant = -105
         settingButtonUpAndDown = false
     }
     
