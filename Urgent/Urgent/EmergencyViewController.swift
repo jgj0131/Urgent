@@ -8,7 +8,7 @@
 
 import UIKit
 
-var contacts: [[String:String]] = []
+var savedContacts: [[String:String]] = []
 var contactAppend: Bool = false
 var onOffStatus: Bool = true
 var timerData: Double = 1800.0
@@ -49,7 +49,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         
         onOffStatus = UserDefaults.standard.bool(forKey: "OnOffSwitch")
         timerData = UserDefaults.standard.double(forKey: "Timer")
-        contacts = UserDefaults.standard.object(forKey: "Contacts") as? [[String : String]] ?? [[String:String]]()
+        savedContacts = UserDefaults.standard.object(forKey: "Contacts") as? [[String : String]] ?? [[String:String]]()
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -67,7 +67,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidAppear(_ animated: Bool) {
 //        tableView.reloadData()
         if contactAppend == true {
-            let indexPath = IndexPath(row: contacts.count, section: 2)
+            let indexPath = IndexPath(row: savedContacts.count, section: 2)
             tableView.beginUpdates()
             tableView.insertRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
             tableView.endUpdates()
@@ -107,8 +107,8 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // MARK: Custom Methods
     func addContact(data: [String:String]) {
-        if !contacts.contains(data) {
-            contacts.append(data)
+        if !savedContacts.contains(data) {
+            savedContacts.append(data)
             contactAppend = true
         }
     }
@@ -123,7 +123,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
                 return 1
             }
         case 2:
-            return contacts.count + 1
+            return savedContacts.count + 1
         default:
             return 1
         }
@@ -181,9 +181,9 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UserContacts") as! UserContactsTableViewCell
-                cell.name.text = contacts[indexPath.row - 1]["name"]
-                cell.phone.text = contacts[indexPath.row - 1]["phone"]
-                UserDefaults.standard.set(contacts, forKey: "Contacts")
+                cell.name.text = savedContacts[indexPath.row - 1]["name"]
+                cell.phone.text = savedContacts[indexPath.row - 1]["phone"]
+                UserDefaults.standard.set(savedContacts, forKey: "Contacts")
                 return cell
             }
         }
@@ -214,12 +214,6 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         tableView.deselectRow(at: indexPath, animated: true)
         tableView.endUpdates()
-//        if indexPath.section == 1, indexPath.row == 0 {
-//            print("생성")
-//            tableView.insertRows(at: [indexPath], with: .fade)
-//        } else {
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//        }
     }
     
     /// Date Picker의 삽입을 위해 indexPath를 수정하는 함수
@@ -230,19 +224,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             return IndexPath(row: indexPath.row + 1, section: indexPath.section)
         }
     }
-//    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-//        if indexPath!.row == 0 {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "OnOff") as! OnOffTableViewCell
-//            if !cell.onOffSwitch.isOn {
-//                print("yes")
-//                tableView.beginUpdates()
-//                tableView.deleteSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
-//                tableView.endUpdates()
-//            } else {
-//                print("No")
-//            }
-//        }
-//    }
+
     /// 2 section의 cell들을 Edit하는 메소드
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         if indexPath.section == 2, indexPath.row > 0 {
@@ -264,9 +246,9 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     /// Edit Style을 정의하는 메소드
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCell.EditingStyle.delete, indexPath.section == 2, indexPath.row > 0 {
-            contacts.remove(at: indexPath.row - 1)
+            savedContacts.remove(at: indexPath.row - 1)
             tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
-            UserDefaults.standard.set(contacts, forKey: "Contacts")
+            UserDefaults.standard.set(savedContacts, forKey: "Contacts")
         }
     }
 

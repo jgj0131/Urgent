@@ -10,9 +10,11 @@ import UIKit
 import Contacts
 
 class CallContactViewCellViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
+    let searchController = UISearchController(searchResultsController: nil)
+    var filteredContacts = [ContactStruct]()
     var contactStore = CNContactStore()
     var contacts = [ContactStruct]()
     var emergencyViewController: EmergencyViewController!
@@ -22,6 +24,12 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "name"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        
         contactStore.requestAccess(for: .contacts, completionHandler: { (success, error) in
             if success {
                 print("연락처 불러오기 성공")
@@ -32,7 +40,26 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
         // Do any additional setup after loading the view.
     }
     
+    func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String) {
+      filteredContacts = contacts.filter({( contact : ContactStruct) -> Bool in
+        return contact.givenName.lowercased().contains(searchText.lowercased()) || contact.familyName.lowercased().contains(searchText.lowercased())
+      })
+
+      tableView.reloadData()
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            return filteredContacts.count
+        }
         return contacts.count
     }
     
@@ -48,7 +75,12 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let contactToDisplay = contacts[indexPath.row]
+        let contactToDisplay: ContactStruct
+        if isFiltering(){
+            contactToDisplay = filteredContacts[indexPath.row]
+        } else {
+            contactToDisplay = contacts[indexPath.row]
+        }
         cell.textLabel?.text = contactToDisplay.givenName + " " + contactToDisplay.familyName
         cell.detailTextLabel?.text = contactToDisplay.number
         return cell
@@ -72,10 +104,21 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.navigationController?.popToRootViewController(animated: true)
         var currentContact: [String:String] = [:]
-        currentContact["name"] = contacts[indexPath.row].givenName + " " + contacts[indexPath.row].familyName
-        currentContact["phone"] = contacts[indexPath.row].number
+        if isFiltering() {
+            currentContact["name"] = filteredContacts[indexPath.row].givenName + " " + filteredContacts[indexPath.row].familyName
+            currentContact["phone"] = filteredContacts[indexPath.row].number
+        } else {
+            currentContact["name"] = contacts[indexPath.row].givenName + " " + contacts[indexPath.row].familyName
+            currentContact["phone"] = contacts[indexPath.row].number
+        }
+        
         emergencyViewController = EmergencyViewController(nibName: "EmergencyViewController", bundle: nil)
         emergencyViewController.addContact(data: currentContact)
     }
 }
 
+extension CallContactViewCellViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+}

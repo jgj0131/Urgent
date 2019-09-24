@@ -45,7 +45,7 @@ class CardViewController: UIViewController {
             return
         }
     
-        let userContacts = contacts.map() { $0["phone"]! }
+        let userContacts = savedContacts.map() { $0["phone"]! }
         let timerText = (Int(timerData) / 3600 == 0 ? "" : "\(Int(timerData) / 3600) 시간 ") + "\((Int(timerData) % 3600) / 60)분"
     
         let messageViewController = MFMessageComposeViewController()
@@ -120,7 +120,7 @@ class CardViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         onOffStatus = UserDefaults.standard.bool(forKey: "OnOffSwitch")
         timerData = UserDefaults.standard.double(forKey: "Timer")
-        contacts = UserDefaults.standard.object(forKey: "Contacts") as? [[String : String]] ?? [[String:String]]()
+        savedContacts = UserDefaults.standard.object(forKey: "Contacts") as? [[String : String]] ?? [[String:String]]()
     }
     
     // View가 Load 되었을 때 데이터들을 불러오는 메소드
