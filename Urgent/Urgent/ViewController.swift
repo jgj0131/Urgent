@@ -89,21 +89,11 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         mapView.settings.myLocationButton = true
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.isMyLocationEnabled = true
-        
-//        if traitCollection.userInterfaceStyle == .dark {
-//            do {
-//              // Set the map style by passing a valid JSON string.
-//              mapView.mapStyle = try GMSMapStyle(jsonString: kMapStyle)
-//            } catch {
-//              NSLog("One or more of the map styles failed to load. \(error)")
-//            }
-//        }
-        
         view.addSubview(mapView)
         mapView.addSubview(settingButton)
         mapView.isHidden = true
         originY = mapView.frame.origin.y
-
+        
         let renderer = GMUDefaultClusterRenderer(mapView: mapView,
                                                  clusterIconGenerator: iconGenerator)
         clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm,
@@ -133,14 +123,15 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             if cardViewController.isViewLoaded {
                 cardViewController.view.removeFromSuperview()
             }
-//            print(poiItem)
             setupCard()
             mapView.selectedMarker = marker
             mapView.camera = GMSCameraPosition.camera(withLatitude: marker.position.latitude,
                                                      longitude: marker.position.longitude,
                                                      zoom: mapView.camera.zoom)
-            marker.title = poiItem.data["화장실명"]
-            marker.snippet = poiItem.data["구분"]
+            
+//            marker.title = poiItem.data["화장실명"]
+//            marker.snippet = poiItem.data["개방시간"] == "" ? "정보없음" : poiItem.data["개방시간"]! + "\n장애인용(남: \(Int(poiItem.data["남성용-장애인용대변기수"] ?? "0") ?? 0 > 0 ? "Y" : "N"), 여: \(Int(poiItem.data["여성용-장애인용대변기수"] ?? "0") ?? 0 > 0 ? "Y" : "N"))"
+            marker.icon = UIImage(named: "marker_black")
             let restroomDatas: [String:String] = poiItem.data
             dataDelegate?.sendData(data: restroomDatas)
             dismiss(animated: true, completion: nil)
@@ -156,6 +147,10 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         return true
     }
     
+    func mapView(_ mapView: GMSMapView, didCloseInfoWindowOf marker: GMSMarker) {
+        marker.icon = UIImage(named: "marker_white")
+    }
+    
     /// mapView를 터치했을 때 동작하는 메소드
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         cardViewController.view.removeFromSuperview()
@@ -164,6 +159,54 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         settingButtonUpAndDown = false
     }
     
+    /// infoWindow를 커스터마이징 하는 메소드
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+        let view = UIView(frame: CGRect.init(x: 0, y: 0, width: 50, height: 70))
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = .systemBackground
+        } else {
+            view.backgroundColor = .white
+        }
+        view.layer.cornerRadius = 10
+        view.layer.borderWidth = 3
+        if traitCollection.userInterfaceStyle == .dark {
+            view.layer.borderColor = UIColor.darkGray.cgColor
+        } else {
+            view.layer.borderColor = UIColor.systemYellow.cgColor
+        }
+        if let poiItem = marker.userData as? POIItem {
+            let toiletTitle = UILabel(frame: CGRect.init(x: 8, y: 8, width: 10, height: 15))
+            toiletTitle.text = poiItem.data["화장실명"]
+            toiletTitle.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+            toiletTitle.sizeToFit()
+            view.addSubview(toiletTitle)
+
+            let toiletSnippet = UILabel(frame: CGRect.init(x: toiletTitle.frame.origin.x, y: toiletTitle.frame.origin.y + toiletTitle.frame.size.height + 2, width: 50, height: 15))
+            toiletSnippet.text = poiItem.data["개방시간"] == "" ? "정보없음" : poiItem.data["개방시간"]!
+            toiletSnippet.font = UIFont.systemFont(ofSize: 12, weight: .light)
+            toiletSnippet.textColor = .gray
+            toiletSnippet.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+            toiletSnippet.sizeToFit()
+            view.addSubview(toiletSnippet)
+            
+            let toiletYesNo = UILabel(frame: CGRect.init(x: toiletTitle.frame.origin.x, y: toiletSnippet.frame.origin.y + toiletSnippet.frame.size.height + 1, width: 50, height: 15))
+                        toiletYesNo.text = "장애인용(남: \(Int(poiItem.data["남성용-장애인용대변기수"] ?? "0") ?? 0 > 0 ? "Y" : "N"), 여: \(Int(poiItem.data["여성용-장애인용대변기수"] ?? "0") ?? 0 > 0 ? "Y" : "N"))"
+            toiletYesNo.font = UIFont.systemFont(ofSize: 12, weight: .light)
+            toiletYesNo.textColor = .gray
+            toiletYesNo.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+            toiletYesNo.sizeToFit()
+            view.addSubview(toiletYesNo)
+                        
+            if toiletTitle.frame.width > toiletSnippet.frame.width, toiletTitle.frame.width > toiletYesNo.frame.width {
+                view.frame.size.width = toiletTitle.frame.size.width + 16
+            } else if toiletSnippet.frame.width > toiletYesNo.frame.width{
+                view.frame.size.width = toiletSnippet.frame.size.width + 16
+            } else {
+                view.frame.size.width = toiletYesNo.frame.size.width + 16
+            }
+        }
+        return view
+    }
     
     /// CardView를 setUp하는 메소드
     func setupCard() {

@@ -93,6 +93,8 @@ class CardViewController: UIViewController {
         self.backgroundArea.layer.cornerRadius = 15
         self.handleArea.layer.cornerRadius = 15
         
+        useButton.titleLabel?.text = UserDefaults.standard.string(forKey: "useButtonTitle")
+        
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert], completionHandler: {(didAllow, error) in })
         UNUserNotificationCenter.current().delegate = self
   
@@ -166,7 +168,7 @@ extension CardViewController: SendDataDelegate {
         disabledManToiletCount.text = data["남성용-장애인용대변기수"] == "" ? "정보없음" : data["남성용-장애인용대변기수"]!
         womanToiletCount.text = data["여성용-대변기수"] == "" ? "정보없음" : data["여성용-대변기수"]!
         disabledWomanToiletCount.text = data["여성용-장애인용대변기수"] == "" ? "정보없음" : data["여성용-장애인용대변기수"]!
-        useButton.setTitle("위험대비문자 발송", for: .normal)
+        useButton.setTitle(UserDefaults.standard.string(forKey: "useButtonTitle"), for: .normal)
         latitudeAndLongitude = "\(data["위도"]!), \(data["경도"]!)"
     }
 }
@@ -201,6 +203,8 @@ extension CardViewController: MFMessageComposeViewControllerDelegate {
                 }
                 number = 0
             }
+            print(useButton.currentTitle!)
+            UserDefaults.standard.set(useButton.currentTitle!, forKey: "useButtonTitle")
         case .failed:
             print("failed")
             dismiss(animated: true, completion: nil)

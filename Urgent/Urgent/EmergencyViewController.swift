@@ -79,20 +79,8 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     /// Switch의 상태가 변할 때 tableView를 reload하는 메소드
     @objc
     func onOffSwitching(sender : UISwitch){
-        //        tableView.beginUpdates()
-        //        tableView.endUpdates()
         onOffStatus = !onOffStatus
-        //        if sender.isOn {
-        //            tableView.deleteSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
-        //        } else {
-        ////            tableView.insertSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
-        ////            tableView.reloadData()
-        //        }
-//        tableView.reloadData()
         UIView.transition(with: tableView, duration: 0.35, options: .transitionCrossDissolve, animations: tableView.reloadData, completion: nil)
-//        tableView.beginUpdates()
-//        tableView.deleteSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
-//        tableView.endUpdates()
         print(onOffStatus)
         UserDefaults.standard.set(sender.isOn, forKey: "OnOffSwitch")
     }
