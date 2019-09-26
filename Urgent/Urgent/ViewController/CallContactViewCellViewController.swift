@@ -18,6 +18,8 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
     var contactStore = CNContactStore()
     var contacts = [ContactStruct]()
     var emergencyViewController: EmergencyViewController!
+    var contactsDictionary = [String:[ContactStruct]]()
+    var contactSectionTitles = [String]()
     
     //let request = CNContactFetchRequest(keysToFetch: keys)
     override func viewDidLoad() {
@@ -43,7 +45,42 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
         })
         fetchContacts()
         contacts.sort()
-        // Do any additional setup after loading the view.
+        
+        for contact in contacts {
+            let contactName = contact.familyName == "" ? contact.givenName : contact.familyName + " " + contact.givenName
+            let contactKey = prefixKorean(name: contactName)//String(contactName.prefix(1))
+                   if var contactValues = contactsDictionary[contactKey] {
+                       contactValues.append(contact)
+                       contactsDictionary[contactKey] = contactValues
+                   } else {
+                       contactsDictionary[contactKey] = [contact]
+                   }
+               }
+
+               contactSectionTitles = [String](contactsDictionary.keys)
+               contactSectionTitles = contactSectionTitles.sorted(by: { $0 < $1 })
+        tableView.reloadData()
+    }
+    
+    /// 이름을 받아 한글인 경우 맨 앞글자의 초성을 따오는 메소드
+    func prefixKorean(name:String) -> String {
+        guard let firstText = name.first else { return "" }
+        let unicodeText = Unicode.Scalar(String(firstText))?.value
+        guard let value = unicodeText else { return "" }
+        if (value < 0xAC00 || value > 0xD7A3) { return String(name.prefix(1)) }
+        else {
+            let first = ((value - 0xAC00)/28)/21
+            if let scalarValue = Unicode.Scalar(0x1100 + first) {
+                return String(scalarValue)
+            } else {
+                return ""
+            }
+        }
+    }
+    
+    /// 초성을 기준으로 section 명들을 저장하는 배열을 생성하고, sectionIndexTitles을 정의하는 메소드
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return contactSectionTitles
     }
     
     func searchBarIsEmpty() -> Bool {
@@ -62,11 +99,24 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
         return searchController.isActive && !searchBarIsEmpty()
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if isFiltering(){
+            return 1
+        } else {
+            return contactSectionTitles.count
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
             return filteredContacts.count
+        } else {
+            let contactKey = contactSectionTitles[section]
+            if let contactValues = contactsDictionary[contactKey] {
+                return contactValues.count
+            }
+            return 0
         }
-        return contacts.count
     }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
@@ -84,12 +134,20 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
         let contactToDisplay: ContactStruct
         if isFiltering(){
             contactToDisplay = filteredContacts[indexPath.row]
+            cell.textLabel?.text = contactToDisplay.familyName + " " + contactToDisplay.givenName
+            cell.detailTextLabel?.text = contactToDisplay.number
         } else {
-            contactToDisplay = contacts[indexPath.row]
+            let contactKey = contactSectionTitles[indexPath.section]
+            if let contactValues = contactsDictionary[contactKey] {
+                cell.textLabel?.text = contactValues[indexPath.row].familyName + " " + contactValues[indexPath.row].givenName
+                cell.detailTextLabel?.text = contactValues[indexPath.row].number
+            }
         }
-        cell.textLabel?.text = contactToDisplay.givenName + " " + contactToDisplay.familyName
-        cell.detailTextLabel?.text = contactToDisplay.number
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return contactSectionTitles[section]
     }
     
     func fetchContacts() {
@@ -104,17 +162,16 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
             self.contacts.append(contactToAppend)
         })
         tableView.reloadData()
-//        print(contacts.first?.givenName)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.navigationController?.popToRootViewController(animated: true)
         var currentContact: [String:String] = [:]
         if isFiltering() {
-            currentContact["name"] = filteredContacts[indexPath.row].givenName + " " + filteredContacts[indexPath.row].familyName
+            currentContact["name"] = filteredContacts[indexPath.row].givenName + "" + filteredContacts[indexPath.row].familyName
             currentContact["phone"] = filteredContacts[indexPath.row].number
         } else {
-            currentContact["name"] = contacts[indexPath.row].givenName + " " + contacts[indexPath.row].familyName
+            currentContact["name"] = contacts[indexPath.row].givenName + "" + contacts[indexPath.row].familyName
             currentContact["phone"] = contacts[indexPath.row].number
         }
         
