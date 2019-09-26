@@ -27,7 +27,13 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "name"
+        if #available(iOS 13.0, *) {
+            searchController.searchBar.backgroundColor = .systemBackground
+        } else {
+            // Fallback on earlier versions
+        }
         navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
         
         contactStore.requestAccess(for: .contacts, completionHandler: { (success, error) in

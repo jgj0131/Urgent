@@ -29,10 +29,10 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBAction func editRows(_ sender: UIButton) {
         if tableView.isEditing {
-            sender.titleLabel?.text = "Edit"
+            sender.setTitle("Edit", for: .normal)
             tableView.setEditing(false, animated: true)
         } else {
-            sender.titleLabel?.text = "Done"
+            sender.setTitle("Done", for: .normal)
             tableView.setEditing(true, animated: true)
         }
     }
