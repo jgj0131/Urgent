@@ -37,12 +37,6 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-//    @IBAction func OnOff(_ sender: UISwitch) {
-//        tableView.beginUpdates()
-//        tableView.endUpdates()
-//    }
-    //var userContacts : UserContactsTableViewCell!
-    
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +59,6 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     override func viewDidAppear(_ animated: Bool) {
-//        tableView.reloadData()
         if contactAppend == true {
             let indexPath = IndexPath(row: savedContacts.count, section: 2)
             tableView.beginUpdates()
@@ -177,7 +170,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    /// cell의 높이를 지정하는 메소드
+    /// 1 section 1 row cell의 높이를 지정하는 메소드
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 1, indexPath.row == 1 {
             return cellHeight! * 4

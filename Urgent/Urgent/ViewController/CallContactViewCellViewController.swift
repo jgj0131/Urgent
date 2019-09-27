@@ -168,11 +168,11 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
         self.navigationController?.popToRootViewController(animated: true)
         var currentContact: [String:String] = [:]
         if isFiltering() {
-            currentContact["name"] = filteredContacts[indexPath.row].givenName + "" + filteredContacts[indexPath.row].familyName
+            currentContact["name"] = filteredContacts[indexPath.row].familyName + " " + filteredContacts[indexPath.row].givenName
             currentContact["phone"] = filteredContacts[indexPath.row].number
         } else {
-            currentContact["name"] = contacts[indexPath.row].givenName + "" + contacts[indexPath.row].familyName
-            currentContact["phone"] = contacts[indexPath.row].number
+            currentContact["name"] = (contactsDictionary[contactSectionTitles[indexPath.section]]?[indexPath.row].familyName)! + " " + (contactsDictionary[contactSectionTitles[indexPath.section]]?[indexPath.row].givenName)! //contacts[indexPath.row].givenName + "" + contacts[indexPath.row].familyName
+            currentContact["phone"] = (contactsDictionary[contactSectionTitles[indexPath.section]]?[indexPath.row].number)!//contacts[indexPath.row].number
         }
         
         emergencyViewController = EmergencyViewController(nibName: "EmergencyViewController", bundle: nil)

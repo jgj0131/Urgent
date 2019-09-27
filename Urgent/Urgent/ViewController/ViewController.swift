@@ -132,6 +132,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
 //            marker.title = poiItem.data["화장실명"]
 //            marker.snippet = poiItem.data["개방시간"] == "" ? "정보없음" : poiItem.data["개방시간"]! + "\n장애인용(남: \(Int(poiItem.data["남성용-장애인용대변기수"] ?? "0") ?? 0 > 0 ? "Y" : "N"), 여: \(Int(poiItem.data["여성용-장애인용대변기수"] ?? "0") ?? 0 > 0 ? "Y" : "N"))"
             marker.icon = UIImage(named: "marker_black")
+            marker.tracksInfoWindowChanges = true
             let restroomDatas: [String:String] = poiItem.data
             dataDelegate?.sendData(data: restroomDatas)
             dismiss(animated: true, completion: nil)
@@ -169,11 +170,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         }
         view.layer.cornerRadius = 10
         view.layer.borderWidth = 3
-        if traitCollection.userInterfaceStyle == .dark {
-            view.layer.borderColor = UIColor.darkGray.cgColor
-        } else {
-            view.layer.borderColor = UIColor.systemYellow.cgColor
-        }
+        view.layer.borderColor = UIColor(red: 31.0/255.0, green: 76.0/255.0, blue: 124.0/255.0, alpha: 1.0).cgColor
         if let poiItem = marker.userData as? POIItem {
             let toiletTitle = UILabel(frame: CGRect.init(x: 8, y: 8, width: 10, height: 15))
             toiletTitle.text = poiItem.data["화장실명"]
@@ -206,6 +203,11 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             }
         }
         return view
+    }
+    
+    /// interface의 변화에 따라 동작하는 메소드
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        print("화면모드 변경")
     }
     
     /// CardView를 setUp하는 메소드
