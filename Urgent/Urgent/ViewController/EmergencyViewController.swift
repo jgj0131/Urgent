@@ -131,6 +131,18 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
 
+    /// 초를 Date타입에 맞게 바꿔주는 메소드
+    func setDateFromSeconds(seconds: Double) -> Date {
+        let intSeconds = Int(seconds)
+        let minutes = (intSeconds / 60) % 60
+        let hours = intSeconds / 3600
+        let dateString = NSString(format: "%0.2d:%0.2d", hours, minutes)
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm"
+        return dateFormatter.date(from: dateString as String)!
+    }
+    
     /// 각 cell들을 정의하는 메소드
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
@@ -145,8 +157,10 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             if dataPickerIndexPath == indexPath {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TimerPicker") as! TimerPickerTableViewCell
                 cell.timerPicker.datePickerMode = .countDownTimer
-                cell.timerPicker.countDownDuration = timerData
+//                cell.timerPicker.countDownDuration = timerData
                 cell.timerPicker.addTarget(self, action: #selector(self.changed(sender:)), for: .valueChanged)
+                cell.timerPicker.setDate(setDateFromSeconds(seconds: timerData), animated: true)
+                cell.selectionStyle = .none
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TimeSetting") as! TimeSettingTableViewCell
