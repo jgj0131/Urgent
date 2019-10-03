@@ -12,7 +12,7 @@ import UserNotifications
 
 class CardViewController: UIViewController {
     // MARK: Properties
-    var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
+    var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
     var latitudeAndLongitude: String?
     var secondTimer: Timer?
     var number = 0.0
@@ -81,6 +81,7 @@ class CardViewController: UIViewController {
     func timeCallback() {
         number += 1
         print(number)
+        print("남은시간:\(UIApplication.shared.backgroundTimeRemaining)")
         if number == timerData - 300 {
             notificate()
         } else if number == timerData, useButton.currentTitle == "안심문자 발송"{
@@ -142,9 +143,26 @@ class CardViewController: UIViewController {
         
         let TimeIntervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
         
-        let request = UNNotificationRequest(identifier: "\(index)timerdone", content: content, trigger: TimeIntervalTrigger)
+        let request = UNNotificationRequest(identifier: "\(String(describing: index))timerdone", content: content, trigger: TimeIntervalTrigger)
         
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+    
+    func registerBackgroundTask() {
+        backgroundTaskIdentifier =
+            UIApplication.shared.beginBackgroundTask(expirationHandler: { [weak self] in
+            self?.endBackgroundTask()
+        })
+        assert(backgroundTaskIdentifier != .invalid)
+    }
+    
+    func endBackgroundTask() {
+        print("Background task ended.")
+        useButton.setTitle("안심문자 발송", for: .normal)
+        secondTimer!.invalidate()
+        number = 0
+        UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
+        backgroundTaskIdentifier = .invalid
     }
 }
 
@@ -184,15 +202,20 @@ extension CardViewController: MFMessageComposeViewControllerDelegate {
             dismiss(animated: true, completion: nil)
             if useButton.currentTitle == "위험대비문자 발송" {
                 useButton.setTitle("안심문자 발송", for: .normal)
-                backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
-                    UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier!)
-                })
+//                backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+//                    UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier)
+//                    self.backgroundTaskIdentifier = .invalid
+//                })
+                registerBackgroundTask()
+                
                 if let timer = secondTimer {
                     if !timer.isValid {
                         secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
+                        RunLoop.current.add(secondTimer!, forMode: .common)
                     }
                 } else {
                     secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
+                    RunLoop.current.add(secondTimer!, forMode: .common)
                 }
             } else if useButton.currentTitle == "안심문자 발송"{
                 useButton.setTitle("위험대비문자 발송", for: .normal)

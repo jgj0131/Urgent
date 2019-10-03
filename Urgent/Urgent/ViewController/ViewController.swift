@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 import GooglePlaces
 import GoogleMaps
 
@@ -73,11 +74,12 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
         
         locationManager = CLLocationManager()
+        locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         locationManager.distanceFilter = 50
         locationManager.startUpdatingLocation()
-        locationManager.delegate = self
+        locationManager.allowsBackgroundLocationUpdates = true
         
         placesClient = GMSPlacesClient.shared()
         
@@ -159,6 +161,10 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         settingButtonConstraint.constant = -105
         settingButtonUpAndDown = false
     }
+    
+//    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+//        print("위도:\(mapView.myLocation?.coordinate.latitude), 경고:\(mapView.myLocation?.coordinate.longitude)")
+//    }
     
     /// infoWindow를 커스터마이징 하는 메소드
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
@@ -338,7 +344,10 @@ extension ViewController: CLLocationManagerDelegate {
     
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location: CLLocation = locations.last!
+        guard let location = locations.last else {
+                   return
+               }
+//        let location: CLLocation = locations.last!
         print("Location: \(location)")
         
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
@@ -350,6 +359,11 @@ extension ViewController: CLLocationManagerDelegate {
             mapView.camera = camera
         } else {
             mapView.animate(to: camera)
+        }
+        if UIApplication.shared.applicationState == .active {
+            
+        } else {
+            print("위도:\(location.coordinate.latitude), 경도: \(location.coordinate.longitude)")
         }
     }
     
