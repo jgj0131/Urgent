@@ -152,7 +152,6 @@ class CardViewController: UIViewController {
     func notificate() {
         let content = UNMutableNotificationContent()
         content.title = "5분 남았습니다."
-//        content.subtitle = "This is Subtitle : UserNotifications tutorial"
         content.body = "화장실 이용은 잘 하셨나요? 혹시 안심문자를 보내지 않았다면 지금 보내주세요"
         
         let TimeIntervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)

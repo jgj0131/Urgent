@@ -33,9 +33,10 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     @IBOutlet weak var settingButton: UIButton!
     
     // MARK: Property
-//    var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
-//    var secondTimer: Timer?
-//    var number = 0.0
+    var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
+    var latitudeAndLongitude: String?
+    var secondTimer: Timer?
+    var number = 0.0
     
     var originY: CGFloat?
     var locationManager = CLLocationManager()
@@ -181,10 +182,6 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         settingButtonUpAndDown = false
     }
     
-//    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
-//        print("위도:\(mapView.myLocation?.coordinate.latitude), 경고:\(mapView.myLocation?.coordinate.longitude)")
-//    }
-    
     /// infoWindow를 커스터마이징 하는 메소드
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
         let view = UIView(frame: CGRect.init(x: 0, y: 0, width: 50, height: 70))
@@ -278,6 +275,27 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         }
     }
     
+    @objc
+    func timeCallback() {
+        number += 1
+        print("GPS 탐지 시간: \(number)")
+        if number == 120 {
+            notificateGPSStillWork()
+        }
+    }
+    
+    func notificateGPSStillWork() {
+        let content = UNMutableNotificationContent()
+        content.title = "GPS가 켜져있습니다."
+        content.body = "30분 이상 GPS가 켜져있습니다. 위험대비 문자를 보낸 것이 아니라면 전력 소모를 줄이기 위해 앱을 종료해주세요."
+        
+        let TimeIntervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: "\(String(describing: index))timerdone", content: content, trigger: TimeIntervalTrigger)
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+    
     /// CardVisible의 유무에 따라 Label들을 숨길지 표시할지 정하는 메소드
     func hiddenTitle(_ bool: Bool) {
         for title in self.cardViewController.titles {
@@ -355,6 +373,27 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
 
 // MARK: Extension
 extension ViewController: CLLocationManagerDelegate {
+    func timerMeasurementsInBackground() {
+        if number < 120, number >= 0 {
+            if let timer = secondTimer {
+                if !timer.isValid {
+                    secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
+                    RunLoop.current.add(secondTimer!, forMode: .common)
+                }
+            } else {
+                secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
+                RunLoop.current.add(secondTimer!, forMode: .common)
+            }
+        } else {
+            if let timer = secondTimer {
+                if timer.isValid {
+                    timer.invalidate()
+                }
+            }
+            number = -1
+        }
+    }
+    
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else {
@@ -376,6 +415,7 @@ extension ViewController: CLLocationManagerDelegate {
             
         } else {
             print("위도:\(location.coordinate.latitude), 경도: \(location.coordinate.longitude)")
+            timerMeasurementsInBackground()
         }
         if gpsState == .off {
             locationManager.stopUpdatingLocation()
@@ -404,5 +444,16 @@ extension ViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationManager.stopUpdatingLocation()
         print("Error: \(error)")
+    }
+}
+
+extension ViewController: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound, .badge])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+        let settingsViewController = UIViewController()
+        self.present(settingsViewController, animated: true, completion: nil)
     }
 }
