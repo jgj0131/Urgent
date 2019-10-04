@@ -279,7 +279,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     func timeCallback() {
         number += 1
         print("GPS 탐지 시간: \(number)")
-        if number == 120 {
+        if number == 1800 {
             notificateGPSStillWork()
         }
     }
@@ -374,7 +374,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
 // MARK: Extension
 extension ViewController: CLLocationManagerDelegate {
     func timerMeasurementsInBackground() {
-        if number < 120, number >= 0 {
+        if number < 1800, number >= 0 {
             if let timer = secondTimer {
                 if !timer.isValid {
                     secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
