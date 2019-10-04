@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="급해아이콘" translatesAutoresizingMaskIntoConstraints="NO" id="juc-b8-SNH">
-                                <rect key="frame" x="0.0" y="349.5" width="414" height="207"/>
+                                <rect key="frame" x="0.0" y="259" width="414" height="207"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="juc-b8-SNH" secondAttribute="height" multiplier="2:1" id="eBC-ed-a4x"/>
                                 </constraints>
@@ -26,7 +26,7 @@
                         <color key="backgroundColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="juc-b8-SNH" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="KQD-qk-pOR"/>
-                            <constraint firstItem="juc-b8-SNH" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="Lme-6P-NrH"/>
+                            <constraint firstItem="juc-b8-SNH" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" multiplier="0.8" id="Lme-6P-NrH"/>
                             <constraint firstItem="juc-b8-SNH" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Wpe-YN-gc0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

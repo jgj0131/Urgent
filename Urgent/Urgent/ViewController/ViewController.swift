@@ -11,6 +11,13 @@ import CoreLocation
 import GooglePlaces
 import GoogleMaps
 
+enum GPSState {
+    case on
+    case off
+}
+
+var gpsState: GPSState = .on
+
 class POIItem: NSObject, GMUClusterItem {
     var position: CLLocationCoordinate2D
     var data: [String:String]
@@ -26,6 +33,10 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     @IBOutlet weak var settingButton: UIButton!
     
     // MARK: Property
+//    var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
+//    var secondTimer: Timer?
+//    var number = 0.0
+    
     var originY: CGFloat?
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
@@ -53,8 +64,15 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     
     var settingButtonConstraint: NSLayoutConstraint!
     
+    var messageSendOrNot: MessageState = .notSend
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    enum MessageState {
+        case send
+        case notSend
     }
     
     enum CardState {
@@ -77,7 +95,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
-        locationManager.distanceFilter = 50
+        locationManager.distanceFilter = 10
         locationManager.startUpdatingLocation()
         locationManager.allowsBackgroundLocationUpdates = true
         
@@ -147,6 +165,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         } else {
             NSLog("Did tap a normal marker")
         }
+        messageSendOrNot = .send
         return true
     }
     
@@ -209,11 +228,6 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             }
         }
         return view
-    }
-    
-    /// interface의 변화에 따라 동작하는 메소드
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        print("화면모드 변경")
     }
     
     /// CardView를 setUp하는 메소드
@@ -341,13 +355,11 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
 
 // MARK: Extension
 extension ViewController: CLLocationManagerDelegate {
-    
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else {
                    return
                }
-//        let location: CLLocation = locations.last!
         print("Location: \(location)")
         
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
@@ -364,6 +376,10 @@ extension ViewController: CLLocationManagerDelegate {
             
         } else {
             print("위도:\(location.coordinate.latitude), 경도: \(location.coordinate.longitude)")
+        }
+        if gpsState == .off {
+            locationManager.stopUpdatingLocation()
+            gpsState = .on
         }
     }
     

@@ -86,6 +86,11 @@ class CardViewController: UIViewController {
             notificate()
         } else if number == timerData, useButton.currentTitle == "안심문자 발송"{
             useButton.setTitle("위험대비문자 발송", for: .normal)
+            
+            UserDefaults.standard.set("위험대비문자 발송", forKey: "useButtonTitle")
+            gpsState = .off
+        } else if number > timerData + 10 {
+            self.endBackgroundTask()
         }
     }
     
@@ -124,6 +129,15 @@ class CardViewController: UIViewController {
         onOffStatus = UserDefaults.standard.bool(forKey: "OnOffSwitch")
         timerData = UserDefaults.standard.double(forKey: "Timer")
         savedContacts = UserDefaults.standard.object(forKey: "Contacts") as? [[String : String]] ?? [[String:String]]()
+        useButton.setTitle(UserDefaults.standard.string(forKey: "useButtonTitle"), for: .normal)
+    }
+    
+    /// interface의 변화에 따라 동작하는 메소드
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        print("화면모드 변경")
+//        if UIApplication.shared.applicationState == .active {
+//            useButton.setTitle(UserDefaults.standard.string(forKey: "useButtonTitle"), for: .normal)
+//        }
     }
     
     // View가 Load 되었을 때 데이터들을 불러오는 메소드
@@ -148,17 +162,8 @@ class CardViewController: UIViewController {
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
-    func registerBackgroundTask() {
-        backgroundTaskIdentifier =
-            UIApplication.shared.beginBackgroundTask(expirationHandler: { [weak self] in
-            self?.endBackgroundTask()
-        })
-        assert(backgroundTaskIdentifier != .invalid)
-    }
-    
     func endBackgroundTask() {
         print("Background task ended.")
-        useButton.setTitle("안심문자 발송", for: .normal)
         secondTimer!.invalidate()
         number = 0
         UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
@@ -192,6 +197,32 @@ extension CardViewController: SendDataDelegate {
 }
 
 extension CardViewController: MFMessageComposeViewControllerDelegate {
+    func timerMeasurementsInBackground() {
+        if useButton.currentTitle == "위험대비문자 발송" {
+            useButton.setTitle("안심문자 발송", for: .normal)
+            if let timer = secondTimer {
+                if !timer.isValid {
+                    secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
+                    RunLoop.current.add(secondTimer!, forMode: .common)
+                }
+            } else {
+                secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
+                RunLoop.current.add(secondTimer!, forMode: .common)
+            }
+        } else if useButton.currentTitle == "안심문자 발송"{
+            useButton.setTitle("위험대비문자 발송", for: .normal)
+            if let timer = secondTimer {
+                if timer.isValid {
+                    timer.invalidate()
+                }
+            }
+            number = 0
+        }
+        print(useButton.currentTitle!)
+        UserDefaults.standard.set(useButton.currentTitle!, forKey: "useButtonTitle")
+    }
+
+    
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         switch result {
         case .cancelled:
@@ -200,34 +231,15 @@ extension CardViewController: MFMessageComposeViewControllerDelegate {
         case .sent:
             print("sent message:", controller.body ?? "")
             dismiss(animated: true, completion: nil)
-            if useButton.currentTitle == "위험대비문자 발송" {
-                useButton.setTitle("안심문자 발송", for: .normal)
-//                backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: {
-//                    UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier)
-//                    self.backgroundTaskIdentifier = .invalid
-//                })
-                registerBackgroundTask()
-                
-                if let timer = secondTimer {
-                    if !timer.isValid {
-                        secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
-                        RunLoop.current.add(secondTimer!, forMode: .common)
-                    }
-                } else {
-                    secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
-                    RunLoop.current.add(secondTimer!, forMode: .common)
+            if CLLocationManager.locationServicesEnabled() {
+                switch CLLocationManager.authorizationStatus() {
+                case .authorizedAlways:
+                    timerMeasurementsInBackground()
+                default:
+                    useButton.setTitle("위험대비문자 발송", for: .normal)
+                    gpsState = .off
                 }
-            } else if useButton.currentTitle == "안심문자 발송"{
-                useButton.setTitle("위험대비문자 발송", for: .normal)
-                if let timer = secondTimer {
-                    if timer.isValid {
-                        timer.invalidate()
-                    }
-                }
-                number = 0
             }
-            print(useButton.currentTitle!)
-            UserDefaults.standard.set(useButton.currentTitle!, forKey: "useButtonTitle")
         case .failed:
             print("failed")
             dismiss(animated: true, completion: nil)
