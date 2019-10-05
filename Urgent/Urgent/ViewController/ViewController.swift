@@ -240,7 +240,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         cardViewController.view.frame = CGRect(x: 0, y: self.view.frame.height - (cardHandleAreaHeight * 3), width: self.view.bounds.width, height: self.view.bounds.height * 0.8)
         
         cardViewController.view.clipsToBounds = true
-        cardViewController.view.layer.cornerRadius = 15//cardViewController.view.frame.height/40
+        cardViewController.view.layer.cornerRadius = 15
         
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ViewController.handleCardPan(recognizer:)))
 
@@ -249,41 +249,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         hiddenTitle(true)
     }
     
-    /// Pan했을 때의 동작을 나타내는 메소드
-    @objc
-    func handleCardPan (recognizer:UIPanGestureRecognizer) {
-        let translation = recognizer.translation(in: self.cardViewController.handleArea)
-        var fractionComplete = (translation.y * 1.8) / self.view.bounds.height * 0.8//cardHeight
-        fractionComplete = cardVisible ? fractionComplete : -fractionComplete
-        switch recognizer.state {
-        case .began:
-            startInteractiveTransition(state: nextState, duration: 0.9)
-        case .changed:
-            if fractionComplete > 0 {
-                updateInteractiveTransition(fractionCompleted: fractionComplete)
-            }
-        case .ended:
-            continueInteractiveTransition()
-            if fractionComplete > 0, fractionComplete < 0.3 {
-                animateTransitionIfNeeded(state: nextState, duration: 0.9)
-            }
-            if cardVisible == true {
-                hiddenTitle(true)
-            }
-        default:
-            break
-        }
-    }
-    
-    @objc
-    func timeCallback() {
-        number += 1
-        print("GPS 탐지 시간: \(number)")
-        if number == 1800 {
-            notificateGPSStillWork()
-        }
-    }
-    
+    /// GPS가 켜져있다는 푸시 알림을 보내는 메소드
     func notificateGPSStillWork() {
         let content = UNMutableNotificationContent()
         content.title = "GPS가 켜져있습니다."
@@ -368,6 +334,43 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         let update = GMSCameraUpdate.setCamera(newCamera)
         mapView.moveCamera(update)
         return false
+    }
+    
+    // MARK: Objc Methods
+    /// Pan했을 때의 동작을 나타내는 메소드
+    @objc
+    func handleCardPan (recognizer:UIPanGestureRecognizer) {
+        let translation = recognizer.translation(in: self.cardViewController.handleArea)
+        var fractionComplete = (translation.y * 1.8) / self.view.bounds.height * 0.8
+        fractionComplete = cardVisible ? fractionComplete : -fractionComplete
+        switch recognizer.state {
+        case .began:
+            startInteractiveTransition(state: nextState, duration: 0.9)
+        case .changed:
+            if fractionComplete > 0 {
+                updateInteractiveTransition(fractionCompleted: fractionComplete)
+            }
+        case .ended:
+            continueInteractiveTransition()
+            if fractionComplete > 0, fractionComplete < 0.3 {
+                animateTransitionIfNeeded(state: nextState, duration: 0.9)
+            }
+            if cardVisible == true {
+                hiddenTitle(true)
+            }
+        default:
+            break
+        }
+    }
+    
+    /// 시간을 체크하여 30분이 되면 푸시알림을 보내는 메소드
+    @objc
+    func timeCallback() {
+        number += 1
+        print("GPS 탐지 시간: \(number)")
+        if number == 1800 {
+            notificateGPSStillWork()
+        }
     }
 }
 
