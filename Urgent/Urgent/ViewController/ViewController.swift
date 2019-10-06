@@ -16,7 +16,22 @@ enum GPSState {
     case off
 }
 
+//private enum State {
+//    case closed
+//    case open
+//}
+//
+//extension State {
+//    var opposite: State {
+//        switch self {
+//        case .open: return .closed
+//        case .closed: return .open
+//        }
+//    }
+//}
+
 var gpsState: GPSState = .on
+var height: CGFloat = 0.0
 
 class POIItem: NSObject, GMUClusterItem {
     var position: CLLocationCoordinate2D
@@ -242,9 +257,22 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         cardViewController.view.clipsToBounds = true
         cardViewController.view.layer.cornerRadius = 15
         
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ViewController.handleCardPan(recognizer:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleCardTap(recognzier:)))
+       
+        let upSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(ViewController.handleCardSwipeUp(recognizer:)))
+        
+        let downSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(ViewController.handleCardSwipeDown(recognizer:)))
+        
+        upSwipeGestureRecognizer.direction = .up
+        downSwipeGestureRecognizer.direction = .down
+//        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ViewController.handleCardPan(recognizer:)))
 
-        cardViewController.backgroundArea.addGestureRecognizer(panGestureRecognizer)
+        cardViewController.backgroundArea.addGestureRecognizer(tapGestureRecognizer)
+        cardViewController.backgroundArea.addGestureRecognizer(upSwipeGestureRecognizer)
+        
+        cardViewController.backgroundArea.addGestureRecognizer(downSwipeGestureRecognizer)
+        
+//        cardViewController.backgroundArea.addGestureRecognizer(panGestureRecognizer)
         visualEffectView.removeFromSuperview()
         hiddenTitle(true)
     }
@@ -288,7 +316,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
                     for title in self.cardViewController.titles {
                         title.isHidden = false
                     }
-                    self.hiddenTitle(false)
+                    self.hiddenTitle(true)
                 }
             }
             
@@ -326,7 +354,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
         }
     }
-
+    
     /// clustering된 item을 탭할때 해당 item을 기준으로 화면을 이동하고 줌하는 메소드
     func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
         let newCamera = GMSCameraPosition.camera(withTarget: cluster.position,
@@ -338,31 +366,67 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     
     // MARK: Objc Methods
     /// Pan했을 때의 동작을 나타내는 메소드
+//    @objc
+//    func handleCardPan (recognizer:UIPanGestureRecognizer) {
+//        let translation = recognizer.translation(in: self.cardViewController.handleArea)
+//        var fractionComplete = (translation.y * 1.8) / self.view.bounds.height * 0.8
+//
+//        fractionComplete = cardVisible ? fractionComplete : -fractionComplete
+//        switch recognizer.state {
+//        case .began:
+//            startInteractiveTransition(state: nextState, duration: 0.9)
+//            hiddenTitle(false)
+//        case .changed:
+//            if fractionComplete > 0 {
+//                updateInteractiveTransition(fractionCompleted: fractionComplete)
+//            }
+//            height = fractionComplete
+//        case .ended:
+//            print(height)
+//            if cardVisible == false, height <= 0 {
+//                print("안됨")
+//                hiddenTitle(true)
+//            } else {
+//                continueInteractiveTransition()
+//                if cardVisible == true {
+//                    hiddenTitle(true)
+//                }
+//            }
+//
+//
+//            print(cardVisible)
+//        default:
+//            break
+//        }
+//    }
+    
+    /// Tap 했을 때 동작을 나타내는 메소드
     @objc
-    func handleCardPan (recognizer:UIPanGestureRecognizer) {
-        let translation = recognizer.translation(in: self.cardViewController.handleArea)
-        var fractionComplete = (translation.y * 1.8) / self.view.bounds.height * 0.8
-        fractionComplete = cardVisible ? fractionComplete : -fractionComplete
-        switch recognizer.state {
-        case .began:
-            startInteractiveTransition(state: nextState, duration: 0.9)
-        case .changed:
-            if fractionComplete > 0 {
-                updateInteractiveTransition(fractionCompleted: fractionComplete)
-            }
+    func handleCardTap(recognzier: UITapGestureRecognizer) {
+        switch recognzier.state {
         case .ended:
-            continueInteractiveTransition()
-            if fractionComplete > 0, fractionComplete < 0.3 {
-                animateTransitionIfNeeded(state: nextState, duration: 0.9)
-            }
-            if cardVisible == true {
-                hiddenTitle(true)
-            }
+            animateTransitionIfNeeded(state: nextState, duration: 0.9)
         default:
             break
         }
     }
     
+    /// Swipe  Up했을 때 동작을 나타내는 메소드
+    @objc
+    func handleCardSwipeUp(recognizer: UISwipeGestureRecognizer) {
+        if nextState == .expanded {
+            animateTransitionIfNeeded(state: nextState, duration: 0.9)
+        }
+    }
+    
+    /// Swipe  Down했을 때 동작을 나타내는 메소드
+    @objc
+    func handleCardSwipeDown(recognizer: UISwipeGestureRecognizer) {
+        if nextState == .collapsed {
+            animateTransitionIfNeeded(state: nextState, duration: 0.9)
+        }
+    }
+
     /// 시간을 체크하여 30분이 되면 푸시알림을 보내는 메소드
     @objc
     func timeCallback() {
