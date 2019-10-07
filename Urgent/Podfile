@@ -6,6 +6,7 @@ target 'Urgent' do
 pod 'GoogleMaps'
 pod 'GooglePlaces'
 pod 'Google-Maps-iOS-Utils'
+pod 'Google-Mobile-Ads-SDK'
 #  use_frameworks!
 
   # Pods for Urgent
