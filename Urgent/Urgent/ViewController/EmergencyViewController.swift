@@ -15,8 +15,8 @@ var timerData: Double = 1800.0
 
 class EmergencyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // MARK: Properties
-    var dataPickerIndexPath: IndexPath?
-    var cellHeight: CGFloat?
+    private var dataPickerIndexPath: IndexPath?
+    private var cellHeight: CGFloat?
     
     
     // MARK: IBOutlets

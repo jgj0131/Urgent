@@ -49,42 +49,42 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     @IBOutlet weak var settingButton: UIButton!
     
     // MARK: Google Mobile Ads
-    var bannerView: GADBannerView!
+    private var bannerView: GADBannerView!
 
     // MARK: Property
-    var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
-    var latitudeAndLongitude: String?
-    var secondTimer: Timer?
-    var number = 0.0
+    private var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
+    private var latitudeAndLongitude: String?
+    private var secondTimer: Timer?
+    private var number = 0.0
     
-    var originY: CGFloat?
-    var locationManager = CLLocationManager()
-    var currentLocation: CLLocation?
+    private var originY: CGFloat?
+    private var locationManager = CLLocationManager()
+    private var currentLocation: CLLocation?
     private var mapView: GMSMapView!
     private var clusterManager: GMUClusterManager!
-    var placesClient: GMSPlacesClient!
-    var zoomLevel: Float = 15.0
+    private var placesClient: GMSPlacesClient!
+    private var zoomLevel: Float = 15.0
     let restroomData = RestroomDataSource()
-    var dataDelegate: SendDataDelegate?
+    private var dataDelegate: SendDataDelegate?
     
-    var cardViewController:CardViewController!
-    var visualEffectView:UIVisualEffectView!
-    var settingButtonUpAndDown = false
+    private var cardViewController:CardViewController!
+    private var visualEffectView:UIVisualEffectView!
+    private var settingButtonUpAndDown = false
     
     //let cardHeight:CGFloat = self.view
-    let cardHandleAreaHeight:CGFloat = 65
+    private let cardHandleAreaHeight:CGFloat = 65
     
-    var cardVisible = false
-    var nextState:CardState {
+    private var cardVisible = false
+    private var nextState:CardState {
         return cardVisible ? .collapsed : .expanded
     }
     
-    var runningAnimations = [UIViewPropertyAnimator]()
-    var animationProgressWhenInterrupted:CGFloat = 0
+    private var runningAnimations = [UIViewPropertyAnimator]()
+    private var animationProgressWhenInterrupted:CGFloat = 0
     
-    var settingButtonConstraint: NSLayoutConstraint!
+    private var settingButtonConstraint: NSLayoutConstraint!
     
-    var messageSendOrNot: MessageState = .notSend
+    private var messageSendOrNot: MessageState = .notSend
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -115,7 +115,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
-        locationManager.distanceFilter = 10
+        locationManager.distanceFilter = 5
         locationManager.startUpdatingLocation()
         locationManager.allowsBackgroundLocationUpdates = true
         
@@ -160,7 +160,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
 
         self.bannerView.delegate = self
         
-        self.bannerView.adUnitID = googleAdUnitID
+        self.bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"//googleAdUnitID
         self.bannerView.rootViewController = self
         self.bannerView.load(GADRequest())
         
@@ -551,7 +551,6 @@ extension ViewController: CLLocationManagerDelegate {
                     timer.invalidate()
                 }
             }
-            number = -1
         }
     }
     
@@ -573,8 +572,14 @@ extension ViewController: CLLocationManagerDelegate {
             mapView.animate(to: camera)
         }
         if UIApplication.shared.applicationState == .active {
-            
-        } else {
+            if let timer = secondTimer {
+                if timer.isValid {
+                    timer.invalidate()
+                }
+            }
+            number = 0
+            print("시간 멈춤")
+        } else if UIApplication.shared.applicationState == .background{
             print("위도:\(location.coordinate.latitude), 경도: \(location.coordinate.longitude)")
             timerMeasurementsInBackground()
         }

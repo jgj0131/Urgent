@@ -14,12 +14,12 @@ class CallContactViewCellViewController: UIViewController, UITableViewDelegate, 
     @IBOutlet weak var tableView: UITableView!
     
     let searchController = UISearchController(searchResultsController: nil)
-    var filteredContacts = [ContactStruct]()
-    var contactStore = CNContactStore()
-    var contacts = [ContactStruct]()
-    var emergencyViewController: EmergencyViewController!
-    var contactsDictionary = [String:[ContactStruct]]()
-    var contactSectionTitles = [String]()
+    private var filteredContacts = [ContactStruct]()
+    private var contactStore = CNContactStore()
+    private var contacts = [ContactStruct]()
+    private var emergencyViewController: EmergencyViewController!
+    private var contactsDictionary = [String:[ContactStruct]]()
+    private var contactSectionTitles = [String]()
     
     //let request = CNContactFetchRequest(keysToFetch: keys)
     override func viewDidLoad() {

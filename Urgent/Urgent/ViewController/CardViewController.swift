@@ -12,10 +12,10 @@ import UserNotifications
 
 class CardViewController: UIViewController {
     // MARK: Properties
-    var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
-    var latitudeAndLongitude: String?
-    var secondTimer: Timer?
-    var number = 0.0
+    private var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
+    private var latitudeAndLongitude: String?
+    private var secondTimer: Timer?
+    private var number = 0.0
     
     // MARK: IBOutlet
     @IBOutlet weak var handleArea: UIView!
