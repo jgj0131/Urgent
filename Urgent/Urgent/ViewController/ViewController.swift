@@ -160,7 +160,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
 
         self.bannerView.delegate = self
         
-        self.bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"//googleAdUnitID
+        self.bannerView.adUnitID = googleAdUnitID
         self.bannerView.rootViewController = self
         self.bannerView.load(GADRequest())
         

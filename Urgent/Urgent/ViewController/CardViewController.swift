@@ -86,7 +86,7 @@ class CardViewController: UIViewController {
             notificate()
         } else if number == timerData, useButton.currentTitle == "안심문자 발송"{
             useButton.setTitle("위험대비문자 발송", for: .normal)
-            
+            useButton.backgroundColor = UIColor(red: 254/255, green: 115/255, blue: 111/255, alpha: 1)
             UserDefaults.standard.set("위험대비문자 발송", forKey: "useButtonTitle")
             gpsState = .off
         } else if number > timerData + 10 {
@@ -130,6 +130,11 @@ class CardViewController: UIViewController {
         timerData = UserDefaults.standard.double(forKey: "Timer")
         savedContacts = UserDefaults.standard.object(forKey: "Contacts") as? [[String : String]] ?? [[String:String]]()
         useButton.setTitle(UserDefaults.standard.string(forKey: "useButtonTitle"), for: .normal)
+        if useButton.currentTitle == "안심문자 발송" {
+            useButton.backgroundColor = UIColor(red: 74/255, green: 166/255, blue: 157/255, alpha: 1)
+        } else {
+            useButton.backgroundColor = UIColor(red: 254/255, green: 115/255, blue: 111/255, alpha: 1)
+        }
     }
     
     /// interface의 변화에 따라 동작하는 메소드
@@ -199,6 +204,7 @@ extension CardViewController: MFMessageComposeViewControllerDelegate {
     func timerMeasurementsInBackground() {
         if useButton.currentTitle == "위험대비문자 발송" {
             useButton.setTitle("안심문자 발송", for: .normal)
+            useButton.backgroundColor = UIColor(red: 74/255, green: 166/255, blue: 157/255, alpha: 1)
             if let timer = secondTimer {
                 if !timer.isValid {
                     secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
@@ -210,6 +216,7 @@ extension CardViewController: MFMessageComposeViewControllerDelegate {
             }
         } else if useButton.currentTitle == "안심문자 발송"{
             useButton.setTitle("위험대비문자 발송", for: .normal)
+            useButton.backgroundColor = UIColor(red: 254/255, green: 115/255, blue: 111/255, alpha: 1)
             if let timer = secondTimer {
                 if timer.isValid {
                     timer.invalidate()
@@ -236,6 +243,7 @@ extension CardViewController: MFMessageComposeViewControllerDelegate {
                     timerMeasurementsInBackground()
                 default:
                     useButton.setTitle("위험대비문자 발송", for: .normal)
+                    useButton.backgroundColor = UIColor(red: 239/255, green: 134/255, blue: 125/255, alpha: 1)
                     gpsState = .off
                 }
             }
