@@ -73,7 +73,7 @@
 		15AD87A223266C4A00DE0B7A /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		15AD87A42326739900DE0B7A /* UserContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContactsTableViewCell.swift; sourceTree = "<group>"; };
 		15AD87A52326739900DE0B7A /* UserContactsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserContactsTableViewCell.xib; sourceTree = "<group>"; };
-		15BA30BF22FC9AE400B8B971 /* Urgent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Urgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		15BA30BF22FC9AE400B8B971 /* 급해.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "급해.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15BA30C222FC9AE400B8B971 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15BA30C422FC9AE400B8B971 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		15BA30C722FC9AE400B8B971 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -174,7 +174,7 @@
 		15BA30C022FC9AE400B8B971 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				15BA30BF22FC9AE400B8B971 /* Urgent.app */,
+				15BA30BF22FC9AE400B8B971 /* 급해.app */,
 				15BA30D322FC9AE500B8B971 /* UrgentTests.xctest */,
 				15BA30DE22FC9AE500B8B971 /* UrgentUITests.xctest */,
 			);
@@ -278,7 +278,7 @@
 			);
 			name = Urgent;
 			productName = Urgent;
-			productReference = 15BA30BF22FC9AE400B8B971 /* Urgent.app */;
+			productReference = 15BA30BF22FC9AE400B8B971 /* 급해.app */;
 			productType = "com.apple.product-type.application";
 		};
 		15BA30D222FC9AE500B8B971 /* UrgentTests */ = {
@@ -679,6 +679,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.2;
 				DEVELOPMENT_TEAM = A6T7UT6A2N;
 				INFOPLIST_FILE = Urgent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -686,11 +687,11 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "jang-gukjin.Urgent";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "급해";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Urgent/Urgent-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -701,6 +702,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.2;
 				DEVELOPMENT_TEAM = A6T7UT6A2N;
 				INFOPLIST_FILE = Urgent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -708,11 +710,11 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "jang-gukjin.Urgent";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "급해";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Urgent/Urgent-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

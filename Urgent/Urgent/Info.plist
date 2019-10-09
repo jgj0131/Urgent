@@ -2,23 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3340852610937346~6689684208</string>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-		<key>NSAllowsArbitraryLoadsInWebContent</key>
-		<true/>
-		<key>NSAllowsArbitraryLoadsForMedia</key>
-		<true/>
-	</dict>
-	<key>CFBundleDisplayName</key>
-	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
+	<key>CFBundleDisplayName</key>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -32,20 +19,32 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-3340852610937346~6689684208</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSAllowsArbitraryLoadsForMedia</key>
+		<true/>
+		<key>NSAllowsArbitraryLoadsInWebContent</key>
+		<true/>
+	</dict>
 	<key>NSContactsUsageDescription</key>
-	<string></string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string></string>
+	<string>비상 연락처를 추가하고 싶다면 연락처 접근을 허용해주세요.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string></string>
+	<string>해당 권한을 허용하면 실시간으로 당신의 위치를 기록합니다. 기록한 데이터는 해당 장치에만 머물러 있으며 제 3자에게 제공되지 않습니다. (안심문자 발송 기능을 활용하려면 설정에서 항상 허용을 선택해주세요.)</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>해당 권한을 허용하면 실시간으로 당신의 위치를 기록합니다. 기록한 데이터는 해당 장치에만 머물러 있으며 제 3자에게 제공되지 않습니다. (안심문자 발송 기능을 활용하려면 설정에서 항상 허용을 선택해주세요.)</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>해당 권한을 허용하면 실시간으로 당신의 위치를 기록합니다. 기록한 데이터는 해당 장치에만 머물러 있으며 제 3자에게 제공되지 않습니다. (안심문자 발송 기능을 활용하려면 설정에서 항상 허용을 선택해주세요.)</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string></string>
 		<string>location</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

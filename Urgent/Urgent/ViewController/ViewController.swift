@@ -17,20 +17,6 @@ enum GPSState {
     case off
 }
 
-//private enum State {
-//    case closed
-//    case open
-//}
-//
-//extension State {
-//    var opposite: State {
-//        switch self {
-//        case .open: return .closed
-//        case .closed: return .open
-//        }
-//    }
-//}
-
 var gpsState: GPSState = .on
 var height: CGFloat = 0.0
 
