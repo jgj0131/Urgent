@@ -150,7 +150,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.onOffLabel.text = "활성화"
             cell.onOffSwitch.isOn = onOffStatus
             cell.onOffSwitch.addTarget(self, action: #selector(self.onOffSwitching(sender:)), for: .valueChanged)
-            cell.selectionStyle = .none
+            cell.selectionStyle = .default
             cellHeight = cell.frame.height
             return cell
         } else if indexPath.section == 1 {
@@ -172,7 +172,7 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Contact") as! ContactTableViewCell
-                cell.selectionStyle = .none
+                cell.selectionStyle = .default
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UserContacts") as! UserContactsTableViewCell
@@ -200,6 +200,8 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         if indexPath.section == 1, let dataPickerIndexPath = dataPickerIndexPath, dataPickerIndexPath.row - 1 == indexPath.row{
             tableView.deleteRows(at: [dataPickerIndexPath], with: .fade)
             self.dataPickerIndexPath = nil
+        } else if indexPath.section == 0 || indexPath.section == 2 {
+            
         } else {
             if let dataPickerIndexPath = dataPickerIndexPath {
                 tableView.deleteRows(at: [dataPickerIndexPath], with: .fade)

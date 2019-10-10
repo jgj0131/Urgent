@@ -90,6 +90,12 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let launchedBefore = UserDefaults.standard.bool(forKey: "useButtonTitle")
+        if launchedBefore {
+            
+        } else {
+            UserDefaults.standard.set("위험대비문자 발송", forKey: "useButtonTitle")
+        }
         settingButtonConstraint = settingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -105)
         settingButtonConstraint.isActive = true
         settingButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.7).isActive = true
