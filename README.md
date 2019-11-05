@@ -90,19 +90,35 @@
 
 ### 1. Launch Screen
 
-<img src="Assets/Launch Screen.png" alt="Launch Screen" style="zoom: 33%;" />
+<img src="Assets/Launch Screen.png" width="50%">
 
 ### 2. 지도
 
-<img src="Assets/MapView Screen3.png" alt="MapView Screen3" style="zoom: 33%;" /><img src="Assets/MapView Screen.png" alt="MapView Screen" style="zoom: 33%;" /><img src="Assets/MapView Screen2.png" alt="MapView Screen2" style="zoom:33%;" />
+<img src="Assets/MapView Screen3.png" width="33%"><img src="Assets/MapView Screen.png" width="33%"><img src="Assets/MapView Screen2.png" alt="MapView Screen2" width="33%">
+
+> 지도를 축소하면 해당 지역의 화장실을 숫자로 보여준다
+>
+> Marker를 Touch 하면 해당 화장실 정보를 보여준다
+>
+> 아래 상세 정보창을 Touch 하면 더욱 상세한 정보를 볼 수 있다. 한번 더 Touch 하면 상세 정보 창이 다시 내려간다. 
 
 ### 3. 설정
 
-<img src="Assets/Setting Screen.png" alt="Setting Screen" style="zoom:33%;" />
+<img src="Assets/Setting Screen.png" width="50%">
+
+> **활성화:** 위함대비문자 전송기능을 사용여부 결정
+>
+> **설정된 시간:** 사용자가 지정한 화장실 이용 시간. 위험대비문자에 해당 시간 이후로도 연락이 없다면 조치를 취해달라고 명시해놓음
+>
+> **비상연락처:** 위험대비문자를 전송할 연락처
 
 ### 4. 문자 전송
 
-<img src="Assets/Message Screen.png" alt="Message Screen" style="zoom:33%;" /><img src="Assets/Notice Screen.png" alt="Notice Screen" style="zoom:33%;" /><img src="Assets/Message Screen2.png" alt="Message Screen2" style="zoom:33%;" />
+<img src="Assets/Message Screen.png" width="33%"><img src="Assets/Notice Screen.png" width="33%"><img src="Assets/Message Screen2.png" width="33%">
+
+> 위험대비문자 전송 버튼을 Touch 하면 자동완성된 문자가 나오며 전송 버튼을 누르면 전송한다.
+>
+> 문자의 내용은 화장실의 이름, 주소, 위경도, 날짜 및 시간, 요청 사항 등이 나온다.
 
  
 
