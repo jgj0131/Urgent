@@ -113,8 +113,8 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         
         placesClient = GMSPlacesClient.shared()
         
-        let camera = GMSCameraPosition.camera(withLatitude: -33.86,
-                                              longitude: 151.20,
+        let camera = GMSCameraPosition.camera(withLatitude: locationManager.location?.coordinate.latitude ??  -33.86,
+                                              longitude: locationManager.location?.coordinate.longitude ?? 151.20,
                                               zoom: zoomLevel)
         mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
         mapView.delegate = self
@@ -559,9 +559,9 @@ extension ViewController: CLLocationManagerDelegate {
         
         if mapView.isHidden {
             mapView.isHidden = false
-            mapView.camera = camera
+//            mapView.camera = camera
         } else {
-            mapView.animate(to: camera)
+//            mapView.animate(to: camera)
         }
         if UIApplication.shared.applicationState == .active {
             if let timer = secondTimer {
