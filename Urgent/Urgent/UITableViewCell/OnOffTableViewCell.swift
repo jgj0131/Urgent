@@ -15,6 +15,7 @@ class OnOffTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        onOffSwitch.onTintColor = UIColor(red: 239/255, green: 134/255, blue: 125/255, alpha: 1)
         // Initialization code
     }
 
