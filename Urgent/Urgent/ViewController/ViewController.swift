@@ -106,7 +106,8 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
+//        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
         locationManager.distanceFilter = 5
         locationManager.startUpdatingLocation()
         locationManager.allowsBackgroundLocationUpdates = true
@@ -206,7 +207,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
       view.addConstraint(NSLayoutConstraint(item: bannerView,
                                             attribute: .bottom,
                                             relatedBy: .equal,
-                                            toItem: bottomLayoutGuide,
+                                            toItem: view.safeAreaLayoutGuide.bottomAnchor,
                                             attribute: .top,
                                             multiplier: 1,
                                             constant: 0))
@@ -553,7 +554,7 @@ extension ViewController: CLLocationManagerDelegate {
                }
         print("Location: \(location)")
         
-        let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
+        _ = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
                                               longitude: location.coordinate.longitude,
                                               zoom: mapView.camera.zoom )
         
@@ -595,6 +596,8 @@ extension ViewController: CLLocationManagerDelegate {
         case .authorizedAlways: fallthrough
         case .authorizedWhenInUse:
             print("Location status is OK.")
+        @unknown default:
+            print("Not Found Location")
         }
     }
     

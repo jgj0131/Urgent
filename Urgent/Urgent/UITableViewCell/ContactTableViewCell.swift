@@ -10,6 +10,8 @@ import UIKit
 
 class ContactTableViewCell: UITableViewCell {
 
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

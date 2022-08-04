@@ -277,7 +277,7 @@ static const double kGMUAnimationDuration = 0.5;  // seconds.
       GMSMarker *marker = [self markerWithPosition:item.position
                                               from:fromPosition
                                           userData:item
-                                       clusterIcon:[UIImage imageNamed:@"marker_white"]//nil
+                                       clusterIcon:nil
                                           animated:shouldAnimate];
       [_markers addObject:marker];
       [_renderedClusterItems addObject:item];
