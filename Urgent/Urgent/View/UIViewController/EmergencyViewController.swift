@@ -68,6 +68,16 @@ class EmergencyViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        var useButtonState = false
+        if onOffStatus == false || savedContacts.count == 0 {
+            useButtonState = false
+        } else {
+            useButtonState = true
+        }
+        NotificationCenter.default.post(name: NSNotification.Name("useButtonState"), object: useButtonState)
+    }
+    
     // MARK: Objc Methods
     /// Switch의 상태가 변할 때 tableView를 reload하는 메소드
     @objc

@@ -15,13 +15,12 @@ class OnOffTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        onOffSwitch.onTintColor = UIColor(red: 239/255, green: 134/255, blue: 125/255, alpha: 1)
+        onOffSwitch.onTintColor = .urgent
         // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
     

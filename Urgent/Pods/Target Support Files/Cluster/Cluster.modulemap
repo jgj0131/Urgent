@@ -1,0 +1,6 @@
+module Cluster {
+  umbrella header "Cluster-umbrella.h"
+
+  export *
+  module * { export * }
+}

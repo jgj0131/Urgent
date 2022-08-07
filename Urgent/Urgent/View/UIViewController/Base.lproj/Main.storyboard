@@ -17,16 +17,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ybA-gq-7FP">
-                                <rect key="frame" x="346" y="719" width="58" height="58"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="aK0-1j-wpI">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ybA-gq-7FP">
+                                <rect key="frame" x="351" y="120" width="58" height="58"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="58" id="Iga-fk-sXa"/>
                                     <constraint firstAttribute="width" constant="58" id="MDK-Hw-NC1"/>
                                 </constraints>
-                                <size key="titleShadowOffset" width="3" height="3"/>
-                                <state key="normal" title="Button" image="settingButton">
-                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <color key="titleShadowColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" red="0.93725490199999995" green="0.52549019610000003" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <imageReference key="image" image="gearshape.fill" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 </state>
                                 <connections>
                                     <segue destination="9tq-7d-8mp" kind="popoverPresentation" popoverAnchorView="ybA-gq-7FP" id="3v9-va-czx">
@@ -34,12 +40,39 @@
                                     </segue>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AcS-kV-SO6">
+                                <rect key="frame" x="351" y="179" width="58" height="58"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="58" id="FGr-zY-UIh"/>
+                                    <constraint firstAttribute="width" constant="58" id="kfk-lV-G9y"/>
+                                </constraints>
+                                <color key="tintColor" red="0.93725490199999995" green="0.52549019610000003" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <imageReference key="image" image="location.fill" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                </state>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="aK0-1j-wpI" secondAttribute="trailing" id="2it-gc-H2G"/>
+                            <constraint firstItem="ybA-gq-7FP" firstAttribute="top" secondItem="aK0-1j-wpI" secondAttribute="top" constant="120" id="IhT-Hj-Xp4"/>
+                            <constraint firstAttribute="bottom" secondItem="aK0-1j-wpI" secondAttribute="bottom" id="Kdl-c3-j5x"/>
+                            <constraint firstItem="aK0-1j-wpI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="NHu-M6-PcR"/>
+                            <constraint firstItem="AcS-kV-SO6" firstAttribute="top" secondItem="ybA-gq-7FP" secondAttribute="bottom" constant="1" id="ahj-Vy-IwW"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="AcS-kV-SO6" secondAttribute="trailing" constant="5" id="bxR-N2-icd"/>
+                            <constraint firstItem="ybA-gq-7FP" firstAttribute="trailing" secondItem="AcS-kV-SO6" secondAttribute="trailing" id="mFX-do-qHf"/>
+                            <constraint firstItem="aK0-1j-wpI" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="xp4-2t-lSp"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ilQ-kO-37i"/>
                     <connections>
+                        <outlet property="mapView" destination="aK0-1j-wpI" id="8Og-2b-CvR"/>
+                        <outlet property="myLocationButton" destination="AcS-kV-SO6" id="ouh-7J-IXh"/>
                         <outlet property="settingButton" destination="ybA-gq-7FP" id="tYE-GB-kr3"/>
                     </connections>
                 </viewController>
@@ -185,11 +218,15 @@
         </scene>
     </scenes>
     <resources>
+        <image name="gearshape.fill" catalog="system" width="128" height="121"/>
+        <image name="location.fill" catalog="system" width="128" height="121"/>
         <image name="pencil" catalog="system" width="128" height="113"/>
-        <image name="settingButton" width="317" height="322"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

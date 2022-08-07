@@ -7,6 +7,8 @@ pod 'GoogleMaps'
 pod 'GooglePlaces'
 pod 'Google-Maps-iOS-Utils'
 pod 'Google-Mobile-Ads-SDK'
+pod "Cluster"
+
 #  use_frameworks!
 
   # Pods for Urgent

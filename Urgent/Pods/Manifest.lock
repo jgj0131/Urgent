@@ -1,4 +1,5 @@
 PODS:
+  - Cluster (3.0.3)
   - Google-Maps-iOS-Utils (2.1.0):
     - Google-Maps-iOS-Utils/Clustering (= 2.1.0)
     - Google-Maps-iOS-Utils/Geometry (= 2.1.0)
@@ -53,6 +54,7 @@ PODS:
   - nanopb/encode (0.3.901)
 
 DEPENDENCIES:
+  - Cluster
   - Google-Maps-iOS-Utils
   - Google-Mobile-Ads-SDK
   - GoogleMaps
@@ -64,12 +66,14 @@ SPEC REPOS:
     - GoogleMaps
     - GooglePlaces
   trunk:
+    - Cluster
     - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleUtilities
     - nanopb
 
 SPEC CHECKSUMS:
+  Cluster: d72510594f60d901905953aafdc811d1888177ae
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   Google-Mobile-Ads-SDK: d48dbaf5bae1ab7a94a9786f493c26c454bc6f16
   GoogleAppMeasurement: 0ae90be1cc4dad40f4a27fc767ef59fa032ec87b
@@ -78,6 +82,6 @@ SPEC CHECKSUMS:
   GoogleUtilities: 9c2c544202301110b29f7974a82e77fdcf12bf51
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
 
-PODFILE CHECKSUM: 70b79b6576c799c35b3e465246c86f65a856bee4
+PODFILE CHECKSUM: 207bf84206a409f84ff98afd462dc060c4a844ee
 
 COCOAPODS: 1.10.1
