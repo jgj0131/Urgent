@@ -27,6 +27,17 @@
                                     <constraint firstAttribute="width" secondItem="gS5-fI-Mlk" secondAttribute="height" multiplier="1:1" id="xSU-nh-3Au"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="as of 2022.07.13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S0J-Xt-5n4">
+                                <rect key="frame" x="142" y="805.5" width="130" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Ybr-rx-2FB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Thonburi" family="Thonburi" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -35,7 +46,9 @@
                             <constraint firstItem="juc-b8-SNH" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" multiplier="0.9" id="Lme-6P-NrH"/>
                             <constraint firstItem="juc-b8-SNH" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Wpe-YN-gc0"/>
                             <constraint firstItem="gS5-fI-Mlk" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.2" id="X2s-7h-Y1Z"/>
+                            <constraint firstItem="S0J-Xt-5n4" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="bl5-hH-iTp"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="gS5-fI-Mlk" secondAttribute="bottom" id="bmX-0E-Tx3"/>
+                            <constraint firstItem="S0J-Xt-5n4" firstAttribute="centerY" secondItem="gS5-fI-Mlk" secondAttribute="centerY" id="fu4-YJ-zGe"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gS5-fI-Mlk" secondAttribute="trailing" id="gok-fw-Vs3"/>
                         </constraints>
                     </view>

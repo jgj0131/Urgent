@@ -129,8 +129,9 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         
         mapView.delegate = self
         mapView.showsUserLocation = true
-        mapView.setUserTrackingMode(.followWithHeading, animated: true)
-//        mapView.setUserTrackingMode(.follow, animated: true)
+//        mapView.setUserTrackingMode(.followWithHeading, animated: true)
+        mapView.setUserTrackingMode(.follow, animated: true)
+        setCompass()
         setMapView()
         
         cardViewController = CardViewController(nibName:"CardViewController", bundle:nil)
@@ -155,6 +156,24 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         positionBannerViewFullWidthAtBottomOfSafeArea(bannerView)
     }
     
+    func setCompass() {
+        let compass = MKCompassButton(mapView: mapView)
+        compass.frame.origin = CGPoint(x: UIScreen.main.bounds.width - compass.frame.width - 10, y: myLocationButton.frame.maxY + 10)
+        compass.compassVisibility = .visible
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapCompass(_ :)))
+        compass.addGestureRecognizer(tapGestureRecognizer)
+        view.addSubview(compass)
+    }
+    
+    @objc
+    func tapCompass(_ sender: MKCompassButton) {
+        if mapView.userTrackingMode == .followWithHeading {
+            mapView.setUserTrackingMode(.follow, animated: true)
+        } else {
+            mapView.setUserTrackingMode(.followWithHeading, animated: true)
+        }
+    }
 
     // MARK: - view positioning
     @available (iOS 11, *)
@@ -521,7 +540,7 @@ extension ViewController: MKMapViewDelegate {
             if annotation.title == "My Location" {
                 return nil
             } else {
-                annotationView.glyphImage = UIImage(systemName: "sun.max.fill")
+                annotationView.glyphImage = UIImage(systemName: "pin")//"sun.max.fill")
                 annotationView.markerTintColor = .urgent
                 return annotationView
             }
