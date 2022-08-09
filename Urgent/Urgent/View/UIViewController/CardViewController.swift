@@ -211,32 +211,33 @@ extension CardViewController: SendDataDelegate {
 }
 
 extension CardViewController: MFMessageComposeViewControllerDelegate {
-    func timerMeasurementsInBackground() {
-        if useButton.currentTitle == "위험대비문자 발송" {
-            useButton.setTitle("안심문자 발송", for: .normal)
-            useButton.backgroundColor = UIColor(red: 74/255, green: 166/255, blue: 157/255, alpha: 1)
-            if let timer = secondTimer {
-                if !timer.isValid {
-                    secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
-                    RunLoop.current.add(secondTimer!, forMode: .common)
-                }
-            } else {
-                secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
-                RunLoop.current.add(secondTimer!, forMode: .common)
-            }
-        } else if useButton.currentTitle == "안심문자 발송"{
-            useButton.setTitle("위험대비문자 발송", for: .normal)
-            useButton.backgroundColor = UIColor(red: 254/255, green: 115/255, blue: 111/255, alpha: 1)
-            if let timer = secondTimer {
-                if timer.isValid {
-                    timer.invalidate()
-                }
-            }
-            number = 0
-        }
-        print(useButton.currentTitle!)
-        UserDefaults.standard.set(useButton.currentTitle!, forKey: "useButtonTitle")
-    }
+//    func timerMeasurementsInBackground() {
+//        if useButton.currentTitle == "위험대비문자 발송" {
+//
+//            useButton.setTitle("안심문자 발송", for: .normal)
+//            useButton.backgroundColor = UIColor(red: 74/255, green: 166/255, blue: 157/255, alpha: 1)
+//            if let timer = secondTimer {
+//                if !timer.isValid {
+//                    secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
+//                    RunLoop.current.add(secondTimer!, forMode: .common)
+//                }
+//            } else {
+//                secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
+//                RunLoop.current.add(secondTimer!, forMode: .common)
+//            }
+//        } else if useButton.currentTitle == "안심문자 발송"{
+//            useButton.setTitle("위험대비문자 발송", for: .normal)
+//            useButton.backgroundColor = UIColor(red: 254/255, green: 115/255, blue: 111/255, alpha: 1)
+//            if let timer = secondTimer {
+//                if timer.isValid {
+//                    timer.invalidate()
+//                }
+//            }
+//            number = 0
+//        }
+//        print(useButton.currentTitle!)
+//        UserDefaults.standard.set(useButton.currentTitle!, forKey: "useButtonTitle")
+//    }
 
     
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
@@ -246,17 +247,19 @@ extension CardViewController: MFMessageComposeViewControllerDelegate {
             dismiss(animated: true, completion: nil)
         case .sent:
             print("sent message:", controller.body ?? "")
+            NotificationCenter.default.post(name: NSNotification.Name("sendMessage"), object: true)
+            UserDefaults.standard.set(true, forKey: "sentHelpMessage")
             dismiss(animated: true, completion: nil)
-            if CLLocationManager.locationServicesEnabled() {
-                switch CLLocationManager.authorizationStatus() {
-                case .authorizedAlways:
-                    timerMeasurementsInBackground()
-                default:
-                    useButton.setTitle("위험대비문자 발송", for: .normal)
-                    useButton.backgroundColor = .urgent
-                    gpsState = .off
-                }
-            }
+//            if CLLocationManager.locationServicesEnabled() {
+//                switch CLLocationManager.authorizationStatus() {
+//                case .authorizedAlways:
+//                    timerMeasurementsInBackground()
+//                default:
+//                    useButton.setTitle("위험대비문자 발송", for: .normal)
+//                    useButton.backgroundColor = .urgent
+//                    gpsState = .off
+//                }
+//            }
         case .failed:
             print("failed")
             dismiss(animated: true, completion: nil)

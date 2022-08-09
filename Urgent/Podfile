@@ -8,6 +8,7 @@ pod 'GooglePlaces'
 pod 'Google-Maps-iOS-Utils'
 pod 'Google-Mobile-Ads-SDK'
 pod "Cluster"
+pod "lottie-ios"
 
 #  use_frameworks!
 

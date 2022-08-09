@@ -47,6 +47,7 @@ PODS:
   - "GoogleUtilities/NSData+zlib (6.3.0)"
   - GoogleUtilities/Reachability (6.3.0):
     - GoogleUtilities/Logger
+  - lottie-ios (3.2.3)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -59,6 +60,7 @@ DEPENDENCIES:
   - Google-Mobile-Ads-SDK
   - GoogleMaps
   - GooglePlaces
+  - lottie-ios
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -70,6 +72,7 @@ SPEC REPOS:
     - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleUtilities
+    - lottie-ios
     - nanopb
 
 SPEC CHECKSUMS:
@@ -80,8 +83,9 @@ SPEC CHECKSUMS:
   GoogleMaps: 5046d7edfe381c1a0b20fdaf293915a375c3122b
   GooglePlaces: 41bc2e480816b1234a48f4bec92e1c886f37cfe1
   GoogleUtilities: 9c2c544202301110b29f7974a82e77fdcf12bf51
+  lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
 
-PODFILE CHECKSUM: 207bf84206a409f84ff98afd462dc060c4a844ee
+PODFILE CHECKSUM: 7d614acbea43905b7905107133db7e99b88060c1
 
 COCOAPODS: 1.10.1

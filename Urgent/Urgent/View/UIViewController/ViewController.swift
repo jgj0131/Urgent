@@ -13,6 +13,8 @@ import MapKit
 //import GoogleMaps
 import GoogleMobileAds
 import Cluster
+import Lottie
+import MessageUI
 
 enum GPSState {
     case on
@@ -34,11 +36,13 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     @IBOutlet weak var settingButton: UIButton!
     @IBOutlet weak var myLocationButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var dateInfoView: UILabel!
     
     // MARK: Google Mobile Ads
     private var bannerView: GADBannerView!
 
     // MARK: Property
+    let animationView: AnimationView = .init(name: "complete")
     lazy var clusterManager: ClusterManager = { [unowned self] in
         let manager = ClusterManager()
         manager.delegate = self
@@ -102,6 +106,31 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         } else {
             UserDefaults.standard.set("위험대비문자 발송", forKey: "useButtonTitle")
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setCompleteButton), name: NSNotification.Name("sendMessage"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(playAnimation), name: NSNotification.Name("playAnimation"), object: nil)
+        
+        let tapAnimationView: UITapGestureRecognizer = .init(target: self, action: #selector(sendCompleteButton))
+        animationView.addGestureRecognizer(tapAnimationView)
+        animationView.frame = CGRect(x: UIScreen.main.bounds.width - 80, y: UIScreen.main.bounds.height / 2, width: 90, height: 90)
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        
+        if UserDefaults.standard.bool(forKey: "sentHelpMessage") {
+            if !mapView.subviews.contains(animationView) {
+                mapView.addSubview(animationView)
+                animationView.play()
+            }
+        }
+        
+        
+        dateInfoView.layer.cornerRadius = 5
+        dateInfoView.clipsToBounds = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: {
+            self.dateInfoView.removeFromSuperview()
+        })
+        
         myLocationButton.layer.cornerRadius = 15
         myLocationButton.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         myLocationButton.addTarget(self, action: #selector(findMyLocation), for: .touchUpInside)
@@ -131,6 +160,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         mapView.showsUserLocation = true
 //        mapView.setUserTrackingMode(.followWithHeading, animated: true)
         mapView.setUserTrackingMode(.follow, animated: true)
+        
         setCompass()
         setMapView()
         
@@ -173,6 +203,24 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         } else {
             mapView.setUserTrackingMode(.followWithHeading, animated: true)
         }
+    }
+    
+    @objc
+    func setCompleteButton(_ notification: Notification) {
+        if let showAnimationView = notification.object as? Bool, showAnimationView == true {
+            if !mapView.subviews.contains(animationView) {
+                mapView.addSubview(animationView)
+                animationView.play()
+            }
+        } else {
+            animationView.removeFromSuperview()
+        }
+        animateTransitionIfNeeded(state: .collapsed, duration: 0.9)
+    }
+    
+    @objc
+    func playAnimation(_ notification: Notification) {
+        animationView.play()
     }
 
     // MARK: - view positioning
@@ -345,6 +393,36 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     func findMyLocation() {
         mapView.showsUserLocation = true
         mapView.setUserTrackingMode(.follow, animated: true)
+    }
+    
+    /// 완료 메세지를 보냅니다.
+    @objc
+    func sendCompleteButton() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH:mm:ss"
+        guard MFMessageComposeViewController.canSendText() else {
+            print("메세지를 보낼 수 없습니다.")
+            return
+        }
+    
+        let savedContacts = UserDefaults.standard.object(forKey: "Contacts") as? [[String : String]] ?? [[String:String]]()
+        let userContacts = savedContacts.map() { $0["phone"]! }
+        let onOffStatus = UserDefaults.standard.bool(forKey: "OnOffSwitch")
+        let timerText = (Int(timerData) / 3600 == 0 ? "" : "\(Int(timerData) / 3600) 시간 ") + "\((Int(timerData) % 3600) / 60)분"
+    
+        let messageViewController = MFMessageComposeViewController()
+        messageViewController.messageComposeDelegate = self
+        messageViewController.recipients = userContacts
+        
+        if userContacts.count >= 1, onOffStatus == true {
+            messageViewController.body = """
+            [급해(App)]
+            무사히 용무를 마쳤습니다. 걱정 안 하셔도 됩니다.
+            감사합니다.
+            """
+            
+            present(messageViewController, animated: true, completion: nil)
+        }
     }
 }
 
@@ -609,6 +687,28 @@ extension ViewController: ClusterManagerDelegate {
         
     func shouldClusterAnnotation(_ annotation: MKAnnotation) -> Bool {
         return !(annotation is Annotation)
+    }
+}
+
+extension ViewController: MFMessageComposeViewControllerDelegate {
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        switch result {
+        case .cancelled:
+            print("cancelled")
+            dismiss(animated: true, completion: nil)
+        case .sent:
+            print("sent message:", controller.body ?? "")
+            NotificationCenter.default.post(name: NSNotification.Name("sendMessage"), object: false)
+            UserDefaults.standard.set(false, forKey: "sentHelpMessage")
+            dismiss(animated: true, completion: nil)
+        case .failed:
+            print("failed")
+            dismiss(animated: true, completion: nil)
+        @unknown default:
+            print("unkown Error")
+            dismiss(animated: true, completion: nil)
+        }
     }
 }
 

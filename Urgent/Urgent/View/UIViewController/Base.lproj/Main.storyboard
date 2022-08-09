@@ -55,6 +55,18 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 </state>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="데이터 기준 2022.07.13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ahy-xc-p0z">
+                                <rect key="frame" x="107" y="812" width="200" height="30"/>
+                                <color key="backgroundColor" red="0.083099414319999995" green="0.12850156239999999" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="56M-Mh-eGg"/>
+                                    <constraint firstAttribute="height" constant="30" id="q3d-T0-mIY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -65,12 +77,15 @@
                             <constraint firstItem="aK0-1j-wpI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="NHu-M6-PcR"/>
                             <constraint firstItem="AcS-kV-SO6" firstAttribute="top" secondItem="ybA-gq-7FP" secondAttribute="bottom" constant="1" id="ahj-Vy-IwW"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="AcS-kV-SO6" secondAttribute="trailing" constant="5" id="bxR-N2-icd"/>
+                            <constraint firstItem="Ahy-xc-p0z" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="e9G-3Z-MoT"/>
+                            <constraint firstItem="Ahy-xc-p0z" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="-20" id="fKh-Lg-VkE"/>
                             <constraint firstItem="ybA-gq-7FP" firstAttribute="trailing" secondItem="AcS-kV-SO6" secondAttribute="trailing" id="mFX-do-qHf"/>
                             <constraint firstItem="aK0-1j-wpI" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="xp4-2t-lSp"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ilQ-kO-37i"/>
                     <connections>
+                        <outlet property="dateInfoView" destination="Ahy-xc-p0z" id="rbO-PS-XHC"/>
                         <outlet property="mapView" destination="aK0-1j-wpI" id="8Og-2b-CvR"/>
                         <outlet property="myLocationButton" destination="AcS-kV-SO6" id="ouh-7J-IXh"/>
                         <outlet property="settingButton" destination="ybA-gq-7FP" id="tYE-GB-kr3"/>
