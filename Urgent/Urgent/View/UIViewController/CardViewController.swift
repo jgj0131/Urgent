@@ -9,6 +9,7 @@
 import MessageUI
 import UIKit
 import UserNotifications
+import CoreLocation
 
 class CardViewController: UIViewController {
     // MARK: Properties
@@ -30,6 +31,7 @@ class CardViewController: UIViewController {
     @IBOutlet weak var backgroundArea: UIView!
     @IBOutlet weak var addressTitle: UILabel!
     @IBOutlet weak var handleBar: UIView!
+    @IBOutlet weak var distance: UILabel!
     
     // MARK: IBOutlet Collection
     @IBOutlet var titles: [UILabel]!
@@ -136,6 +138,23 @@ class CardViewController: UIViewController {
 //            useButton.backgroundColor = UIColor(red: 254/255, green: 115/255, blue: 111/255, alpha: 1)
 //        }
         
+    }
+    
+    // MARK: Custom Method
+    func setDistance(distance: CLLocationDistance) {
+        let distanceInt: Int = Int(distance)
+        let time: Int = Int(distanceInt / 66)
+        var timeText: String = ""
+        if time > 59 {
+            timeText = "\(time/60)시간 \(time%60)분"
+        } else {
+            timeText = "\(time)분"
+        }
+        if distance > 1000 {
+            self.distance.text = String(format: "%.1f", Double(distanceInt/1000)) + "km\n" + timeText
+        } else {
+            self.distance.text = "\(distanceInt)m\n" + timeText
+        }
     }
     
     @objc
@@ -272,7 +291,7 @@ extension CardViewController: MFMessageComposeViewControllerDelegate {
 
 extension CardViewController: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound, .badge])
+        completionHandler([.sound, .badge, .banner])
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {

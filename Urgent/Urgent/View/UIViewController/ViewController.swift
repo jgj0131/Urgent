@@ -14,7 +14,7 @@ import MapKit
 import GoogleMobileAds
 import Cluster
 import Lottie
-import MessageUI
+//import MessageUI
 
 enum GPSState {
     case on
@@ -42,7 +42,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     private var bannerView: GADBannerView!
 
     // MARK: Property
-    let animationView: AnimationView = .init(name: "complete")
+//    let animationView: AnimationView = .init(name: "complete")
     lazy var clusterManager: ClusterManager = { [unowned self] in
         let manager = ClusterManager()
         manager.delegate = self
@@ -107,20 +107,15 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             UserDefaults.standard.set("위험대비문자 발송", forKey: "useButtonTitle")
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(setCompleteButton), name: NSNotification.Name("sendMessage"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(playAnimation), name: NSNotification.Name("playAnimation"), object: nil)
-        
-        let tapAnimationView: UITapGestureRecognizer = .init(target: self, action: #selector(sendCompleteButton))
-        animationView.addGestureRecognizer(tapAnimationView)
-        animationView.frame = CGRect(x: UIScreen.main.bounds.width - 80, y: UIScreen.main.bounds.height / 2, width: 90, height: 90)
-        animationView.contentMode = .scaleAspectFit
-        animationView.loopMode = .loop
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(showAlert(_ :)), name: NSNotification.Name("sendMessage"), object: nil)
+
         if UserDefaults.standard.bool(forKey: "sentHelpMessage") {
-            if !mapView.subviews.contains(animationView) {
-                mapView.addSubview(animationView)
-                animationView.play()
+            DispatchQueue.main.async {
+                let completeAlertViewController = CompleteAlertViewController()
+                completeAlertViewController.modalPresentationStyle = .overFullScreen
+                self.present(completeAlertViewController, animated: true)
             }
+            
         }
         
         
@@ -204,23 +199,19 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             mapView.setUserTrackingMode(.followWithHeading, animated: true)
         }
     }
-    
+
     @objc
-    func setCompleteButton(_ notification: Notification) {
-        if let showAnimationView = notification.object as? Bool, showAnimationView == true {
-            if !mapView.subviews.contains(animationView) {
-                mapView.addSubview(animationView)
-                animationView.play()
+    func showAlert(_ notification: Notification) {
+        animateTransitionIfNeeded(state: .collapsed, duration: 0.9)
+        if let isShowAlert = notification.object as? Bool, isShowAlert == true {
+            DispatchQueue.main.async {
+                let completeAlertViewController = CompleteAlertViewController()
+                completeAlertViewController.modalPresentationStyle = .overFullScreen
+                self.present(completeAlertViewController, animated: true)
             }
         } else {
-            animationView.removeFromSuperview()
+            
         }
-        animateTransitionIfNeeded(state: .collapsed, duration: 0.9)
-    }
-    
-    @objc
-    func playAnimation(_ notification: Notification) {
-        animationView.play()
     }
 
     // MARK: - view positioning
@@ -246,7 +237,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     
     // MARK: Custom Method
     /// CardView를 setUp하는 메소드
-    func setupCard() {
+    func setupCard(distance: CLLocationDistance) {
         visualEffectView = UIVisualEffectView()
         visualEffectView.frame = self.view.frame
         self.view.addSubview(visualEffectView)
@@ -269,6 +260,8 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         cardViewController.backgroundArea.addGestureRecognizer(upSwipeGestureRecognizer)
         
         cardViewController.backgroundArea.addGestureRecognizer(downSwipeGestureRecognizer)
+
+        cardViewController.setDistance(distance: distance)
         
         visualEffectView.removeFromSuperview()
         hiddenTitle(true)
@@ -393,36 +386,6 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     func findMyLocation() {
         mapView.showsUserLocation = true
         mapView.setUserTrackingMode(.follow, animated: true)
-    }
-    
-    /// 완료 메세지를 보냅니다.
-    @objc
-    func sendCompleteButton() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH:mm:ss"
-        guard MFMessageComposeViewController.canSendText() else {
-            print("메세지를 보낼 수 없습니다.")
-            return
-        }
-    
-        let savedContacts = UserDefaults.standard.object(forKey: "Contacts") as? [[String : String]] ?? [[String:String]]()
-        let userContacts = savedContacts.map() { $0["phone"]! }
-        let onOffStatus = UserDefaults.standard.bool(forKey: "OnOffSwitch")
-        let timerText = (Int(timerData) / 3600 == 0 ? "" : "\(Int(timerData) / 3600) 시간 ") + "\((Int(timerData) % 3600) / 60)분"
-    
-        let messageViewController = MFMessageComposeViewController()
-        messageViewController.messageComposeDelegate = self
-        messageViewController.recipients = userContacts
-        
-        if userContacts.count >= 1, onOffStatus == true {
-            messageViewController.body = """
-            [급해(App)]
-            무사히 용무를 마쳤습니다. 걱정 안 하셔도 됩니다.
-            감사합니다.
-            """
-            
-            present(messageViewController, animated: true, completion: nil)
-        }
     }
 }
 
@@ -599,7 +562,7 @@ extension ViewController: MKMapViewDelegate {
             if cardViewController.isViewLoaded {
                 cardViewController.view.removeFromSuperview()
             }
-            setupCard()
+            setupCard(distance: self.mapView.userLocation.coordinate.getDistance(to: customAnnotation.coordinate))
             
             let restroomDatas: [String:String] = customAnnotation.data ?? [:]
             dataDelegate?.sendData(data: restroomDatas)
@@ -670,7 +633,7 @@ extension ViewController: MKMapViewDelegate {
 // MARK: Extension - UNUserNotificationCenterDelegate
 extension ViewController: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound, .badge])
+        completionHandler([.sound, .badge, .banner])
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
@@ -687,28 +650,6 @@ extension ViewController: ClusterManagerDelegate {
         
     func shouldClusterAnnotation(_ annotation: MKAnnotation) -> Bool {
         return !(annotation is Annotation)
-    }
-}
-
-extension ViewController: MFMessageComposeViewControllerDelegate {
-    
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-        switch result {
-        case .cancelled:
-            print("cancelled")
-            dismiss(animated: true, completion: nil)
-        case .sent:
-            print("sent message:", controller.body ?? "")
-            NotificationCenter.default.post(name: NSNotification.Name("sendMessage"), object: false)
-            UserDefaults.standard.set(false, forKey: "sentHelpMessage")
-            dismiss(animated: true, completion: nil)
-        case .failed:
-            print("failed")
-            dismiss(animated: true, completion: nil)
-        @unknown default:
-            print("unkown Error")
-            dismiss(animated: true, completion: nil)
-        }
     }
 }
 
