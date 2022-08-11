@@ -384,7 +384,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         case .ended:
             if cardViewController.view.frame.origin.y < self.view.frame.height - (self.view.bounds.height * 0.55) {
                 animateTransitionIfNeeded(state: .expanded, duration: 0.9)
-            } else if cardViewController.view.frame.origin.y > self.view.frame.height - (self.cardHandleAreaHeight * 1.5) {
+            } else if cardViewController.view.frame.origin.y > self.view.frame.height - (self.cardHandleAreaHeight * 2.5) {
                 cardViewController.removeFromParent()
                 cardViewController.view.removeFromSuperview()
             } else {
@@ -394,7 +394,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         case .possible:
             if cardViewController.view.frame.origin.y < self.view.frame.height - (self.view.bounds.height * 0.55) {
                 animateTransitionIfNeeded(state: .expanded, duration: 0.9)
-            } else if cardViewController.view.frame.origin.y > self.view.frame.height - (self.cardHandleAreaHeight * 2.8) {
+            } else if cardViewController.view.frame.origin.y > self.view.frame.height - (self.cardHandleAreaHeight * 2.5) {
                 UIView.animate(withDuration: 0.3) {
                     self.cardViewController.removeFromParent()
                     self.cardViewController.view.removeFromSuperview()
