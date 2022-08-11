@@ -16,12 +16,12 @@ import Cluster
 import Lottie
 //import MessageUI
 
-enum GPSState {
-    case on
-    case off
-}
+//enum GPSState {
+//    case on
+//    case off
+//}
 
-var gpsState: GPSState = .on
+//var gpsState: GPSState = .on
 var height: CGFloat = 0.0
 
 public struct POIItem {
@@ -53,8 +53,9 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     }()
     private var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
     private var latitudeAndLongitude: String?
-    private var secondTimer: Timer?
+//    private var secondTimer: Timer?
     private var number = 0.0
+    var cardOriginY: CGFloat = 0
     
     private var originY: CGFloat?
     private var locationManager = CLLocationManager()
@@ -80,15 +81,8 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     
     private var settingButtonConstraint: NSLayoutConstraint!
     
-    private var messageSendOrNot: MessageState = .notSend
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
-    }
-    
-    enum MessageState {
-        case send
-        case notSend
     }
     
     enum CardState {
@@ -117,7 +111,6 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             }
             
         }
-        
         
         dateInfoView.layer.cornerRadius = 5
         dateInfoView.clipsToBounds = true
@@ -250,21 +243,21 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         
         cardViewController.view.clipsToBounds = true
        
-        let upSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(ViewController.handleCardSwipeUp(recognizer:)))
-        
-        let downSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(ViewController.handleCardSwipeDown(recognizer:)))
+        let upSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleCardSwipeUp(recognizer:)))
+        let downSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleCardSwipeDown(recognizer:)))
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleCardPan(sender:)))
         
         upSwipeGestureRecognizer.direction = .up
         downSwipeGestureRecognizer.direction = .down
 
-        cardViewController.backgroundArea.addGestureRecognizer(upSwipeGestureRecognizer)
-        
-        cardViewController.backgroundArea.addGestureRecognizer(downSwipeGestureRecognizer)
+//        cardViewController.backgroundArea.addGestureRecognizer(upSwipeGestureRecognizer)
+//        cardViewController.backgroundArea.addGestureRecognizer(downSwipeGestureRecognizer)
+        cardViewController.view.addGestureRecognizer(panGestureRecognizer)
 
         cardViewController.setDistance(distance: distance)
         
         visualEffectView.removeFromSuperview()
-        hiddenTitle(true)
+        hiddenTitle(false)
     }
     
     /// GPS가 켜져있다는 푸시 알림을 보내는 메소드
@@ -293,28 +286,20 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     
     /// cardView가 올라온 상태와 내려가있을 떄의 높이를 설정하고, 애니메이션을 시작하는 메소드
     func animateTransitionIfNeeded (state:CardState, duration:TimeInterval) {
-        if runningAnimations.isEmpty {
-            let frameAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
-                switch state {
-                case .expanded:
-                    self.cardViewController.view.frame.origin.y = self.view.frame.height - (self.view.bounds.height * 0.8)//self.cardHeight
-                    self.hiddenTitle(false)
-                case .collapsed:
-                    self.cardViewController.view.frame.origin.y = self.view.frame.height - (self.cardHandleAreaHeight * 3)
-                    for title in self.cardViewController.titles {
-                        title.isHidden = false
-                    }
-                    self.hiddenTitle(true)
+        switch state {
+        case .expanded:
+            UIView.animate(withDuration: 0.3) {
+                self.cardViewController.view.frame.origin.y = self.view.frame.height - (self.view.bounds.height * 0.8)//self.cardHeight
+                self.hiddenTitle(false)
+            }
+        case .collapsed:
+            UIView.animate(withDuration: 0.3) {
+                self.cardViewController.view.frame.origin.y = self.view.frame.height - (self.cardHandleAreaHeight * 3)
+                for title in self.cardViewController.titles {
+                    title.isHidden = false
                 }
+                self.hiddenTitle(false)
             }
-            
-            frameAnimator.addCompletion { _ in
-                self.cardVisible = !self.cardVisible
-                self.runningAnimations.removeAll()
-            }
-
-            frameAnimator.startAnimation()
-            runningAnimations.append(frameAnimator)
         }
     }
     
@@ -370,6 +355,64 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             animateTransitionIfNeeded(state: nextState, duration: 0.9)
         }
     }
+    
+    @objc
+    func handleCardPan(sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: view)
+        
+        switch sender.state {
+        case .began:
+            if cardViewController.view.frame.origin.y == self.view.frame.height - (self.view.bounds.height * 0.8) {
+                cardOriginY = self.view.frame.height - (self.view.bounds.height * 0.8)
+                
+                guard translation.y < 0 else { return }
+            } else {
+                cardOriginY = self.view.frame.height - (self.cardHandleAreaHeight * 3)
+            }
+            
+        case .changed:
+            if cardViewController.view.frame.origin.y == self.view.frame.height - (self.view.bounds.height * 0.8) {
+                if translation.y < 0 {
+                    cardViewController.view.frame.origin = CGPoint(x: 0, y: cardOriginY)
+                } else {
+                    cardViewController.view.frame.origin = CGPoint(x: 0, y: cardOriginY + translation.y)
+                }
+            } else {
+                cardViewController.view.frame.origin = CGPoint(x: 0, y: cardOriginY + translation.y)
+            }
+            
+        case .ended:
+            if cardViewController.view.frame.origin.y < self.view.frame.height - (self.view.bounds.height * 0.55) {
+                animateTransitionIfNeeded(state: .expanded, duration: 0.9)
+            } else if cardViewController.view.frame.origin.y > self.view.frame.height - (self.cardHandleAreaHeight * 1.5) {
+                cardViewController.removeFromParent()
+                cardViewController.view.removeFromSuperview()
+            } else {
+                animateTransitionIfNeeded(state: .collapsed, duration: 0.9)
+            }
+            
+        case .possible:
+            if cardViewController.view.frame.origin.y < self.view.frame.height - (self.view.bounds.height * 0.55) {
+                animateTransitionIfNeeded(state: .expanded, duration: 0.9)
+            } else if cardViewController.view.frame.origin.y > self.view.frame.height - (self.cardHandleAreaHeight * 2.8) {
+                UIView.animate(withDuration: 0.3) {
+                    self.cardViewController.removeFromParent()
+                    self.cardViewController.view.removeFromSuperview()
+                }
+            } else {
+                animateTransitionIfNeeded(state: .collapsed, duration: 0.9)
+            }
+            
+        case .cancelled:
+            animateTransitionIfNeeded(state: .collapsed, duration: 0.9)
+            
+        case .failed:
+            animateTransitionIfNeeded(state: .collapsed, duration: 0.9)
+            
+        @unknown default:
+            animateTransitionIfNeeded(state: .collapsed, duration: 0.9)
+        }
+    }
 
     /// 시간을 체크하여 30분이 되면 푸시알림을 보내는 메소드
     @objc
@@ -391,49 +434,49 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
 
 // MARK: Extension - CLLocationManagerDelegate
 extension ViewController: CLLocationManagerDelegate {
-    func timerMeasurementsInBackground() {
-        if number < 1800, number >= 0 {
-            if let timer = secondTimer {
-                if !timer.isValid {
-                    secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
-                    RunLoop.current.add(secondTimer!, forMode: .common)
-                }
-            } else {
-                secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
-                RunLoop.current.add(secondTimer!, forMode: .common)
-            }
-        } else {
-            if let timer = secondTimer {
-                if timer.isValid {
-                    timer.invalidate()
-                }
-            }
-        }
-    }
+//    func timerMeasurementsInBackground() {
+//        if number < 1800, number >= 0 {
+//            if let timer = secondTimer {
+//                if !timer.isValid {
+//                    secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
+//                    RunLoop.current.add(secondTimer!, forMode: .common)
+//                }
+//            } else {
+//                secondTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timeCallback), userInfo: nil, repeats: true)
+//                RunLoop.current.add(secondTimer!, forMode: .common)
+//            }
+//        } else {
+//            if let timer = secondTimer {
+//                if timer.isValid {
+//                    timer.invalidate()
+//                }
+//            }
+//        }
+//    }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else {
-                   return
-               }
-        print("Location: \(location)")
-        
-        if UIApplication.shared.applicationState == .active {
-            if let timer = secondTimer {
-                if timer.isValid {
-                    timer.invalidate()
-                }
-            }
-            number = 0
-            print("시간 멈춤")
-        } else if UIApplication.shared.applicationState == .background{
-            print("위도:\(location.coordinate.latitude), 경도: \(location.coordinate.longitude)")
-            timerMeasurementsInBackground()
-        }
-        if gpsState == .off {
-            locationManager.stopUpdatingLocation()
-            gpsState = .on
-        }
-    }
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        guard let location = locations.last else {
+//                   return
+//               }
+//        print("Location: \(location)")
+//
+//        if UIApplication.shared.applicationState == .active {
+//            if let timer = secondTimer {
+//                if timer.isValid {
+//                    timer.invalidate()
+//                }
+//            }
+//            number = 0
+//            print("시간 멈춤")
+//        } else if UIApplication.shared.applicationState == .background{
+//            print("위도:\(location.coordinate.latitude), 경도: \(location.coordinate.longitude)")
+//            timerMeasurementsInBackground()
+//        }
+//        if gpsState == .off {
+//            locationManager.stopUpdatingLocation()
+//            gpsState = .on
+//        }
+//    }
     
     // Handle authorization for the location manager.
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -567,7 +610,6 @@ extension ViewController: MKMapViewDelegate {
             let restroomDatas: [String:String] = customAnnotation.data ?? [:]
             dataDelegate?.sendData(data: restroomDatas)
             cardViewController.output(data:restroomDatas)
-            messageSendOrNot = .send
         }
     }
     

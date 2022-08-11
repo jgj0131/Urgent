@@ -15,7 +15,7 @@ class CardViewController: UIViewController {
     // MARK: Properties
     private var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
     private var latitudeAndLongitude: String?
-    private var secondTimer: Timer?
+//    private var secondTimer: Timer?
     private var number = 0.0
     
     // MARK: IBOutlet
@@ -89,7 +89,7 @@ class CardViewController: UIViewController {
             useButton.setTitle("위험대비문자 발송", for: .normal)
             useButton.backgroundColor = UIColor(red: 254/255, green: 115/255, blue: 111/255, alpha: 1)
             UserDefaults.standard.set("위험대비문자 발송", forKey: "useButtonTitle")
-            gpsState = .off
+//            gpsState = .off
         } else if number > timerData + 10 {
             self.endBackgroundTask()
         }
@@ -200,7 +200,7 @@ class CardViewController: UIViewController {
     
     func endBackgroundTask() {
         print("Background task ended.")
-        secondTimer!.invalidate()
+//        secondTimer!.invalidate()
         number = 0
         UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
         backgroundTaskIdentifier = .invalid
