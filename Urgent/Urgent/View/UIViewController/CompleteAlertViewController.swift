@@ -16,6 +16,11 @@ class CompleteAlertViewController: UIViewController {
     let alertView: UIView = .init()
     let alertLabel:UILabel = .init()
     let sendMessageButton: UIButton = .init()
+    let visualEffectView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurView: UIVisualEffectView = .init(effect: blurEffect)
+        return blurView
+    }()
     
     // MARK: LifeCycle
     override func viewDidLoad() {
@@ -31,7 +36,8 @@ class CompleteAlertViewController: UIViewController {
             }
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            self.view.backgroundColor = .black.withAlphaComponent(0.25)
+            self.view.backgroundColor = .black.withAlphaComponent(0.3)
+            self.visualEffectView.isHidden = false
         })
     }
     
@@ -40,7 +46,11 @@ class CompleteAlertViewController: UIViewController {
         
         let tapSendMessageButton: UITapGestureRecognizer = .init(target: self, action: #selector(sendCompleteButton))
         
-        self.view.addSubview(alertView)
+        view.addSubview(visualEffectView)
+        view.addSubview(alertView)
+        
+        visualEffectView.frame = self.view.frame
+        visualEffectView.isHidden = true
         
         alertView.translatesAutoresizingMaskIntoConstraints = false
         alertView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
@@ -134,6 +144,7 @@ extension CompleteAlertViewController: MFMessageComposeViewControllerDelegate {
             NotificationCenter.default.post(name: NSNotification.Name("sendMessage"), object: false)
             UserDefaults.standard.set(false, forKey: "sentHelpMessage")
             self.view.backgroundColor = .clear
+            self.visualEffectView.isHidden = true
             dismiss(animated: true)
             DispatchQueue.main.async {
                 self.dismiss(animated: true)

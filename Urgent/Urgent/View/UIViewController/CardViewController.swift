@@ -32,6 +32,7 @@ class CardViewController: UIViewController {
     @IBOutlet weak var addressTitle: UILabel!
     @IBOutlet weak var handleBar: UIView!
     @IBOutlet weak var distance: UILabel!
+    @IBOutlet weak var callButton: UIImageView!
     
     // MARK: IBOutlet Collection
     @IBOutlet var titles: [UILabel]!

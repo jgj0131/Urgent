@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="addressTitle" destination="ZV1-7y-cEu" id="LQb-Pi-8VK"/>
                 <outlet property="backgroundArea" destination="wdM-TU-K0a" id="K4g-oa-fbj"/>
+                <outlet property="callButton" destination="hFG-6l-cDi" id="8xC-wf-QbA"/>
                 <outlet property="distance" destination="bDc-4K-p5B" id="fog-rj-LGp"/>
                 <outlet property="handleArea" destination="tKo-Ta-KV8" id="Ocu-KT-7JP"/>
                 <outlet property="handleBar" destination="0jZ-nR-KQh" id="FTR-Mq-oQw"/>
@@ -47,6 +48,15 @@
                             </constraints>
                             <imageReference key="image" image="figure.walk" catalog="system" symbolScale="small"/>
                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
+                        </imageView>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="hFG-6l-cDi">
+                            <rect key="frame" x="324" y="607.5" width="70" height="69"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="tintColor" red="0.0" green="0.69876760240000002" blue="0.65455883739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="70" id="LUP-rr-OHu"/>
+                                <constraint firstAttribute="width" constant="70" id="Mwc-2O-0ci"/>
+                            </constraints>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -143,6 +153,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="cnO-Kf-vlJ"/>
                     </constraints>
+                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                     <state key="normal" title="사용하기">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
@@ -165,6 +176,7 @@
             <constraints>
                 <constraint firstItem="tKo-Ta-KV8" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="00F-RA-uHe"/>
                 <constraint firstItem="0jZ-nR-KQh" firstAttribute="height" secondItem="tKo-Ta-KV8" secondAttribute="height" multiplier="0.1" id="0Yq-o9-90Q"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="hFG-6l-cDi" secondAttribute="bottom" constant="20" id="2K5-7O-lsU"/>
                 <constraint firstItem="bDc-4K-p5B" firstAttribute="leading" secondItem="7VG-E9-kxJ" secondAttribute="trailing" constant="5" id="2zY-Os-35J"/>
                 <constraint firstItem="2vd-l8-tZL" firstAttribute="top" secondItem="7s7-XK-n9s" secondAttribute="bottom" constant="20" id="5eB-Gj-O9C"/>
                 <constraint firstItem="2iN-R2-tTD" firstAttribute="leading" secondItem="AbH-64-wHJ" secondAttribute="trailing" constant="10" id="624-U2-u5g"/>
@@ -188,6 +200,7 @@
                 <constraint firstItem="Uag-0z-1qG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="RK6-F5-ggQ"/>
                 <constraint firstItem="2iN-R2-tTD" firstAttribute="top" secondItem="AbH-64-wHJ" secondAttribute="top" id="RXN-RH-15d"/>
                 <constraint firstItem="AbH-64-wHJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="Rmx-Gf-cCg"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="hFG-6l-cDi" secondAttribute="trailing" constant="20" id="Sqg-56-9t0"/>
                 <constraint firstItem="htU-G7-LsM" firstAttribute="top" secondItem="7s7-XK-n9s" secondAttribute="bottom" constant="20" id="UGM-sN-0cI"/>
                 <constraint firstItem="hIO-Ko-nlg" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="XUF-A0-MqQ"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="2iN-R2-tTD" secondAttribute="trailing" constant="20" id="Xnn-93-6g2"/>
@@ -221,6 +234,7 @@
     </objects>
     <resources>
         <image name="figure.walk" catalog="system" width="95" height="128"/>
+        <image name="phone.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
