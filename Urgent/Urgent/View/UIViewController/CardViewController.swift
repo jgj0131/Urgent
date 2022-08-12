@@ -239,17 +239,25 @@ extension CardViewController: SendDataDelegate {
         useButton.setTitle(UserDefaults.standard.string(forKey: "useButtonTitle"), for: .normal)
         latitudeAndLongitude = "\(data["위도"]!), \(data["경도"]!)"
         emergencyBellValue.text = (data["비상벨설치여부"] == "Y" ? "비상벨 ✅" + (data["비상벨설치장소"] == "" ? "" : " (위치: \(data["비상벨설치장소"] ?? "")") : "비상벨 ❌")
-        emergencyBellValue.attributedText = changeTextColor(text: emergencyBellValue.text ?? "")
+        emergencyBellValue.attributedText = changeTextSize(text: emergencyBellValue.text ?? "")
         cctvValue.text = data["화장실입구CCTV설치유무"] == "Y" ? "입구 앞 CCTV ✅" : "입구 앞 CCTV ❌"
-        cctvValue.attributedText = changeTextColor(text: cctvValue.text ?? "")
+        cctvValue.attributedText = changeTextSize(text: cctvValue.text ?? "")
         diaperValue.text = (data["기저귀교환대유무"] == "Y" ? "기저귀교환대 ✅" + (data["비상벨설치장소"] == "" ? "" : " (위치: \(data["기저귀교환대장소"] ?? "")") : "기저귀교환대 ❌")
-        diaperValue.attributedText = changeTextColor(text: diaperValue.text ?? "")
+        diaperValue.attributedText = changeTextSize(text: diaperValue.text ?? "")
     }
     
     func changeTextColor(text: String) -> NSMutableAttributedString {
         let attributedStr = NSMutableAttributedString(string: text)
         attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 0, green: 161/255, blue: 1, alpha: 1), range: (text as NSString).range(of: "있음"))
         attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 1, green: 100/255, blue: 78/255, alpha: 1), range: (text as NSString).range(of: "없음"))
+        return attributedStr
+    }
+    
+    func changeTextSize(text: String) -> NSMutableAttributedString {
+        let font: UIFont = UIFont(name: "Avenir Book", size: 15)!
+        let attributedStr = NSMutableAttributedString(string: text)
+        attributedStr.addAttribute(.font, value: font, range: (text as NSString).range(of: "✅"))
+        attributedStr.addAttribute(.font, value: font, range: (text as NSString).range(of: "❌"))
         return attributedStr
     }
 }

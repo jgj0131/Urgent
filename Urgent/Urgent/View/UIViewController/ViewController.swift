@@ -509,7 +509,7 @@ extension ViewController: CLLocationManagerDelegate {
         let annotations: [CustomAnnotation] = self.restroomData.getDataForFata().map { datum in
             if datum["위도"] != "", datum["경도"] != "", datum["소재지도로명주소"] != nil {
                 let data = datum
-                let item = POIItem(data: data, coordinate: CLLocationCoordinate2DMake(Double(datum["위도"] ?? "0.00") ?? 35.395899, Double(datum["경도"] ?? "0.00") ?? 126.668518))
+                let item = POIItem(data: data, coordinate: CLLocationCoordinate2DMake(Double(datum["위도"] ?? "0.00") ?? 0.1, Double(datum["경도"] ?? "0.00") ?? 0.1))
                 let annotation = CustomAnnotation()
                 annotation.coordinate = item.coordinate
                 annotation.title = data["소재지도로명주소"] ?? ""
