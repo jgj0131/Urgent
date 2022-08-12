@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1511E4B828A6C7C500E9CBB0 /* toilet_20220713.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1511E4B728A6C7C500E9CBB0 /* toilet_20220713.plist */; };
 		151470082327520700E2BAF9 /* OnOffTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151470062327520700E2BAF9 /* OnOffTableViewCell.swift */; };
 		151470092327520700E2BAF9 /* OnOffTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 151470072327520700E2BAF9 /* OnOffTableViewCell.xib */; };
 		151470D72330014900E2BAF9 /* TimeSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151470D52330014900E2BAF9 /* TimeSettingTableViewCell.swift */; };
@@ -37,11 +38,9 @@
 		15BA30D822FC9AE500B8B971 /* UrgentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30D722FC9AE500B8B971 /* UrgentTests.swift */; };
 		15BA30E322FC9AE500B8B971 /* UrgentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30E222FC9AE500B8B971 /* UrgentUITests.swift */; };
 		15BA311A2300198100B8B971 /* RestroomDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA31192300198100B8B971 /* RestroomDataSource.swift */; };
-		15BA3121230025A600B8B971 /* NationalPublicRestroomData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15BA311D23001AE500B8B971 /* NationalPublicRestroomData.plist */; };
 		15BA31672303258D00B8B971 /* SendDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA31662303258D00B8B971 /* SendDataDelegate.swift */; };
 		15BA31B42305FA9F00B8B971 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA31B22305FA9F00B8B971 /* CardViewController.swift */; };
 		15BA31B52305FA9F00B8B971 /* CardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15BA31B32305FA9F00B8B971 /* CardViewController.xib */; };
-		15F915B228A689E1001E5B24 /* 화장실데이터 - Sheet0 2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15F915B128A689E1001E5B24 /* 화장실데이터 - Sheet0 2.plist */; };
 		292F693BAD7EBF751106E16F /* libPods-UrgentTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1581CC4C06FF6CC9234D2A5E /* libPods-UrgentTests.a */; };
 		9BC37A981152735CBB1B2E80 /* libPods-UrgentUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0F7DC4CBDC0DC1B82E6808 /* libPods-UrgentUITests.a */; };
 		C14769C537A09E0549D09D74 /* libPods-Urgent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D561C5523911AEAE54ECD963 /* libPods-Urgent.a */; };
@@ -66,6 +65,7 @@
 
 /* Begin PBXFileReference section */
 		15104845DE3EF2A258055E97 /* Pods-UrgentUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrgentUITests.release.xcconfig"; path = "Target Support Files/Pods-UrgentUITests/Pods-UrgentUITests.release.xcconfig"; sourceTree = "<group>"; };
+		1511E4B728A6C7C500E9CBB0 /* toilet_20220713.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = toilet_20220713.plist; sourceTree = "<group>"; };
 		151470062327520700E2BAF9 /* OnOffTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnOffTableViewCell.swift; sourceTree = "<group>"; };
 		151470072327520700E2BAF9 /* OnOffTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OnOffTableViewCell.xib; sourceTree = "<group>"; };
 		151470D52330014900E2BAF9 /* TimeSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSettingTableViewCell.swift; sourceTree = "<group>"; };
@@ -103,12 +103,10 @@
 		15BA30E222FC9AE500B8B971 /* UrgentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgentUITests.swift; sourceTree = "<group>"; };
 		15BA30E422FC9AE500B8B971 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		15BA31192300198100B8B971 /* RestroomDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestroomDataSource.swift; sourceTree = "<group>"; };
-		15BA311D23001AE500B8B971 /* NationalPublicRestroomData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = NationalPublicRestroomData.plist; path = Plist/NationalPublicRestroomData.plist; sourceTree = SOURCE_ROOT; };
 		15BA31662303258D00B8B971 /* SendDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendDataDelegate.swift; sourceTree = "<group>"; };
 		15BA31B22305FA9F00B8B971 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		15BA31B32305FA9F00B8B971 /* CardViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardViewController.xib; sourceTree = "<group>"; };
 		15BA327F230BCFBD00B8B971 /* Urgent-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Urgent-Bridging-Header.h"; sourceTree = "<group>"; };
-		15F915B128A689E1001E5B24 /* 화장실데이터 - Sheet0 2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "화장실데이터 - Sheet0 2.plist"; sourceTree = "<group>"; };
 		42D8389D22C02CDC22FCB776 /* Pods-Urgent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Urgent.debug.xcconfig"; path = "Target Support Files/Pods-Urgent/Pods-Urgent.debug.xcconfig"; sourceTree = "<group>"; };
 		4AE032821D423D7C2DED2EC6 /* Pods-UrgentTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrgentTests.debug.xcconfig"; path = "Target Support Files/Pods-UrgentTests/Pods-UrgentTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9D0F7DC4CBDC0DC1B82E6808 /* libPods-UrgentUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UrgentUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -294,8 +292,7 @@
 		15BA311C230019F900B8B971 /* Plist */ = {
 			isa = PBXGroup;
 			children = (
-				15F915B128A689E1001E5B24 /* 화장실데이터 - Sheet0 2.plist */,
-				15BA311D23001AE500B8B971 /* NationalPublicRestroomData.plist */,
+				1511E4B728A6C7C500E9CBB0 /* toilet_20220713.plist */,
 			);
 			path = Plist;
 			sourceTree = "<group>";
@@ -435,11 +432,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15BA3121230025A600B8B971 /* NationalPublicRestroomData.plist in Resources */,
+				1511E4B828A6C7C500E9CBB0 /* toilet_20220713.plist in Resources */,
 				15BA30CD22FC9AE500B8B971 /* LaunchScreen.storyboard in Resources */,
 				157A1D6028A3E63400547225 /* complete.json in Resources */,
 				151470DC2330B9C100E2BAF9 /* TimerPickerTableViewCell.xib in Resources */,
-				15F915B228A689E1001E5B24 /* 화장실데이터 - Sheet0 2.plist in Resources */,
 				151470092327520700E2BAF9 /* OnOffTableViewCell.xib in Resources */,
 				15BA30CA22FC9AE500B8B971 /* Assets.xcassets in Resources */,
 				15AD87A72326739900DE0B7A /* UserContactsTableViewCell.xib in Resources */,

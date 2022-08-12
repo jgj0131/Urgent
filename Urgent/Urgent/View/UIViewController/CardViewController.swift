@@ -17,6 +17,7 @@ class CardViewController: UIViewController {
     private var latitudeAndLongitude: String?
 //    private var secondTimer: Timer?
     private var number = 0.0
+    var callNumber: String = "114"
     
     // MARK: IBOutlet
     @IBOutlet weak var handleArea: UIView!
@@ -109,18 +110,28 @@ class CardViewController: UIViewController {
         UNUserNotificationCenter.current().delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(changeUseButtonState(_:)), name: Notification.Name("useButtonState"), object: nil)
-  
+        
 //        self.backgroundArea.layer.shadowColor = UIColor.label.cgColor
 //        self.backgroundArea.layer.shadowOpacity = 0.5
 //        self.backgroundArea.layer.shadowOffset = .zero
 //        self.backgroundArea.layer.shadowRadius = 1
 //
 //        self.backgroundArea.layer.shadowPath = UIBezierPath(rect: backgroundArea.bounds).cgPath
+        
         self.backgroundArea.layer.shouldRasterize = true
         self.backgroundArea.layer.rasterizationScale = UIScreen.main.scale
         
+        let onOff = UserDefaults.standard.bool(forKey: "OnOffSwitch")
+        if onOff {
+            useButton.backgroundColor = .urgent
+            useButton.isEnabled = true
+        } else {
+            useButton.backgroundColor = .gray
+            useButton.isEnabled = false
+        }
+        
         self.handleBar.layer.cornerRadius = handleBar.frame.height/4
-        let inputTitle = ["🚻", "🕖", "🚽", "🚽", "🚨", "📷", "👶🏻"]
+        let inputTitle = ["🚻", "🕖", "🚹", "🚺", "🚨", "📷", "👶🏻"]
         super.viewDidLoad()
         addressTitle.text = "🏠"
         addressTitle.font = UIFont.boldSystemFont(ofSize: 17.0)
@@ -208,6 +219,15 @@ class CardViewController: UIViewController {
         UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
         backgroundTaskIdentifier = .invalid
     }
+    
+    @objc
+    func calling(_ sender: UITapGestureRecognizer) {
+        
+        // URLScheme 문자열을 통해 URL 인스턴스를 만들어 줍니다.
+        if let url = NSURL(string: "tel://" + callNumber), UIApplication.shared.canOpenURL(url as URL) {
+            UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+        }
+    }
 }
 
 // MARK: Extension
@@ -234,22 +254,31 @@ extension CardViewController: SendDataDelegate {
         publicManAndWoman.text = data["남녀공용화장실여부"] == "Y" ? "공용" : "남녀 분리"
         openingTime.text = data["개방시간"] == "" ? "정보없음" : data["개방시간"]!
         openingTime.numberOfLines = 0
-        manToiletCount.text = ("\(data["남성용-대변기수"] == "" ? "정보없음" : data["남성용-대변기수"]!) / \(data["남성용-장애인용대변기수"] == "" ? "정보없음" : data["남성용-장애인용대변기수"]!) (장애인용) 🚹")
-        womanToiletCount.text = ("\(data["여성용-대변기수"] == "" ? "정보없음" : data["여성용-대변기수"]!) / \(data["여성용-장애인용대변기수"] == "" ? "정보없음" : data["여성용-장애인용대변기수"]!) (장애인용) 🚺")
+        manToiletCount.text = ("일반: \(data["남성용-대변기수"] == "" ? "정보없음" : data["남성용-대변기수"]!) / 장애인용: \(data["남성용-장애인용대변기수"] == "" ? "정보없음" : data["남성용-장애인용대변기수"]!)")
+        womanToiletCount.text = ("일반: \(data["여성용-대변기수"] == "" ? "정보없음" : data["여성용-대변기수"]!) / 장애인용: \(data["여성용-장애인용대변기수"] == "" ? "정보없음" : data["여성용-장애인용대변기수"]!)")
         useButton.setTitle(UserDefaults.standard.string(forKey: "useButtonTitle"), for: .normal)
         latitudeAndLongitude = "\(data["위도"]!), \(data["경도"]!)"
-        emergencyBellValue.text = (data["비상벨설치여부"] == "Y" ? "비상벨 ✅" + (data["비상벨설치장소"] == "" ? "" : " (위치: \(data["비상벨설치장소"] ?? "")") : "비상벨 ❌")
-        emergencyBellValue.attributedText = changeTextSize(text: emergencyBellValue.text ?? "")
-        cctvValue.text = data["화장실입구CCTV설치유무"] == "Y" ? "입구 앞 CCTV ✅" : "입구 앞 CCTV ❌"
-        cctvValue.attributedText = changeTextSize(text: cctvValue.text ?? "")
-        diaperValue.text = (data["기저귀교환대유무"] == "Y" ? "기저귀교환대 ✅" + (data["비상벨설치장소"] == "" ? "" : " (위치: \(data["기저귀교환대장소"] ?? "")") : "기저귀교환대 ❌")
-        diaperValue.attributedText = changeTextSize(text: diaperValue.text ?? "")
+        emergencyBellValue.text = (data["비상벨설치여부"] == "Y" ? "비상벨 O" + (data["비상벨설치장소"] == "" ? "" : " (위치: \(data["비상벨설치장소"] ?? ""))") : "비상벨 X")
+        emergencyBellValue.attributedText = changeTextColor(text: emergencyBellValue.text ?? "")
+        cctvValue.text = data["화장실입구CCTV설치유무"] == "Y" ? "입구 앞 CCTV O" : "입구 앞 CCTV X"
+        cctvValue.attributedText = changeTextColor(text: cctvValue.text ?? "")
+        diaperValue.text = (data["기저귀교환대유무"] == "Y" ? "기저귀교환대 O" + (data["비상벨설치장소"] == "" ? "" : " (위치: \(data["기저귀교환대장소"] ?? ""))") : "기저귀교환대 X")
+        diaperValue.numberOfLines = 2
+        diaperValue.attributedText = changeTextColor(text: diaperValue.text ?? "")
+        if data["전화번호"] == "" {
+            callButton.tintColor = .secondarySystemBackground
+        } else {
+            callButton.tintColor = UIColor(red: 0, green: 178/255, blue: 167/255, alpha: 1)
+            callNumber = data["전화번호"]!
+            let tapGesture: UITapGestureRecognizer = .init(target: self, action: #selector(calling(_ :)))
+            callButton.addGestureRecognizer(tapGesture)
+        }
     }
     
     func changeTextColor(text: String) -> NSMutableAttributedString {
         let attributedStr = NSMutableAttributedString(string: text)
-        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 0, green: 161/255, blue: 1, alpha: 1), range: (text as NSString).range(of: "있음"))
-        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 1, green: 100/255, blue: 78/255, alpha: 1), range: (text as NSString).range(of: "없음"))
+        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 136/255, green: 250/255, blue: 78/255, alpha: 1), range: (text as NSString).range(of: "O"))
+        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 1, green: 100/255, blue: 78/255, alpha: 1), range: (text as NSString).range(of: "X"))
         return attributedStr
     }
     
