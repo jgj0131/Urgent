@@ -33,6 +33,9 @@ class CardViewController: UIViewController {
     @IBOutlet weak var handleBar: UIView!
     @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var callButton: UIImageView!
+    @IBOutlet weak var emergencyBellValue: UILabel!
+    @IBOutlet weak var cctvValue: UILabel!
+    @IBOutlet weak var diaperValue: UILabel!
     
     // MARK: IBOutlet Collection
     @IBOutlet var titles: [UILabel]!
@@ -117,14 +120,14 @@ class CardViewController: UIViewController {
         self.backgroundArea.layer.rasterizationScale = UIScreen.main.scale
         
         self.handleBar.layer.cornerRadius = handleBar.frame.height/4
-        let inputTitle = ["🚻", "🕖", "🚹🚽", "🚺🚽"]
+        let inputTitle = ["🚻", "🕖", "🚽", "🚽", "🚨", "📷", "👶🏻"]
         super.viewDidLoad()
         addressTitle.text = "🏠"
         addressTitle.font = UIFont.boldSystemFont(ofSize: 17.0)
         useButton.roundedCorner()
         for index in 0..<titles.count {
             titles[index].text = inputTitle[index]
-            titles[index].font = UIFont.boldSystemFont(ofSize: 17.0)
+//            titles[index].font = UIFont.boldSystemFont(ofSize: 17.0)
         }
     }
     
@@ -218,15 +221,36 @@ extension CardViewController: SendDataDelegate {
     func sendData(data: [String:String]) {
         restroomName.text = data["화장실명"] == "" ? "정보없음" : data["화장실명"]
         restroomSubTitle.text = data["구분"] == "" ? "정보없음" : data["구분"]
-        restroomAddress.text = data["소재지도로명주소"] == "" ? "정보없음" : data["소재지도로명주소"]!
+        if data["소재지도로명주소"] == "" {
+            if data["소재지지번주소"] == "" {
+                restroomAddress.text = "정보없음"
+            } else {
+                restroomAddress.text = data["소재지지번주소"]!
+            }
+        } else {
+            restroomAddress.text = data["소재지도로명주소"]!
+        }
         restroomAddress.numberOfLines = 0
-        publicManAndWoman.text = data["남녀공용화장실여부"] == "" ? "정보없음" : data["남녀공용화장실여부"]!
+        publicManAndWoman.text = data["남녀공용화장실여부"] == "Y" ? "공용" : "남녀 분리"
         openingTime.text = data["개방시간"] == "" ? "정보없음" : data["개방시간"]!
         openingTime.numberOfLines = 0
-        manToiletCount.text = ("\(data["남성용-대변기수"] == "" ? "정보없음" : data["남성용-대변기수"]!) / \(data["남성용-장애인용대변기수"] == "" ? "정보없음" : data["남성용-장애인용대변기수"]!) (장애인용)")
-        womanToiletCount.text = ("\(data["여성용-대변기수"] == "" ? "정보없음" : data["여성용-대변기수"]!) / \(data["여성용-장애인용대변기수"] == "" ? "정보없음" : data["여성용-장애인용대변기수"]!) (장애인용)")
+        manToiletCount.text = ("\(data["남성용-대변기수"] == "" ? "정보없음" : data["남성용-대변기수"]!) / \(data["남성용-장애인용대변기수"] == "" ? "정보없음" : data["남성용-장애인용대변기수"]!) (장애인용) 🚹")
+        womanToiletCount.text = ("\(data["여성용-대변기수"] == "" ? "정보없음" : data["여성용-대변기수"]!) / \(data["여성용-장애인용대변기수"] == "" ? "정보없음" : data["여성용-장애인용대변기수"]!) (장애인용) 🚺")
         useButton.setTitle(UserDefaults.standard.string(forKey: "useButtonTitle"), for: .normal)
         latitudeAndLongitude = "\(data["위도"]!), \(data["경도"]!)"
+        emergencyBellValue.text = (data["비상벨설치여부"] == "Y" ? "비상벨 ✅" + (data["비상벨설치장소"] == "" ? "" : " (위치: \(data["비상벨설치장소"] ?? "")") : "비상벨 ❌")
+        emergencyBellValue.attributedText = changeTextColor(text: emergencyBellValue.text ?? "")
+        cctvValue.text = data["화장실입구CCTV설치유무"] == "Y" ? "입구 앞 CCTV ✅" : "입구 앞 CCTV ❌"
+        cctvValue.attributedText = changeTextColor(text: cctvValue.text ?? "")
+        diaperValue.text = (data["기저귀교환대유무"] == "Y" ? "기저귀교환대 ✅" + (data["비상벨설치장소"] == "" ? "" : " (위치: \(data["기저귀교환대장소"] ?? "")") : "기저귀교환대 ❌")
+        diaperValue.attributedText = changeTextColor(text: diaperValue.text ?? "")
+    }
+    
+    func changeTextColor(text: String) -> NSMutableAttributedString {
+        let attributedStr = NSMutableAttributedString(string: text)
+        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 0, green: 161/255, blue: 1, alpha: 1), range: (text as NSString).range(of: "있음"))
+        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 1, green: 100/255, blue: 78/255, alpha: 1), range: (text as NSString).range(of: "없음"))
+        return attributedStr
     }
 }
 

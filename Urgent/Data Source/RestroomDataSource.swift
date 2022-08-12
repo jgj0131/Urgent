@@ -17,6 +17,7 @@ struct RestroomDataSource {
     }
     
     func getDataForFata() -> Array<[String:String]> {
+//        let array = getSwiftArrayFromPlist(name: "화장실데이터 - Sheet0 2")
         let array = getSwiftArrayFromPlist(name: "NationalPublicRestroomData")
         return array
     }
