@@ -82,7 +82,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     private var settingButtonConstraint: NSLayoutConstraint!
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        return .default
     }
     
     enum CardState {
