@@ -512,10 +512,10 @@ extension ViewController: CLLocationManagerDelegate {
                 let item = POIItem(data: data, coordinate: CLLocationCoordinate2DMake(Double(datum["위도"] ?? "0.00") ?? 0.1, Double(datum["경도"] ?? "0.00") ?? 0.1))
                 let annotation = CustomAnnotation()
                 annotation.coordinate = item.coordinate
-                if data["소재지도로명주소"] == "" {
-                    annotation.title = data["소재지지번주소"] ?? ""
+                if data["개방시간"] == "" || data["개방시간"] == ":~:" {
+                    annotation.title = "정보 없음"
                 } else {
-                    annotation.title = data["소재지도로명주소"] ?? ""
+                    annotation.title = data["개방시간"] ?? "정보 없음"
                 }
                 annotation.data = data
                 return annotation
