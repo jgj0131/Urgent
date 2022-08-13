@@ -507,31 +507,25 @@ extension ViewController: CLLocationManagerDelegate {
     /// MapView에 화장실 마커를 남깁니다.
     func setMapView(){
         let annotations: [CustomAnnotation] = self.restroomData.getDataForFata().map { datum in
-            if datum["위도"] != "", datum["경도"] != "", datum["소재지도로명주소"] != nil {
+            if datum["위도"] != "", datum["경도"] != "" {
                 let data = datum
                 let item = POIItem(data: data, coordinate: CLLocationCoordinate2DMake(Double(datum["위도"] ?? "0.00") ?? 0.1, Double(datum["경도"] ?? "0.00") ?? 0.1))
                 let annotation = CustomAnnotation()
                 annotation.coordinate = item.coordinate
-                annotation.title = data["소재지도로명주소"] ?? ""
+                if data["소재지도로명주소"] == "" {
+                    annotation.title = data["소재지지번주소"] ?? ""
+                } else {
+                    annotation.title = data["소재지도로명주소"] ?? ""
+                }
                 annotation.data = data
                 return annotation
             } else {
                 return CustomAnnotation()
             }
         }
-            
+        
         clusterManager.add(annotations)
         clusterManager.reload(mapView: mapView)
-    }
-    
-    func setMarker(coordinate: CLLocationCoordinate2D, data: [String: String]) {
-        let annotation = CustomAnnotation()
-        
-        annotation.coordinate = coordinate
-        annotation.title = data["소재지도로명주소"] ?? ""
-        annotation.data = data
-        self.mapView.addAnnotation(annotation)
-        self.findAddr(lat: coordinate.latitude, long: coordinate.longitude)
     }
     
     /// 위도, 경도로 주소를 찾습니다.
