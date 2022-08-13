@@ -362,7 +362,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         
         switch sender.state {
         case .began:
-            if cardViewController.view.frame.origin.y == self.view.frame.height - (self.view.bounds.height * 0.8) {
+            if cardViewController.view.frame.origin.y <= self.view.frame.height - (self.view.bounds.height * 0.8) {
                 cardOriginY = self.view.frame.height - (self.view.bounds.height * 0.8)
                 
                 guard translation.y < 0 else { return }

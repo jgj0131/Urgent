@@ -277,7 +277,8 @@ extension CardViewController: SendDataDelegate {
     
     func changeTextColor(text: String) -> NSMutableAttributedString {
         let attributedStr = NSMutableAttributedString(string: text)
-        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 136/255, green: 250/255, blue: 78/255, alpha: 1), range: (text as NSString).range(of: "O"))
+//        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 136/255, green: 250/255, blue: 78/255, alpha: 1), range: (text as NSString).range(of: "O"))
+        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 97/255, green: 216/255, blue: 54/255, alpha: 1), range: (text as NSString).range(of: "O"))
         attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 1, green: 100/255, blue: 78/255, alpha: 1), range: (text as NSString).range(of: "X"))
         return attributedStr
     }

@@ -66,37 +66,37 @@
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1E7-tT-Cp9">
-                            <rect key="frame" x="20" y="431.5" width="41.5" height="23.5"/>
+                            <rect key="frame" x="20" y="411.5" width="41.5" height="23.5"/>
                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z1s-Th-ZWE">
-                            <rect key="frame" x="20" y="475" width="41.5" height="23.5"/>
+                            <rect key="frame" x="20" y="455" width="41.5" height="23.5"/>
                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7fD-Cg-mHF">
-                            <rect key="frame" x="20" y="518.5" width="41.5" height="23.5"/>
+                            <rect key="frame" x="20" y="498.5" width="41.5" height="23.5"/>
                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fIl-vX-uSU">
-                            <rect key="frame" x="71.5" y="431.5" width="332.5" height="23.5"/>
+                            <rect key="frame" x="71.5" y="411.5" width="332.5" height="23.5"/>
                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                             <color key="textColor" systemColor="secondaryLabelColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MxG-VY-GMx">
-                            <rect key="frame" x="71.5" y="475" width="332.5" height="23.5"/>
+                            <rect key="frame" x="71.5" y="455" width="332.5" height="23.5"/>
                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                             <color key="textColor" systemColor="secondaryLabelColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0xp-bm-ZYa">
-                            <rect key="frame" x="71.5" y="518.5" width="342.5" height="23.5"/>
+                            <rect key="frame" x="71.5" y="498.5" width="342.5" height="23.5"/>
                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                             <color key="textColor" systemColor="secondaryLabelColor"/>
                             <nil key="highlightedColor"/>
@@ -144,61 +144,61 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZV1-7y-cEu">
-                    <rect key="frame" x="20" y="217" width="41.5" height="23.5"/>
+                    <rect key="frame" x="20" y="197" width="41.5" height="23.5"/>
                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXR-a1-ktz">
-                    <rect key="frame" x="71.5" y="217" width="322.5" height="23.5"/>
+                    <rect key="frame" x="71.5" y="197" width="322.5" height="23.5"/>
                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                     <color key="textColor" systemColor="secondaryLabelColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AbH-64-wHJ">
-                    <rect key="frame" x="20" y="260.5" width="41.5" height="23.5"/>
+                    <rect key="frame" x="20" y="240.5" width="41.5" height="23.5"/>
                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2iN-R2-tTD">
-                    <rect key="frame" x="71.5" y="260.5" width="322.5" height="23.5"/>
+                    <rect key="frame" x="71.5" y="240.5" width="322.5" height="23.5"/>
                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                     <color key="textColor" systemColor="secondaryLabelColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VG0-Ll-YlV">
-                    <rect key="frame" x="20" y="304" width="41.5" height="23.5"/>
+                    <rect key="frame" x="20" y="284" width="41.5" height="23.5"/>
                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7s7-XK-n9s">
-                    <rect key="frame" x="71.5" y="304" width="322.5" height="23.5"/>
+                    <rect key="frame" x="71.5" y="284" width="322.5" height="23.5"/>
                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                     <color key="textColor" systemColor="secondaryLabelColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="htU-G7-LsM">
-                    <rect key="frame" x="20" y="347.5" width="41.5" height="23.5"/>
+                    <rect key="frame" x="20" y="327.5" width="41.5" height="23.5"/>
                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2vd-l8-tZL">
-                    <rect key="frame" x="71.5" y="347.5" width="322.5" height="23.5"/>
+                    <rect key="frame" x="71.5" y="327.5" width="322.5" height="23.5"/>
                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                     <color key="textColor" systemColor="secondaryLabelColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hIO-Ko-nlg">
-                    <rect key="frame" x="20" y="391" width="41.5" height="23.5"/>
+                    <rect key="frame" x="20" y="371" width="41.5" height="23.5"/>
                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcu-QJ-ayV">
-                    <rect key="frame" x="71.5" y="391" width="322.5" height="23.5"/>
+                    <rect key="frame" x="71.5" y="371" width="322.5" height="23.5"/>
                     <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                     <color key="textColor" systemColor="secondaryLabelColor"/>
                     <nil key="highlightedColor"/>
@@ -273,7 +273,7 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="7s7-XK-n9s" secondAttribute="trailing" constant="20" id="jdb-D8-eVl"/>
                 <constraint firstItem="0jZ-nR-KQh" firstAttribute="centerY" secondItem="tKo-Ta-KV8" secondAttribute="centerY" id="kBe-zI-C1O"/>
                 <constraint firstItem="JXR-a1-ktz" firstAttribute="leading" secondItem="ZV1-7y-cEu" secondAttribute="trailing" constant="10" id="lmS-tG-sSt"/>
-                <constraint firstItem="ZV1-7y-cEu" firstAttribute="top" secondItem="RBa-DS-Pkm" secondAttribute="bottom" constant="50" id="m4A-xH-Gxr"/>
+                <constraint firstItem="ZV1-7y-cEu" firstAttribute="top" secondItem="RBa-DS-Pkm" secondAttribute="bottom" constant="30" id="m4A-xH-Gxr"/>
                 <constraint firstItem="htU-G7-LsM" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="mEL-Mz-wBM"/>
                 <constraint firstItem="7s7-XK-n9s" firstAttribute="leading" secondItem="VG0-Ll-YlV" secondAttribute="trailing" constant="10" id="o9e-Jw-FnY"/>
                 <constraint firstItem="bDc-4K-p5B" firstAttribute="top" secondItem="7Go-zr-asl" secondAttribute="bottom" constant="2" id="oZd-ne-f7G"/>
@@ -281,7 +281,7 @@
                 <constraint firstItem="7s7-XK-n9s" firstAttribute="top" secondItem="2iN-R2-tTD" secondAttribute="bottom" constant="20" id="qU1-qr-lfo"/>
                 <constraint firstItem="bDc-4K-p5B" firstAttribute="centerY" secondItem="7VG-E9-kxJ" secondAttribute="bottom" id="qZe-Oc-jsp"/>
                 <constraint firstItem="hcu-QJ-ayV" firstAttribute="centerY" secondItem="hIO-Ko-nlg" secondAttribute="centerY" id="uTo-EI-Qeh"/>
-                <constraint firstItem="JXR-a1-ktz" firstAttribute="top" secondItem="RBa-DS-Pkm" secondAttribute="bottom" constant="50" id="uxE-D0-o0T"/>
+                <constraint firstItem="JXR-a1-ktz" firstAttribute="top" secondItem="RBa-DS-Pkm" secondAttribute="bottom" constant="30" id="uxE-D0-o0T"/>
                 <constraint firstItem="wdM-TU-K0a" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="3" id="w0T-xK-BU2"/>
                 <constraint firstItem="wdM-TU-K0a" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="x6q-Eg-bAc"/>
                 <constraint firstItem="0jZ-nR-KQh" firstAttribute="centerX" secondItem="tKo-Ta-KV8" secondAttribute="centerX" id="xoQ-fp-zcj"/>
