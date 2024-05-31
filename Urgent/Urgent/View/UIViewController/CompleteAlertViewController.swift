@@ -12,11 +12,22 @@ import Lottie
 
 class CompleteAlertViewController: UIViewController {
     // MARK: Properties
-    let animationView: AnimationView = .init(name: "complete")
-    let alertView: UIView = .init()
-    let alertLabel:UILabel = .init()
-    let sendMessageButton: UIButton = .init()
-    let visualEffectView: UIVisualEffectView = {
+    private let animationView: AnimationView = .init(name: "complete")
+    private let checkImageView: UIImageView = {
+        let imageView: UIImageView = .init(frame: .init(x: (UIScreen.main.bounds.width / 2) - 40, y: 20, width: 40, height: 40))
+        
+        if let image = UIImage(systemName: "ellipsis.message.fill")?.withRenderingMode(.alwaysTemplate) {
+            imageView.image = image
+            imageView.addSymbolEffect(.variableColor.iterative.dimInactiveLayers.nonReversing)
+        }
+        
+        imageView.tintColor = .ccMint
+        return imageView
+    }()
+    private let alertView: UIView = .init()
+    private let alertLabel:UILabel = .init()
+    private let sendMessageButton: UIButton = .init()
+    private let visualEffectView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .light)
         let blurView: UIVisualEffectView = .init(effect: blurEffect)
         return blurView
@@ -48,6 +59,7 @@ class CompleteAlertViewController: UIViewController {
         
         view.addSubview(visualEffectView)
         view.addSubview(alertView)
+        view.addSubview(checkImageView)
         
         visualEffectView.frame = self.view.frame
         visualEffectView.isHidden = true
@@ -60,19 +72,21 @@ class CompleteAlertViewController: UIViewController {
         alertView.backgroundColor = .systemBackground
         alertView.layer.cornerRadius = 15
 
-        alertView.addSubview(animationView)
+        // 일단 로티뷰를 숨기기 위해 하단에 관련된 코드 전부 주석 처리
+//        alertView.addSubview(animationView)
+        alertView.addSubview(checkImageView)
         alertView.addSubview(alertLabel)
         alertView.addSubview(sendMessageButton)
 
-        animationView.contentMode = .scaleAspectFit
-        animationView.loopMode = .loop
-        animationView.frame = CGRect(x: (UIScreen.main.bounds.width / 2) - 60, y: 10, width: 80, height: 80)
-        animationView.contentMode = .scaleAspectFit
-        animationView.loopMode = .loop
-        animationView.play()
+//        animationView.contentMode = .scaleAspectFit
+//        animationView.loopMode = .loop
+//        animationView.frame = CGRect(x: (UIScreen.main.bounds.width / 2) - 60, y: 10, width: 80, height: 80)
+//        animationView.contentMode = .scaleAspectFit
+//        animationView.loopMode = .loop
+//        animationView.play()
 
         alertLabel.translatesAutoresizingMaskIntoConstraints = false
-        alertLabel.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: 5).isActive = true
+        alertLabel.topAnchor.constraint(equalTo: /*animationView*/checkImageView.bottomAnchor, constant: 5).isActive = true
         alertLabel.trailingAnchor.constraint(equalTo: alertView.trailingAnchor, constant: -10).isActive = true
         alertLabel.leadingAnchor.constraint(equalTo: alertView.leadingAnchor, constant: 10).isActive = true
         alertLabel.bottomAnchor.constraint(equalTo: sendMessageButton.topAnchor, constant: -10).isActive = true
@@ -87,7 +101,7 @@ class CompleteAlertViewController: UIViewController {
         sendMessageButton.trailingAnchor.constraint(equalTo: alertView.trailingAnchor, constant: -10).isActive = true
         sendMessageButton.leadingAnchor.constraint(equalTo: alertView.leadingAnchor, constant: 10).isActive = true
         sendMessageButton.bottomAnchor.constraint(equalTo: alertView.bottomAnchor, constant: -15).isActive = true
-        sendMessageButton.backgroundColor = UIColor(red: 22/255, green: 231/255, blue: 207/255, alpha: 1)
+        sendMessageButton.backgroundColor = .ccMint
         sendMessageButton.setTitle("안심 문자 보내기", for: .normal)
         sendMessageButton.titleLabel?.font = UIFont(name: "Avenir Black", size: 18)
         sendMessageButton.setTitleColor(.white, for: .normal)
@@ -111,7 +125,7 @@ class CompleteAlertViewController: UIViewController {
         }
     
         let savedContacts = UserDefaults.standard.object(forKey: "Contacts") as? [[String : String]] ?? [[String:String]]()
-        let userContacts = savedContacts.map() { $0["phone"]! }
+        let userContacts = savedContacts.map({ $0["phone"]! }).filter({ !$0.isEmpty})
         let onOffStatus = UserDefaults.standard.bool(forKey: "OnOffSwitch")
         let timerText = (Int(timerData) / 3600 == 0 ? "" : "\(Int(timerData) / 3600) 시간 ") + "\((Int(timerData) % 3600) / 60)분"
     

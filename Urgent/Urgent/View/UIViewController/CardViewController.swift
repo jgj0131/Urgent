@@ -51,7 +51,7 @@ class CardViewController: UIViewController {
             return
         }
     
-        let userContacts = savedContacts.map() { $0["phone"]! }
+        let userContacts = savedContacts.map({ $0["phone"]! }).filter({ !$0.isEmpty})
         let timerText = (Int(timerData) / 3600 == 0 ? "" : "\(Int(timerData) / 3600) 시간 ") + "\((Int(timerData) % 3600) / 60)분"
     
         let messageViewController = MFMessageComposeViewController()
