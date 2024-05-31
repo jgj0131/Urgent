@@ -18,7 +18,7 @@ extension MKMapView {
             return annotationView
         case .image:
             let annotationView = self.annotationView(of: MKAnnotationView.self, annotation: annotation, reuseIdentifier: reuseIdentifier)
-            annotationView.image = .pin
+            annotationView.image = annotation?.title == "비상벨" ? .bell : .pin
             return annotationView
         }
     }

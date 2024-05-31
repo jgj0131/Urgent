@@ -25,23 +25,23 @@ import Lottie
 var height: CGFloat = 0.0
 
 public struct POIItem {
-    //  MARK: Properties
+    //  MARK: Properties --------------------
     public let data: [String: String]
     ///    The current location of the rapper.
     public let coordinate: CLLocationCoordinate2D
 }
 
 class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDelegate, GADBannerViewDelegate {
-    // MARK: IBOutlet
+    // MARK: IBOutlet --------------------
     @IBOutlet weak var settingButton: UIButton!
     @IBOutlet weak var myLocationButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var dateInfoView: UILabel!
     
-    // MARK: Google Mobile Ads
+    // MARK: Google Mobile Ads --------------------
     private var bannerView: GADBannerView!
 
-    // MARK: Property
+    // MARK: Property --------------------
 //    let animationView: AnimationView = .init(name: "complete")
     lazy var clusterManager: ClusterManager = { [unowned self] in
         let manager = ClusterManager()
@@ -51,6 +51,16 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         manager.clusterPosition = .nearCenter
         return manager
     }()
+    
+    lazy var emergencyBellClusterManager: ClusterManager = { [unowned self] in
+        let manager = ClusterManager()
+        manager.delegate = self
+        manager.maxZoomLevel = 17
+        manager.minCountForClustering = 3
+        manager.clusterPosition = .nearCenter
+        return manager
+    }()
+    
     private var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
     private var latitudeAndLongitude: String?
 //    private var secondTimer: Timer?
@@ -61,7 +71,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     private var locationManager = CLLocationManager()
     private var currentLocation: CLLocation?
     private var zoomLevel: Float = 15.0
-    let restroomData = RestroomDataSource()
+    
     private var dataDelegate: SendDataDelegate?
     var destination: MKMapItem?
     
@@ -72,7 +82,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     private let cardHandleAreaHeight:CGFloat = 65
     
     private var cardVisible = false
-    private var nextState:CardState {
+    private var nextState: CardState {
         return cardVisible ? .collapsed : .expanded
     }
     
@@ -85,12 +95,16 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         return .default
     }
     
+    let restroomData: RestroomDataSource = .init()
+    let emergencyBellData: EmergencyBellDataSource = .init()
+    
+    // MARK: Enum --------------------
     enum CardState {
         case expanded
         case collapsed
     }
     
-    // MARK: LifeCyle
+    // MARK: LifeCyle --------------------
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -506,17 +520,18 @@ extension ViewController: CLLocationManagerDelegate {
     
     /// MapView에 화장실 마커를 남깁니다.
     func setMapView(){
-        let annotations: [CustomAnnotation] = self.restroomData.getDataForFata().map { datum in
+        let toiletAnnotations: [CustomAnnotation] = self.restroomData.getDataForFata().map { datum in
             if datum["위도"] != "", datum["경도"] != "" {
                 let data = datum
                 let item = POIItem(data: data, coordinate: CLLocationCoordinate2DMake(Double(datum["위도"] ?? "0.00") ?? 0.1, Double(datum["경도"] ?? "0.00") ?? 0.1))
                 let annotation = CustomAnnotation()
                 annotation.coordinate = item.coordinate
-                if data["개방시간"] == "" || data["개방시간"] == ":~:" {
-                    annotation.title = "정보 없음"
-                } else {
-                    annotation.title = data["개방시간"] ?? "정보 없음"
-                }
+//                if (data["개방시간상세"] == "" || data["개방시간상세"] == ":~:" || data["개방시간상세"] == "-" || data["개방시간상세"] == "-시간") {
+//                    annotation.title = "정보 없음"
+//                } else {
+//                    annotation.title = data["개방시간상세"] ?? "정보 없음"
+//                }
+                annotation.title = data["화장실명"]
                 annotation.data = data
                 return annotation
             } else {
@@ -524,8 +539,25 @@ extension ViewController: CLLocationManagerDelegate {
             }
         }
         
-        clusterManager.add(annotations)
+        let emergencyAnnotations: [CustomAnnotation] = self.emergencyBellData.getDataForFata().map { datum in
+            if datum["위도"] != "", datum["경도"] != "" {
+                let data = datum
+                let item = POIItem(data: data, coordinate: CLLocationCoordinate2DMake(Double(datum["위도"] ?? "0.00") ?? 0.1, Double(datum["경도"] ?? "0.00") ?? 0.1))
+                let annotation = CustomAnnotation()
+                annotation.coordinate = item.coordinate
+                annotation.title = "비상벨"//data["화장실명"]
+                annotation.data = data
+                return annotation
+            } else {
+                return CustomAnnotation()
+            }
+        }
+        
+        clusterManager.add(toiletAnnotations)
+        emergencyBellClusterManager.add(emergencyAnnotations)
+        
         clusterManager.reload(mapView: mapView)
+        emergencyBellClusterManager.reload(mapView: mapView)
     }
     
     /// 위도, 경도로 주소를 찾습니다.
@@ -553,9 +585,8 @@ extension ViewController: CLLocationManagerDelegate {
 extension ViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        clusterManager.reload(mapView: mapView) { finished in
-            
-        }
+        clusterManager.reload(mapView: mapView) { finished in }
+        emergencyBellClusterManager.reload(mapView: mapView) { finished in }
     }
     
     func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
@@ -616,8 +647,12 @@ extension ViewController: MKMapViewDelegate {
             let annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "MyMarker")
             if annotation.title == "My Location" {
                 return nil
+            } else if annotation.title == "비상벨" {
+                annotationView.glyphImage = .bell
+                annotationView.markerTintColor = .red
+                return annotationView
             } else {
-                annotationView.glyphImage = UIImage(systemName: "pin")//"sun.max.fill")
+                annotationView.glyphImage = .pin
                 annotationView.markerTintColor = .urgent
                 return annotationView
             }

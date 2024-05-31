@@ -25,7 +25,8 @@ extension UIImage {
         return newImage
     }
     
-    static let pin = UIImage(named: "pin")?.filled(with: .green)
+    static let pin = UIImage(systemName: "pin")
     static let pin2 = UIImage(named: "pin2")?.filled(with: .green)
+    static let bell = UIImage(systemName: "bell.and.waves.left.and.right.fill")
     static let me = UIImage(named: "me")?.filled(with: .blue)
 }

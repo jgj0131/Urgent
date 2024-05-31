@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1511E4B828A6C7C500E9CBB0 /* toilet_20220713.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1511E4B728A6C7C500E9CBB0 /* toilet_20220713.plist */; };
 		151470082327520700E2BAF9 /* OnOffTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151470062327520700E2BAF9 /* OnOffTableViewCell.swift */; };
 		151470092327520700E2BAF9 /* OnOffTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 151470072327520700E2BAF9 /* OnOffTableViewCell.xib */; };
 		151470D72330014900E2BAF9 /* TimeSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151470D52330014900E2BAF9 /* TimeSettingTableViewCell.swift */; };
@@ -24,6 +23,9 @@
 		157A1D5E28A3D50A00547225 /* CompleteAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157A1D5D28A3D50A00547225 /* CompleteAlertViewController.swift */; };
 		157A1D6028A3E63400547225 /* complete.json in Resources */ = {isa = PBXBuildFile; fileRef = 157A1D5F28A3E63400547225 /* complete.json */; };
 		157A1D6228A3F02400547225 /* CLLocationCoordinate2D+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157A1D6128A3F02400547225 /* CLLocationCoordinate2D+Extension.swift */; };
+		158860082C08D5B30053225D /* EmergencyBellDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158860072C08D5B30053225D /* EmergencyBellDataSource.swift */; };
+		1588600A2C09801A0053225D /* emergencybell_20240531.plist in Resources */ = {isa = PBXBuildFile; fileRef = 158860092C09801A0053225D /* emergencybell_20240531.plist */; };
+		1588600C2C09854D0053225D /* toilet_20240531.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1588600B2C09854D0053225D /* toilet_20240531.plist */; };
 		15AD879823255B8800DE0B7A /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AD879623255B8800DE0B7A /* ContactTableViewCell.swift */; };
 		15AD879B2325985800DE0B7A /* CallContactViewCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AD879A2325985800DE0B7A /* CallContactViewCellViewController.swift */; };
 		15AD879D2325990E00DE0B7A /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AD879C2325990E00DE0B7A /* Contacts.swift */; };
@@ -65,7 +67,6 @@
 
 /* Begin PBXFileReference section */
 		15104845DE3EF2A258055E97 /* Pods-UrgentUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UrgentUITests.release.xcconfig"; path = "Target Support Files/Pods-UrgentUITests/Pods-UrgentUITests.release.xcconfig"; sourceTree = "<group>"; };
-		1511E4B728A6C7C500E9CBB0 /* toilet_20220713.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = toilet_20220713.plist; sourceTree = "<group>"; };
 		151470062327520700E2BAF9 /* OnOffTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnOffTableViewCell.swift; sourceTree = "<group>"; };
 		151470072327520700E2BAF9 /* OnOffTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OnOffTableViewCell.xib; sourceTree = "<group>"; };
 		151470D52330014900E2BAF9 /* TimeSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSettingTableViewCell.swift; sourceTree = "<group>"; };
@@ -83,6 +84,9 @@
 		157A1D5F28A3E63400547225 /* complete.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = complete.json; path = ../../../../Downloads/complete.json; sourceTree = "<group>"; };
 		157A1D6128A3F02400547225 /* CLLocationCoordinate2D+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Extension.swift"; sourceTree = "<group>"; };
 		1581CC4C06FF6CC9234D2A5E /* libPods-UrgentTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UrgentTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		158860072C08D5B30053225D /* EmergencyBellDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyBellDataSource.swift; sourceTree = "<group>"; };
+		158860092C09801A0053225D /* emergencybell_20240531.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = emergencybell_20240531.plist; sourceTree = "<group>"; };
+		1588600B2C09854D0053225D /* toilet_20240531.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = toilet_20240531.plist; sourceTree = "<group>"; };
 		15AD879623255B8800DE0B7A /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		15AD879A2325985800DE0B7A /* CallContactViewCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallContactViewCellViewController.swift; sourceTree = "<group>"; };
 		15AD879C2325990E00DE0B7A /* Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
@@ -285,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				15BA31192300198100B8B971 /* RestroomDataSource.swift */,
+				158860072C08D5B30053225D /* EmergencyBellDataSource.swift */,
 			);
 			path = "Data Source";
 			sourceTree = "<group>";
@@ -292,7 +297,8 @@
 		15BA311C230019F900B8B971 /* Plist */ = {
 			isa = PBXGroup;
 			children = (
-				1511E4B728A6C7C500E9CBB0 /* toilet_20220713.plist */,
+				1588600B2C09854D0053225D /* toilet_20240531.plist */,
+				158860092C09801A0053225D /* emergencybell_20240531.plist */,
 			);
 			path = Plist;
 			sourceTree = "<group>";
@@ -432,7 +438,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1511E4B828A6C7C500E9CBB0 /* toilet_20220713.plist in Resources */,
 				15BA30CD22FC9AE500B8B971 /* LaunchScreen.storyboard in Resources */,
 				157A1D6028A3E63400547225 /* complete.json in Resources */,
 				151470DC2330B9C100E2BAF9 /* TimerPickerTableViewCell.xib in Resources */,
@@ -441,7 +446,9 @@
 				15AD87A72326739900DE0B7A /* UserContactsTableViewCell.xib in Resources */,
 				151470D82330014900E2BAF9 /* TimeSettingTableViewCell.xib in Resources */,
 				15BA31B52305FA9F00B8B971 /* CardViewController.xib in Resources */,
+				1588600A2C09801A0053225D /* emergencybell_20240531.plist in Resources */,
 				15BA30C822FC9AE400B8B971 /* Main.storyboard in Resources */,
+				1588600C2C09854D0053225D /* toilet_20240531.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,6 +572,7 @@
 				15AD87A62326739900DE0B7A /* UserContactsTableViewCell.swift in Sources */,
 				157A1D6228A3F02400547225 /* CLLocationCoordinate2D+Extension.swift in Sources */,
 				15AD879D2325990E00DE0B7A /* Contacts.swift in Sources */,
+				158860082C08D5B30053225D /* EmergencyBellDataSource.swift in Sources */,
 				15AD879823255B8800DE0B7A /* ContactTableViewCell.swift in Sources */,
 				1547B43723438D1F00898F94 /* KeyData.swift in Sources */,
 				157A1D4C289FD74900547225 /* UIImage+Extension.swift in Sources */,
@@ -758,7 +766,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "jang-gukjin.Urgent";
 				PRODUCT_NAME = Urgent;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -782,7 +790,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "jang-gukjin.Urgent";
 				PRODUCT_NAME = Urgent;
 				PROVISIONING_PROFILE_SPECIFIER = "";

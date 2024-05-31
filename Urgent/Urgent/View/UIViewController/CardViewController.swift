@@ -20,23 +20,24 @@ class CardViewController: UIViewController {
     var callNumber: String = "114"
     
     // MARK: IBOutlet
-    @IBOutlet weak var handleArea: UIView!
-    @IBOutlet weak var restroomName: UILabel!
-    @IBOutlet weak var restroomSubTitle: UILabel!
-    @IBOutlet weak var restroomAddress: UILabel!
-    @IBOutlet weak var publicManAndWoman: UILabel!
-    @IBOutlet weak var openingTime: UILabel!
-    @IBOutlet weak var manToiletCount: UILabel!
-    @IBOutlet weak var womanToiletCount: UILabel!
-    @IBOutlet weak var useButton: UIButton!
-    @IBOutlet weak var backgroundArea: UIView!
-    @IBOutlet weak var addressTitle: UILabel!
-    @IBOutlet weak var handleBar: UIView!
-    @IBOutlet weak var distance: UILabel!
-    @IBOutlet weak var callButton: UIImageView!
-    @IBOutlet weak var emergencyBellValue: UILabel!
-    @IBOutlet weak var cctvValue: UILabel!
-    @IBOutlet weak var diaperValue: UILabel!
+    @IBOutlet weak private var handleArea: UIView!
+    @IBOutlet weak private var restroomName: UILabel!
+    @IBOutlet weak private var restroomSubTitle: UILabel!
+    @IBOutlet weak private var restroomAddress: UILabel!
+    @IBOutlet weak internal var publicManAndWoman: UILabel!
+    @IBOutlet weak internal var openingTime: UILabel!
+    @IBOutlet weak internal var manToiletCount: UILabel!
+    @IBOutlet weak internal var womanToiletCount: UILabel!
+    @IBOutlet weak private var useButton: UIButton!
+    @IBOutlet weak private var backgroundArea: UIView!
+    @IBOutlet weak private var addressTitle: UILabel!
+    @IBOutlet weak private var handleBar: UIView!
+    @IBOutlet weak private var distance: UILabel!
+    @IBOutlet weak private var callButton: UIImageView!
+    @IBOutlet weak private var emergencyBellValue: UILabel!
+    @IBOutlet weak private var cctvValue: UILabel!
+    @IBOutlet weak private var diaperValue: UILabel!
+    @IBOutlet weak private var walkImage: UIImageView!
     
     // MARK: IBOutlet Collection
     @IBOutlet var titles: [UILabel]!
@@ -239,8 +240,33 @@ extension UIButton {
 
 extension CardViewController: SendDataDelegate {
     func sendData(data: [String:String]) {
+        if data["화장실명"] != nil {
+            sendToiletData(data)
+        } else {
+            sendEmergencyBellData(data)
+        }
+    }
+    
+    private func changeTextColor(text: String) -> NSMutableAttributedString {
+        let attributedStr = NSMutableAttributedString(string: text)
+        //        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 136/255, green: 250/255, blue: 78/255, alpha: 1), range: (text as NSString).range(of: "O"))
+        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 97/255, green: 216/255, blue: 54/255, alpha: 1), range: (text as NSString).range(of: "O"))
+        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 1, green: 100/255, blue: 78/255, alpha: 1), range: (text as NSString).range(of: "X"))
+        return attributedStr
+    }
+    
+    private func changeTextSize(text: String) -> NSMutableAttributedString {
+        let font: UIFont = UIFont(name: "Avenir Book", size: 15)!
+        let attributedStr = NSMutableAttributedString(string: text)
+        attributedStr.addAttribute(.font, value: font, range: (text as NSString).range(of: "✅"))
+        attributedStr.addAttribute(.font, value: font, range: (text as NSString).range(of: "❌"))
+        return attributedStr
+    }
+    
+    private func sendToiletData(_ data: [String: String]) {
         restroomName.text = data["화장실명"] == "" ? "정보없음" : data["화장실명"]
         restroomSubTitle.text = data["구분"] == "" ? "정보없음" : data["구분"]
+        
         if data["소재지도로명주소"] == "" {
             if data["소재지지번주소"] == "" {
                 restroomAddress.text = "정보없음"
@@ -252,15 +278,17 @@ extension CardViewController: SendDataDelegate {
         }
         restroomAddress.numberOfLines = 0
         publicManAndWoman.text = data["남녀공용화장실여부"] == "Y" ? "공용" : "남녀 분리"
-        openingTime.text = (data["개방시간"] == "" || data["개방시간"] == ":~:") ? "정보없음" : data["개방시간"]!
+        openingTime.text = (data["개방시간상세"] == "" || data["개방시간상세"] == ":~:" || data["개방시간상세"] == "-" || data["개방시간상세"] == "-시간") ? "정보없음" : data["개방시간상세"]!
         openingTime.numberOfLines = 0
         manToiletCount.text = ("일반: \(data["남성용-대변기수"] == "" ? "정보없음" : data["남성용-대변기수"]!) / 장애인용: \(data["남성용-장애인용대변기수"] == "" ? "정보없음" : data["남성용-장애인용대변기수"]!)")
         womanToiletCount.text = ("일반: \(data["여성용-대변기수"] == "" ? "정보없음" : data["여성용-대변기수"]!) / 장애인용: \(data["여성용-장애인용대변기수"] == "" ? "정보없음" : data["여성용-장애인용대변기수"]!)")
         useButton.setTitle(UserDefaults.standard.string(forKey: "useButtonTitle"), for: .normal)
         latitudeAndLongitude = "\(data["위도"]!), \(data["경도"]!)"
         emergencyBellValue.text = (data["비상벨설치여부"] == "Y" ? "비상벨 O" + (data["비상벨설치장소"] == "" ? "" : " (위치: \(data["비상벨설치장소"] ?? ""))") : "비상벨 X")
+        emergencyBellValue.numberOfLines = 2
         emergencyBellValue.attributedText = changeTextColor(text: emergencyBellValue.text ?? "")
         cctvValue.text = data["화장실입구CCTV설치유무"] == "Y" ? "입구 앞 CCTV O" : "입구 앞 CCTV X"
+        cctvValue.numberOfLines = 2
         cctvValue.attributedText = changeTextColor(text: cctvValue.text ?? "")
         diaperValue.text = (data["기저귀교환대유무"] == "Y" ? "기저귀교환대 O" + (data["비상벨설치장소"] == "" ? "" : " (위치: \(data["기저귀교환대장소"] ?? ""))") : "기저귀교환대 X")
         diaperValue.numberOfLines = 2
@@ -275,20 +303,49 @@ extension CardViewController: SendDataDelegate {
         }
     }
     
-    func changeTextColor(text: String) -> NSMutableAttributedString {
-        let attributedStr = NSMutableAttributedString(string: text)
-//        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 136/255, green: 250/255, blue: 78/255, alpha: 1), range: (text as NSString).range(of: "O"))
-        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 97/255, green: 216/255, blue: 54/255, alpha: 1), range: (text as NSString).range(of: "O"))
-        attributedStr.addAttribute(.foregroundColor, value: UIColor(red: 1, green: 100/255, blue: 78/255, alpha: 1), range: (text as NSString).range(of: "X"))
-        return attributedStr
-    }
-    
-    func changeTextSize(text: String) -> NSMutableAttributedString {
-        let font: UIFont = UIFont(name: "Avenir Book", size: 15)!
-        let attributedStr = NSMutableAttributedString(string: text)
-        attributedStr.addAttribute(.font, value: font, range: (text as NSString).range(of: "✅"))
-        attributedStr.addAttribute(.font, value: font, range: (text as NSString).range(of: "❌"))
-        return attributedStr
+    private func sendEmergencyBellData(_ data: [String: String]) {
+        
+        let inputTitle = ["경찰연계", "경비업체연계", "관리사무소연계", "특이사항", "", "", ""]
+        for index in 0..<titles.count {
+            titles[index].text = inputTitle[index]
+        }
+        
+        useButton.isHidden = true
+        emergencyBellValue.isHidden = true
+        cctvValue.isHidden = true
+        diaperValue.isHidden = true
+        
+        restroomName.text = data["설치목적"] == "" ? "설치목적 알 수 없음" : data["설치목적"]!
+        restroomSubTitle.text = "설치장소: " + (data["설치장소유형"] ?? "정보 없음")
+        
+        if data["소재지도로명주소"] == "" {
+            if data["소재지지번주소"] == "" {
+                restroomAddress.text = "정보없음"
+            } else {
+                restroomAddress.text = data["소재지지번주소"]!
+            }
+        } else {
+            restroomAddress.text = data["소재지도로명주소"]!
+        }
+        restroomAddress.numberOfLines = 0
+        
+        publicManAndWoman.text = data["경찰연계유무"] == "Y" ? "O" : "X"
+        publicManAndWoman.attributedText = changeTextColor(text: publicManAndWoman.text ?? "")
+        openingTime.text = data["경비업체연계유무"] == "Y" ? "O" : "X"
+        openingTime.attributedText = changeTextColor(text: openingTime.text ?? "")
+        manToiletCount.text = data["관리사무소연계유무"] == "Y" ? "O" : "X"
+        manToiletCount.attributedText = changeTextColor(text: manToiletCount.text ?? "")
+        womanToiletCount.text = (data["부가기능"] == "" || data["부가기능"] == "X" || data["부가기능"] == "N") ? "X" : data["부가기능"]
+        womanToiletCount.attributedText = changeTextColor(text: womanToiletCount.text ?? "")
+        
+        if data["관리기관전화번호"] == "" {
+            callButton.tintColor = .secondarySystemBackground
+        } else {
+            callButton.tintColor = UIColor(red: 0, green: 178/255, blue: 167/255, alpha: 1)
+            callNumber = data["관리기관전화번호"]!
+            let tapGesture: UITapGestureRecognizer = .init(target: self, action: #selector(calling(_ :)))
+            callButton.addGestureRecognizer(tapGesture)
+        }
     }
 }
 
