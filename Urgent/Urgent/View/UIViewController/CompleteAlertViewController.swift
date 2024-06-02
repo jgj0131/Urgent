@@ -14,7 +14,7 @@ class CompleteAlertViewController: UIViewController {
     // MARK: Properties
     private let animationView: AnimationView = .init(name: "complete")
     private let checkImageView: UIImageView = {
-        let imageView: UIImageView = .init(frame: .init(x: (UIScreen.main.bounds.width / 2) - 40, y: 20, width: 40, height: 40))
+        let imageView: UIImageView = .init(frame: .init(x: (UIScreen.main.bounds.width / 2) - 40, y: 30, width: 40, height: 40))
         
         if let image = UIImage(systemName: "ellipsis.message.fill")?.withRenderingMode(.alwaysTemplate) {
             imageView.image = image

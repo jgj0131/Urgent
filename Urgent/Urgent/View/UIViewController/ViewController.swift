@@ -553,11 +553,11 @@ extension ViewController: CLLocationManagerDelegate {
             }
         }
         
-        clusterManager.add(toiletAnnotations)
         emergencyBellClusterManager.add(emergencyAnnotations)
+        clusterManager.add(toiletAnnotations)
         
-        clusterManager.reload(mapView: mapView)
         emergencyBellClusterManager.reload(mapView: mapView)
+        clusterManager.reload(mapView: mapView)
     }
     
     /// 위도, 경도로 주소를 찾습니다.
@@ -649,7 +649,8 @@ extension ViewController: MKMapViewDelegate {
                 return nil
             } else if annotation.title == "비상벨" {
                 annotationView.glyphImage = .bell
-                annotationView.markerTintColor = .red
+                annotationView.glyphTintColor = .urgent
+                annotationView.markerTintColor = .white
                 return annotationView
             } else {
                 annotationView.glyphImage = .pin
