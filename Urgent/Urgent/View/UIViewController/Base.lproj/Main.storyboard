@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -42,7 +41,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AcS-kV-SO6">
-                                <rect key="frame" x="351" y="179" width="58" height="58"/>
+                                <rect key="frame" x="351" y="236" width="58" height="58"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="58" id="FGr-zY-UIh"/>
@@ -56,37 +55,53 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="데이터 기준 2024.03.18" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ahy-xc-p0z">
-                                <rect key="frame" x="107" y="812" width="200" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 데이터 기준 2024.03.18 " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ahy-xc-p0z">
+                                <rect key="frame" x="139" y="812" width="136" height="30"/>
                                 <color key="backgroundColor" red="0.083099414319999995" green="0.12850156239999999" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="56M-Mh-eGg"/>
                                     <constraint firstAttribute="height" constant="30" id="q3d-T0-mIY"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="13"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MkG-Ms-tmL">
+                                <rect key="frame" x="351" y="178" width="58" height="58"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <color key="tintColor" red="0.93725490199999995" green="0.52549019610000003" blue="0.49019607840000001" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <imageReference key="image" image="questionmark.bubble.fill" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                </state>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="MkG-Ms-tmL" firstAttribute="top" secondItem="ybA-gq-7FP" secondAttribute="bottom" id="0ht-HK-mOI"/>
                             <constraint firstAttribute="trailing" secondItem="aK0-1j-wpI" secondAttribute="trailing" id="2it-gc-H2G"/>
                             <constraint firstItem="ybA-gq-7FP" firstAttribute="top" secondItem="aK0-1j-wpI" secondAttribute="top" constant="120" id="IhT-Hj-Xp4"/>
                             <constraint firstAttribute="bottom" secondItem="aK0-1j-wpI" secondAttribute="bottom" id="Kdl-c3-j5x"/>
                             <constraint firstItem="aK0-1j-wpI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="NHu-M6-PcR"/>
-                            <constraint firstItem="AcS-kV-SO6" firstAttribute="top" secondItem="ybA-gq-7FP" secondAttribute="bottom" constant="1" id="ahj-Vy-IwW"/>
+                            <constraint firstItem="MkG-Ms-tmL" firstAttribute="height" secondItem="AcS-kV-SO6" secondAttribute="height" id="aQD-Rg-Mmf"/>
+                            <constraint firstItem="AcS-kV-SO6" firstAttribute="top" secondItem="MkG-Ms-tmL" secondAttribute="bottom" id="ahj-Vy-IwW"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="AcS-kV-SO6" secondAttribute="trailing" constant="5" id="bxR-N2-icd"/>
                             <constraint firstItem="Ahy-xc-p0z" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="e9G-3Z-MoT"/>
                             <constraint firstItem="Ahy-xc-p0z" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="-20" id="fKh-Lg-VkE"/>
                             <constraint firstItem="ybA-gq-7FP" firstAttribute="trailing" secondItem="AcS-kV-SO6" secondAttribute="trailing" id="mFX-do-qHf"/>
+                            <constraint firstItem="MkG-Ms-tmL" firstAttribute="trailing" secondItem="ybA-gq-7FP" secondAttribute="trailing" id="mo8-tB-wyT"/>
                             <constraint firstItem="aK0-1j-wpI" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="xp4-2t-lSp"/>
+                            <constraint firstItem="MkG-Ms-tmL" firstAttribute="width" secondItem="AcS-kV-SO6" secondAttribute="width" id="y3b-NW-qjn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ilQ-kO-37i"/>
                     <connections>
                         <outlet property="dateInfoView" destination="Ahy-xc-p0z" id="rbO-PS-XHC"/>
+                        <outlet property="inquireButton" destination="MkG-Ms-tmL" id="7Zy-La-zha"/>
                         <outlet property="mapView" destination="aK0-1j-wpI" id="8Og-2b-CvR"/>
                         <outlet property="myLocationButton" destination="AcS-kV-SO6" id="ouh-7J-IXh"/>
                         <outlet property="settingButton" destination="ybA-gq-7FP" id="tYE-GB-kr3"/>
@@ -237,12 +252,13 @@
         <image name="gearshape.fill" catalog="system" width="128" height="123"/>
         <image name="location.fill" catalog="system" width="128" height="119"/>
         <image name="pencil" catalog="system" width="128" height="113"/>
+        <image name="questionmark.bubble.fill" catalog="system" width="128" height="110"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

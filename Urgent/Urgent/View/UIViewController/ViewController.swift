@@ -35,6 +35,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     // MARK: IBOutlet --------------------
     @IBOutlet weak var settingButton: UIButton!
     @IBOutlet weak var myLocationButton: UIButton!
+    @IBOutlet weak var inquireButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var dateInfoView: UILabel!
     
@@ -149,6 +150,12 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         settingButton.layer.shadowOffset = .zero
         settingButton.layer.shadowRadius = 3
         settingButton.layer.shadowPath = nil
+        
+        inquireButton.layer.shadowColor = UIColor.black.cgColor
+        inquireButton.layer.shadowOpacity = 0.25
+        inquireButton.layer.shadowOffset = .zero
+        inquireButton.layer.shadowRadius = 3
+        inquireButton.layer.shadowPath = nil
         
         locationManager = CLLocationManager()
         locationManager.delegate = self
