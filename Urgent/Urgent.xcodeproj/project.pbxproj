@@ -13,6 +13,11 @@
 		151470D82330014900E2BAF9 /* TimeSettingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 151470D62330014900E2BAF9 /* TimeSettingTableViewCell.xib */; };
 		151470DB2330B9C100E2BAF9 /* TimerPickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151470D92330B9C100E2BAF9 /* TimerPickerTableViewCell.swift */; };
 		151470DC2330B9C100E2BAF9 /* TimerPickerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 151470DA2330B9C100E2BAF9 /* TimerPickerTableViewCell.xib */; };
+		152449F22C102CA300B2C082 /* AppUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152449F12C102CA300B2C082 /* AppUtil.swift */; };
+		152449F42C102CAE00B2C082 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152449F32C102CAE00B2C082 /* App.swift */; };
+		152449F72C1031DF00B2C082 /* MailUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152449F62C1031DF00B2C082 /* MailUtil.swift */; };
+		152449F92C10329000B2C082 /* AppUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152449F82C10329000B2C082 /* AppUI.swift */; };
+		152449FB2C10346700B2C082 /* AppConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152449FA2C10346700B2C082 /* AppConstant.swift */; };
 		153B27242334FE6B00BFFDB4 /* DarkModeString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153B27232334FE6B00BFFDB4 /* DarkModeString.swift */; };
 		1547B43723438D1F00898F94 /* KeyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1547B43623438D1F00898F94 /* KeyData.swift */; };
 		156F8632231FCF3C00EAEBF5 /* EmergencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F8631231FCF3C00EAEBF5 /* EmergencyViewController.swift */; };
@@ -73,6 +78,11 @@
 		151470D62330014900E2BAF9 /* TimeSettingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimeSettingTableViewCell.xib; sourceTree = "<group>"; };
 		151470D92330B9C100E2BAF9 /* TimerPickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerPickerTableViewCell.swift; sourceTree = "<group>"; };
 		151470DA2330B9C100E2BAF9 /* TimerPickerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimerPickerTableViewCell.xib; sourceTree = "<group>"; };
+		152449F12C102CA300B2C082 /* AppUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtil.swift; sourceTree = "<group>"; };
+		152449F32C102CAE00B2C082 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		152449F62C1031DF00B2C082 /* MailUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailUtil.swift; sourceTree = "<group>"; };
+		152449F82C10329000B2C082 /* AppUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUI.swift; sourceTree = "<group>"; };
+		152449FA2C10346700B2C082 /* AppConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstant.swift; sourceTree = "<group>"; };
 		153B27232334FE6B00BFFDB4 /* DarkModeString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeString.swift; sourceTree = "<group>"; };
 		1547B43623438D1F00898F94 /* KeyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyData.swift; sourceTree = "<group>"; };
 		156F8631231FCF3C00EAEBF5 /* EmergencyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +158,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		152449F52C1031D100B2C082 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				152449F62C1031DF00B2C082 /* MailUtil.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		15752585233CF06300FB9307 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +202,11 @@
 				15BA31662303258D00B8B971 /* SendDataDelegate.swift */,
 				15BA30C222FC9AE400B8B971 /* AppDelegate.swift */,
 				1547B43623438D1F00898F94 /* KeyData.swift */,
+				152449F32C102CAE00B2C082 /* App.swift */,
+				152449F82C10329000B2C082 /* AppUI.swift */,
+				152449F12C102CA300B2C082 /* AppUtil.swift */,
+				152449F52C1031D100B2C082 /* Utils */,
+				152449FA2C10346700B2C082 /* AppConstant.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -563,17 +586,22 @@
 				15AD87A323266C4A00DE0B7A /* UserData.swift in Sources */,
 				151470DB2330B9C100E2BAF9 /* TimerPickerTableViewCell.swift in Sources */,
 				15BA31672303258D00B8B971 /* SendDataDelegate.swift in Sources */,
+				152449F92C10329000B2C082 /* AppUI.swift in Sources */,
 				15BA311A2300198100B8B971 /* RestroomDataSource.swift in Sources */,
 				151470082327520700E2BAF9 /* OnOffTableViewCell.swift in Sources */,
 				156F8632231FCF3C00EAEBF5 /* EmergencyViewController.swift in Sources */,
 				157A1D52289FD9AD00547225 /* CustomAnnotation.swift in Sources */,
+				152449F42C102CAE00B2C082 /* App.swift in Sources */,
 				153B27242334FE6B00BFFDB4 /* DarkModeString.swift in Sources */,
+				152449F72C1031DF00B2C082 /* MailUtil.swift in Sources */,
 				15BA31B42305FA9F00B8B971 /* CardViewController.swift in Sources */,
 				15AD87A62326739900DE0B7A /* UserContactsTableViewCell.swift in Sources */,
 				157A1D6228A3F02400547225 /* CLLocationCoordinate2D+Extension.swift in Sources */,
 				15AD879D2325990E00DE0B7A /* Contacts.swift in Sources */,
 				158860082C08D5B30053225D /* EmergencyBellDataSource.swift in Sources */,
+				152449FB2C10346700B2C082 /* AppConstant.swift in Sources */,
 				15AD879823255B8800DE0B7A /* ContactTableViewCell.swift in Sources */,
+				152449F22C102CA300B2C082 /* AppUtil.swift in Sources */,
 				1547B43723438D1F00898F94 /* KeyData.swift in Sources */,
 				157A1D4C289FD74900547225 /* UIImage+Extension.swift in Sources */,
 				15BA30C522FC9AE400B8B971 /* ViewController.swift in Sources */,

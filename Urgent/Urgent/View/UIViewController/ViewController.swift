@@ -134,28 +134,29 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             self.dateInfoView.removeFromSuperview()
         })
         
+        settingButton.layer.cornerRadius = 15
+        settingButton.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        settingButton.layer.shadowColor = UIColor.black.cgColor
+        settingButton.layer.shadowOpacity = 0.25
+        settingButton.layer.shadowOffset = .zero
+        settingButton.layer.shadowRadius = 1.5
+        settingButton.layer.shadowPath = nil
+        
+        inquireButton.addTarget(self, action: #selector(sendMail), for: .touchUpInside)
+        inquireButton.layer.shadowColor = UIColor.black.cgColor
+        inquireButton.layer.shadowOpacity = 0.25
+        inquireButton.layer.shadowOffset = .zero
+        inquireButton.layer.shadowRadius = 1.5
+        inquireButton.layer.shadowPath = nil
+        
         myLocationButton.layer.cornerRadius = 15
         myLocationButton.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         myLocationButton.addTarget(self, action: #selector(findMyLocation), for: .touchUpInside)
         myLocationButton.layer.shadowColor = UIColor.black.cgColor
         myLocationButton.layer.shadowOpacity = 0.25
         myLocationButton.layer.shadowOffset = .zero
-        myLocationButton.layer.shadowRadius = 3
+        myLocationButton.layer.shadowRadius = 1.5
         myLocationButton.layer.shadowPath = nil
-        
-        settingButton.layer.cornerRadius = 15
-        settingButton.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        settingButton.layer.shadowColor = UIColor.black.cgColor
-        settingButton.layer.shadowOpacity = 0.25
-        settingButton.layer.shadowOffset = .zero
-        settingButton.layer.shadowRadius = 3
-        settingButton.layer.shadowPath = nil
-        
-        inquireButton.layer.shadowColor = UIColor.black.cgColor
-        inquireButton.layer.shadowOpacity = 0.25
-        inquireButton.layer.shadowOffset = .zero
-        inquireButton.layer.shadowRadius = 3
-        inquireButton.layer.shadowPath = nil
         
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -443,6 +444,12 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         if number == 1800 {
             notificateGPSStillWork()
         }
+    }
+    
+    /// 문의 메일을 보냅니다
+    @objc
+    func sendMail() {
+        App.util.mail.sendEmail()
     }
     
     /// 내 위치로 이동합니다.
