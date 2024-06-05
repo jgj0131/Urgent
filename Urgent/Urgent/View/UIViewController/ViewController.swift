@@ -252,7 +252,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     
     // MARK: Custom Method
     /// CardView를 setUp하는 메소드
-    func setupCard(distance: CLLocationDistance) {
+    func setupCard(distance: CLLocationDistance, lat: Double, long: Double) {
         visualEffectView = UIVisualEffectView()
         visualEffectView.frame = self.view.frame
         self.view.addSubview(visualEffectView)
@@ -276,7 +276,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
 //        cardViewController.backgroundArea.addGestureRecognizer(downSwipeGestureRecognizer)
         cardViewController.view.addGestureRecognizer(panGestureRecognizer)
 
-        cardViewController.setDistance(distance: distance)
+        cardViewController.setDistance(distance: distance, lat: lat, long: long)
         
         visualEffectView.removeFromSuperview()
         hiddenTitle(false)
@@ -644,7 +644,7 @@ extension ViewController: MKMapViewDelegate {
             if cardViewController.isViewLoaded {
                 cardViewController.view.removeFromSuperview()
             }
-            setupCard(distance: self.mapView.userLocation.coordinate.getDistance(to: customAnnotation.coordinate))
+            setupCard(distance: self.mapView.userLocation.coordinate.getDistance(to: customAnnotation.coordinate), lat: customAnnotation.coordinate.latitude, long: customAnnotation.coordinate.longitude)
             
             let restroomDatas: [String:String] = customAnnotation.data ?? [:]
             dataDelegate?.sendData(data: restroomDatas)

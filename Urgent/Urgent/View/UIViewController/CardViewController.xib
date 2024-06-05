@@ -2,8 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -22,6 +21,7 @@
                 <outlet property="handleArea" destination="tKo-Ta-KV8" id="Ocu-KT-7JP"/>
                 <outlet property="handleBar" destination="0jZ-nR-KQh" id="FTR-Mq-oQw"/>
                 <outlet property="manToiletCount" destination="2vd-l8-tZL" id="Uam-Qj-Snq"/>
+                <outlet property="navigationButton" destination="nzZ-BW-3KE" id="hrk-xL-brc"/>
                 <outlet property="openingTime" destination="7s7-XK-n9s" id="Urk-aw-7Ie"/>
                 <outlet property="publicManAndWoman" destination="2iN-R2-tTD" id="5ug-0p-GYV"/>
                 <outlet property="restroomAddress" destination="JXR-a1-ktz" id="rbI-uT-JxW"/>
@@ -205,7 +205,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RBa-DS-Pkm">
-                    <rect key="frame" x="20" y="117" width="374" height="50"/>
+                    <rect key="frame" x="20" y="117" width="304" height="50"/>
                     <color key="backgroundColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="cnO-Kf-vlJ"/>
@@ -227,6 +227,29 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nzZ-BW-3KE">
+                    <rect key="frame" x="344" y="117" width="50" height="50"/>
+                    <color key="backgroundColor" systemColor="systemBlueColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="9Vc-uz-qWf"/>
+                        <constraint firstAttribute="width" constant="50" id="VcD-4h-fAM"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal">
+                        <imageReference key="image" image="arrow.triangle.turn.up.right.circle.fill" catalog="system" symbolScale="large" renderingMode="hierarchical" variableValue="1">
+                            <hierarchicalColors>
+                                <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </hierarchicalColors>
+                        </imageReference>
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="32" scale="large"/>
+                    </state>
+                    <connections>
+                        <action selector="openNavi:" destination="-1" eventType="touchUpInside" id="Bzn-ML-8WK"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -244,7 +267,6 @@
                 <constraint firstItem="hIO-Ko-nlg" firstAttribute="top" secondItem="htU-G7-LsM" secondAttribute="bottom" constant="25" id="9t9-YL-Ile"/>
                 <constraint firstItem="Uag-0z-1qG" firstAttribute="top" secondItem="7VG-E9-kxJ" secondAttribute="bottom" constant="5" id="APV-if-56M"/>
                 <constraint firstItem="RBa-DS-Pkm" firstAttribute="top" secondItem="Uag-0z-1qG" secondAttribute="bottom" constant="10" id="Dhw-m6-9WV"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="RBa-DS-Pkm" secondAttribute="trailing" constant="20" id="GBf-aD-gVq"/>
                 <constraint firstItem="1E7-tT-Cp9" firstAttribute="leading" secondItem="hIO-Ko-nlg" secondAttribute="leading" id="Gyc-7u-2ac"/>
                 <constraint firstItem="7Go-zr-asl" firstAttribute="trailing" secondItem="bDc-4K-p5B" secondAttribute="trailing" id="HiY-M1-fnX"/>
                 <constraint firstItem="0jZ-nR-KQh" firstAttribute="width" secondItem="tKo-Ta-KV8" secondAttribute="width" multiplier="0.1" id="KU9-I7-UR6"/>
@@ -277,6 +299,8 @@
                 <constraint firstItem="ZV1-7y-cEu" firstAttribute="top" secondItem="RBa-DS-Pkm" secondAttribute="bottom" constant="25" id="m4A-xH-Gxr"/>
                 <constraint firstItem="htU-G7-LsM" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="mEL-Mz-wBM"/>
                 <constraint firstItem="7s7-XK-n9s" firstAttribute="leading" secondItem="VG0-Ll-YlV" secondAttribute="trailing" constant="10" id="o9e-Jw-FnY"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="nzZ-BW-3KE" secondAttribute="trailing" constant="20" id="oAV-Sp-xH2"/>
+                <constraint firstItem="nzZ-BW-3KE" firstAttribute="leading" secondItem="RBa-DS-Pkm" secondAttribute="trailing" constant="20" id="oWn-ca-xtY"/>
                 <constraint firstItem="bDc-4K-p5B" firstAttribute="top" secondItem="7Go-zr-asl" secondAttribute="bottom" constant="2" id="oZd-ne-f7G"/>
                 <constraint firstItem="VG0-Ll-YlV" firstAttribute="top" secondItem="2iN-R2-tTD" secondAttribute="bottom" constant="25" id="phW-1I-Ad6"/>
                 <constraint firstItem="7s7-XK-n9s" firstAttribute="top" secondItem="2iN-R2-tTD" secondAttribute="bottom" constant="20" id="qU1-qr-lfo"/>
@@ -286,22 +310,27 @@
                 <constraint firstItem="wdM-TU-K0a" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="3" id="w0T-xK-BU2"/>
                 <constraint firstItem="wdM-TU-K0a" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="x6q-Eg-bAc"/>
                 <constraint firstItem="0jZ-nR-KQh" firstAttribute="centerX" secondItem="tKo-Ta-KV8" secondAttribute="centerX" id="xoQ-fp-zcj"/>
+                <constraint firstItem="nzZ-BW-3KE" firstAttribute="centerY" secondItem="RBa-DS-Pkm" secondAttribute="centerY" id="yfJ-aY-0SE"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="47.826086956521742" y="35.491071428571423"/>
         </view>
     </objects>
     <resources>
+        <image name="arrow.triangle.turn.up.right.circle.fill" catalog="system" width="128" height="123"/>
         <image name="figure.walk" catalog="system" width="95" height="128"/>
         <image name="phone.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

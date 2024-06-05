@@ -15,6 +15,8 @@ class CardViewController: UIViewController {
     // MARK: Properties
     private var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
     private var latitudeAndLongitude: String?
+    private var lat: Double?
+    private var long: Double?
 //    private var secondTimer: Timer?
     private var number = 0.0
     var callNumber: String = "114"
@@ -29,6 +31,7 @@ class CardViewController: UIViewController {
     @IBOutlet weak internal var manToiletCount: UILabel!
     @IBOutlet weak internal var womanToiletCount: UILabel!
     @IBOutlet weak private var useButton: UIButton!
+    @IBOutlet weak internal var navigationButton: UIButton!
     @IBOutlet weak private var backgroundArea: UIView!
     @IBOutlet weak private var addressTitle: UILabel!
     @IBOutlet weak private var handleBar: UIView!
@@ -81,6 +84,13 @@ class CardViewController: UIViewController {
             present(messageViewController, animated: true, completion: nil)
         }
     }
+    
+    @IBAction func openNavi(_ sender: UIButton) {
+        if let lat, let long {
+            App.util.navi.openTmap(latitude: lat, longitude: long, destinationName: restroomName.text ?? "")//openKakaoNavi(latitude: lat, longitude: long, destinationName: restroomName.text ?? "")
+        }
+    }
+    
     
     // MARK: Objc Method
     @objc
@@ -136,7 +146,10 @@ class CardViewController: UIViewController {
         super.viewDidLoad()
         addressTitle.text = "🏠"
         addressTitle.font = UIFont.boldSystemFont(ofSize: 17.0)
+        
         useButton.roundedCorner()
+        navigationButton.roundedCorner()
+        
         for index in 0..<titles.count {
             titles[index].text = inputTitle[index]
 //            titles[index].font = UIFont.boldSystemFont(ofSize: 17.0)
@@ -157,7 +170,10 @@ class CardViewController: UIViewController {
     }
     
     // MARK: Custom Method
-    func setDistance(distance: CLLocationDistance) {
+    func setDistance(distance: CLLocationDistance, lat: Double, long: Double) {
+        self.lat = lat
+        self.long = long
+        
         let distanceInt: Int = Int(distance)
         let time: Int = Int(distanceInt / 66)
         var timeText: String = ""

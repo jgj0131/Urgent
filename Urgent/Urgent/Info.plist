@@ -31,6 +31,8 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>googlegmail</string>
+		<string>kakaonavi</string>
+		<string>tmap</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

@@ -18,6 +18,7 @@
 		152449F72C1031DF00B2C082 /* MailUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152449F62C1031DF00B2C082 /* MailUtil.swift */; };
 		152449F92C10329000B2C082 /* AppUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152449F82C10329000B2C082 /* AppUI.swift */; };
 		152449FB2C10346700B2C082 /* AppConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152449FA2C10346700B2C082 /* AppConstant.swift */; };
+		152449FD2C10560B00B2C082 /* NaviUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152449FC2C10560B00B2C082 /* NaviUtil.swift */; };
 		153B27242334FE6B00BFFDB4 /* DarkModeString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153B27232334FE6B00BFFDB4 /* DarkModeString.swift */; };
 		1547B43723438D1F00898F94 /* KeyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1547B43623438D1F00898F94 /* KeyData.swift */; };
 		156F8632231FCF3C00EAEBF5 /* EmergencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F8631231FCF3C00EAEBF5 /* EmergencyViewController.swift */; };
@@ -83,6 +84,7 @@
 		152449F62C1031DF00B2C082 /* MailUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailUtil.swift; sourceTree = "<group>"; };
 		152449F82C10329000B2C082 /* AppUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUI.swift; sourceTree = "<group>"; };
 		152449FA2C10346700B2C082 /* AppConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstant.swift; sourceTree = "<group>"; };
+		152449FC2C10560B00B2C082 /* NaviUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaviUtil.swift; sourceTree = "<group>"; };
 		153B27232334FE6B00BFFDB4 /* DarkModeString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeString.swift; sourceTree = "<group>"; };
 		1547B43623438D1F00898F94 /* KeyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyData.swift; sourceTree = "<group>"; };
 		156F8631231FCF3C00EAEBF5 /* EmergencyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyViewController.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				152449F62C1031DF00B2C082 /* MailUtil.swift */,
+				152449FC2C10560B00B2C082 /* NaviUtil.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -585,6 +588,7 @@
 				157A1D4E289FD77600547225 /* UIColor+Extension.swift in Sources */,
 				15AD87A323266C4A00DE0B7A /* UserData.swift in Sources */,
 				151470DB2330B9C100E2BAF9 /* TimerPickerTableViewCell.swift in Sources */,
+				152449FD2C10560B00B2C082 /* NaviUtil.swift in Sources */,
 				15BA31672303258D00B8B971 /* SendDataDelegate.swift in Sources */,
 				152449F92C10329000B2C082 /* AppUI.swift in Sources */,
 				15BA311A2300198100B8B971 /* RestroomDataSource.swift in Sources */,

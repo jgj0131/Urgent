@@ -10,5 +10,6 @@ import Foundation
 
 struct AppUtil {
     let mail: MailUtil = .init()
+    let navi: NaviUtil = .init()
 }
 
