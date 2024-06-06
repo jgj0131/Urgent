@@ -18,7 +18,17 @@ struct EmergencyBellDataSource {
     
     func getDataForFata() -> Array<[String:String]> {
         let array = getSwiftArrayFromPlist(name: "emergencybell_20240531")
-        let filteredArray = array.filter { $0["위도"] != "" && $0["경도"] != "" }
+        let filteredArray = array.filter { isCorrectData($0) }
         return filteredArray
+    }
+    
+    private func isCorrectData(_ data: [String: String]) -> Bool {
+        guard let lat = data["위도"]?.toDouble, let long = data["경도"]?.toDouble else { return false }
+        
+        if lat >= 33, lat <= 39, long >= 124, long <= 132 {
+            return true
+        } else {
+            return false
+        }
     }
 }

@@ -22,6 +22,7 @@
 		153B27242334FE6B00BFFDB4 /* DarkModeString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153B27232334FE6B00BFFDB4 /* DarkModeString.swift */; };
 		1547B43723438D1F00898F94 /* KeyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1547B43623438D1F00898F94 /* KeyData.swift */; };
 		156F36F92C11BC4200172991 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F36F82C11BC4200172991 /* Double+Extension.swift */; };
+		156F36FB2C11FFF300172991 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F36FA2C11FFF200172991 /* String+Extension.swift */; };
 		156F8632231FCF3C00EAEBF5 /* EmergencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156F8631231FCF3C00EAEBF5 /* EmergencyViewController.swift */; };
 		157A1D4C289FD74900547225 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157A1D4B289FD74900547225 /* UIImage+Extension.swift */; };
 		157A1D4E289FD77600547225 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157A1D4D289FD77600547225 /* UIColor+Extension.swift */; };
@@ -89,6 +90,7 @@
 		153B27232334FE6B00BFFDB4 /* DarkModeString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeString.swift; sourceTree = "<group>"; };
 		1547B43623438D1F00898F94 /* KeyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyData.swift; sourceTree = "<group>"; };
 		156F36F82C11BC4200172991 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
+		156F36FA2C11FFF200172991 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		156F8631231FCF3C00EAEBF5 /* EmergencyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyViewController.swift; sourceTree = "<group>"; };
 		157A1D4B289FD74900547225 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		157A1D4D289FD77600547225 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				157A1D4F289FD96200547225 /* MKMapView+Extension.swift */,
 				157A1D6128A3F02400547225 /* CLLocationCoordinate2D+Extension.swift */,
 				156F36F82C11BC4200172991 /* Double+Extension.swift */,
+				156F36FA2C11FFF200172991 /* String+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -603,6 +606,7 @@
 				15BA31672303258D00B8B971 /* SendDataDelegate.swift in Sources */,
 				152449F92C10329000B2C082 /* AppUI.swift in Sources */,
 				15BA311A2300198100B8B971 /* RestroomDataSource.swift in Sources */,
+				156F36FB2C11FFF300172991 /* String+Extension.swift in Sources */,
 				151470082327520700E2BAF9 /* OnOffTableViewCell.swift in Sources */,
 				156F36F92C11BC4200172991 /* Double+Extension.swift in Sources */,
 				156F8632231FCF3C00EAEBF5 /* EmergencyViewController.swift in Sources */,
