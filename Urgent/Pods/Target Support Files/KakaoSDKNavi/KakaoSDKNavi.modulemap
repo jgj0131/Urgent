@@ -1,0 +1,6 @@
+module KakaoSDKNavi {
+  umbrella header "KakaoSDKNavi-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -32,10 +32,10 @@ class MailUtil: NSObject, MFMailComposeViewControllerDelegate {
         } else if let gmailURL = URL(string: gmailURLString), UIApplication.shared.canOpenURL(gmailURL) {
                 UIApplication.shared.open(gmailURL, options: [:], completionHandler: nil)
         } else {
-            App.ui.alert(title: mailFailMessageTitle, message: mailFailMessageBody, actionTitle: "메일주소 복사하기", action: { _ in
+            App.ui.alert(title: mailFailMessageTitle, message: mailFailMessageBody, actionTitle: "메일주소 복사하기", isCancellable: true) { _ in
                 let pasteboard = UIPasteboard.general
                 pasteboard.string = self.adminMail
-            })
+            }
         }
     }
     

@@ -25,9 +25,19 @@ final class AppUI {
 
 // MARK: Alert --------------------
 extension AppUI {
-    func alert(title: String? = nil, message: String?, actionTitle: String = "OK", action: ((UIAlertAction) -> Void)? = nil) {
+    func alert(title: String? = nil, message: String?, actionTitle: String = "확인", isCancellable: Bool = false, action: ((UIAlertAction) -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: action))
+        
+        if isCancellable {
+            let cancelAction: UIAlertAction = .init(title: "닫기", style: .cancel, handler: nil)
+            cancelAction.setValue(UIColor.urgent, forKey: "titleTextColor")
+            alert.addAction(cancelAction)
+        }
+        
+        let okAction: UIAlertAction = .init(title: actionTitle, style: .default, handler: action)
+        okAction.setValue(UIColor.ccGreen, forKey: "titleTextColor")
+        alert.addAction(okAction)
+        
         topViewController?.present(alert, animated: true, completion: nil)
     }
 }

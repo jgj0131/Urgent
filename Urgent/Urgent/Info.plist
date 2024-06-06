@@ -18,10 +18,6 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict/>
-	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>GADApplicationIdentifier</key>
@@ -31,7 +27,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>googlegmail</string>
-		<string>kakaonavi</string>
+		<string>kakaonavi-sdk</string>
 		<string>tmap</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>

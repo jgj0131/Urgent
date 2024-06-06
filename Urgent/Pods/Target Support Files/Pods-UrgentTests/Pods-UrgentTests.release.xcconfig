@@ -1,14 +1,14 @@
 CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
 FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework-Current" "${PODS_ROOT}/GoogleAppMeasurement/Frameworks" "${PODS_ROOT}/GoogleMaps/Base/Frameworks" "${PODS_ROOT}/GoogleMaps/Maps/Frameworks" "${PODS_ROOT}/GooglePlaces/Frameworks"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 $(inherited) PB_FIELD_32BIT=1 PB_NO_PACKED_STRUCTS=1 PB_ENABLE_MALLOC=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Google-Maps-iOS-Utils" "${PODS_ROOT}/Headers/Public/GoogleUtilities" "${PODS_ROOT}/Headers/Public/nanopb"
-OTHER_CFLAGS = $(inherited) -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/Cluster/Cluster.modulemap" -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios/Lottie.modulemap"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Google-Maps-iOS-Utils" "${PODS_ROOT}/Headers/Public/GoogleUtilities" "${PODS_ROOT}/Headers/Public/KakaoSDKNavi" "${PODS_ROOT}/Headers/Public/nanopb"
+OTHER_CFLAGS = $(inherited) -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/Cluster/Cluster.modulemap" -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/KakaoSDKCommon/KakaoSDKCommon.modulemap" -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/KakaoSDKNavi/KakaoSDKNavi.modulemap" -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios/Lottie.modulemap"
 OTHER_LDFLAGS = $(inherited) -l"c++" -l"sqlite3" -l"z" -framework "AVFoundation" -framework "Accelerate" -framework "AudioToolbox" -framework "CFNetwork" -framework "CoreData" -framework "CoreGraphics" -framework "CoreImage" -framework "CoreLocation" -framework "CoreMedia" -framework "CoreTelephony" -framework "CoreText" -framework "CoreVideo" -framework "GLKit" -framework "ImageIO" -framework "MediaPlayer" -framework "MessageUI" -framework "MobileCoreServices" -framework "OpenGLES" -framework "QuartzCore" -framework "Security" -framework "StoreKit" -framework "SystemConfiguration" -framework "UIKit"
-OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS -Xcc -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/Cluster/Cluster.modulemap" -Xcc -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios/Lottie.modulemap"
+OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS -Xcc -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/Cluster/Cluster.modulemap" -Xcc -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/KakaoSDKCommon/KakaoSDKCommon.modulemap" -Xcc -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/KakaoSDKNavi/KakaoSDKNavi.modulemap" -Xcc -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios/Lottie.modulemap"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
 PODS_ROOT = ${SRCROOT}/Pods
 PODS_XCFRAMEWORKS_BUILD_DIR = $(PODS_CONFIGURATION_BUILD_DIR)/XCFrameworkIntermediates
-SWIFT_INCLUDE_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Cluster" "${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios"
+SWIFT_INCLUDE_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Cluster" "${PODS_CONFIGURATION_BUILD_DIR}/KakaoSDKCommon" "${PODS_CONFIGURATION_BUILD_DIR}/KakaoSDKNavi" "${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios"
 USE_RECURSIVE_SCRIPT_INPUTS_IN_SCRIPT_PHASES = YES

@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
- platform :ios, '9.0'
+ platform :ios, '15.0'
 
 target 'Urgent' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -9,6 +9,7 @@ pod 'Google-Maps-iOS-Utils'
 pod 'Google-Mobile-Ads-SDK'
 pod "Cluster"
 pod "lottie-ios"
+pod "KakaoSDKNavi"
 
 #  use_frameworks!
 

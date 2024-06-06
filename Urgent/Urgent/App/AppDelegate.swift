@@ -10,6 +10,7 @@ import GoogleMaps
 import GooglePlaces
 import CoreLocation
 import GoogleMobileAds
+import KakaoSDKCommon
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSServices.provideAPIKey(googleMapAPIKey)
         GMSPlacesClient.provideAPIKey(googlePlaceAPIKey)
         GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
+        KakaoSDK.initSDK(appKey: kakaoAPIKey)
         // Override point for customization after application launch.
         return true
     }

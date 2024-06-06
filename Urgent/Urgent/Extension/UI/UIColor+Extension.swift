@@ -12,4 +12,5 @@ extension UIColor {
     static let path = UIColor(red: 86/255, green: 193 / 255, blue: 1, alpha: 1)
     static let urgent = UIColor(red: 239/255, green: 134 / 255, blue: 125/255, alpha: 1)
     static let ccMint = UIColor(red: 22/255, green: 231/255, blue: 207/255, alpha: 1)
+    static let ccGreen = UIColor(red: 0/255, green: 171/255, blue: 142/255, alpha: 1)
 }

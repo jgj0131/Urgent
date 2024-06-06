@@ -87,7 +87,7 @@ class CardViewController: UIViewController {
     
     @IBAction func openNavi(_ sender: UIButton) {
         if let lat, let long {
-            App.util.navi.openTmap(latitude: lat, longitude: long, destinationName: restroomName.text ?? "")//openKakaoNavi(latitude: lat, longitude: long, destinationName: restroomName.text ?? "")
+            App.util.navi.openNavi(latitude: lat, longitude: long, destinationName: restroomName.text ?? "")
         }
     }
     

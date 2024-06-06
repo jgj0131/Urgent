@@ -47,6 +47,9 @@ PODS:
   - "GoogleUtilities/NSData+zlib (6.3.0)"
   - GoogleUtilities/Reachability (6.3.0):
     - GoogleUtilities/Logger
+  - KakaoSDKCommon/Common (2.22.2)
+  - KakaoSDKNavi (2.22.2):
+    - KakaoSDKCommon/Common (= 2.22.2)
   - lottie-ios (3.2.3)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
@@ -60,6 +63,7 @@ DEPENDENCIES:
   - Google-Mobile-Ads-SDK
   - GoogleMaps
   - GooglePlaces
+  - KakaoSDKNavi
   - lottie-ios
 
 SPEC REPOS:
@@ -72,6 +76,8 @@ SPEC REPOS:
     - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleUtilities
+    - KakaoSDKCommon
+    - KakaoSDKNavi
     - lottie-ios
     - nanopb
 
@@ -83,9 +89,11 @@ SPEC CHECKSUMS:
   GoogleMaps: 5046d7edfe381c1a0b20fdaf293915a375c3122b
   GooglePlaces: 41bc2e480816b1234a48f4bec92e1c886f37cfe1
   GoogleUtilities: 9c2c544202301110b29f7974a82e77fdcf12bf51
+  KakaoSDKCommon: d4f76f3b900dbef924a09196c8eb9245aefcaf83
+  KakaoSDKNavi: e2a0ad9364dc822dcd93fb3f2e8e8321094d3669
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
 
-PODFILE CHECKSUM: 7d614acbea43905b7905107133db7e99b88060c1
+PODFILE CHECKSUM: 90d278e796665966ada8ce8136ee728d05754d23
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.12.1

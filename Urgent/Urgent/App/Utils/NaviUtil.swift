@@ -7,25 +7,27 @@
 //
 
 import Foundation
+import KakaoSDKNavi
 
 struct NaviUtil {
-    func openKakaoNavi(latitude: Double, longitude: Double, destinationName: String) {
-        let urlScheme = "kakaonavi://navigate?coord_type=wgs84&pos=\(longitude),\(latitude)&name=\(destinationName)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+    func openNavi(latitude: Double, longitude: Double, destinationName: String) {
+        let tmapUrlScheme = "tmap://route?goalx=\(longitude)&goaly=\(latitude)&goalname=\(destinationName)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let destination: NaviLocation = .init(name: destinationName, x: "\(longitude)", y: "\(latitude)")
         
-        if let kakaoNaviURL = URL(string: urlScheme), UIApplication.shared.canOpenURL(kakaoNaviURL) {
-            UIApplication.shared.open(kakaoNaviURL, options: [:], completionHandler: nil)
-        } else {
-            App.ui.alert(title: "Error", message: "Kakao Navi app is not installed")
+        guard let kakaoNavigateUrl = NaviApi.shared.navigateUrl(destination: destination, option: .init(coordType: .WGS84)) else {
+            return
         }
-    }
-    
-    func openTmap(latitude: Double, longitude: Double, destinationName: String) {
-        let urlScheme = "tmap://route?goalx=\(longitude)&goaly=\(latitude)&goalname=\(destinationName)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         
-        if let tmapURL = URL(string: urlScheme), UIApplication.shared.canOpenURL(tmapURL) {
+        if let tmapURL = URL(string: tmapUrlScheme), UIApplication.shared.canOpenURL(tmapURL) {
             UIApplication.shared.open(tmapURL, options: [:], completionHandler: nil)
+        } else if UIApplication.shared.canOpenURL(kakaoNavigateUrl) {
+            UIApplication.shared.open(kakaoNavigateUrl, options: [:], completionHandler: nil)
         } else {
-            App.ui.alert(title: "Error", message: "Tmap app is not installed")
+            App.ui.alert(title: "내비게이션앱 없음", message: "T맵 혹은 카카오내비를 설치해주세요.", actionTitle: "설치", isCancellable: true) { _ in
+                if let url = URL(string: "itms-apps://itunes.apple.com/search?term=내비게이션"), UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
         }
     }
 }
