@@ -83,9 +83,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     private let cardHandleAreaHeight:CGFloat = 65
     
     private var cardVisible = false
-    private var nextState: CardState {
-        return cardVisible ? .collapsed : .expanded
-    }
+    private var nextState: CardState = .collapsed
     
     private var runningAnimations = [UIViewPropertyAnimator]()
     private var animationProgressWhenInterrupted:CGFloat = 0
@@ -265,15 +263,8 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         
         cardViewController.view.clipsToBounds = true
        
-        let upSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleCardSwipeUp(recognizer:)))
-        let downSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleCardSwipeDown(recognizer:)))
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleCardPan(sender:)))
         
-        upSwipeGestureRecognizer.direction = .up
-        downSwipeGestureRecognizer.direction = .down
-
-//        cardViewController.backgroundArea.addGestureRecognizer(upSwipeGestureRecognizer)
-//        cardViewController.backgroundArea.addGestureRecognizer(downSwipeGestureRecognizer)
         cardViewController.view.addGestureRecognizer(panGestureRecognizer)
 
         cardViewController.setDistance(distance: distance, lat: lat, long: long)
@@ -307,7 +298,8 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     }
     
     /// cardView가 올라온 상태와 내려가있을 떄의 높이를 설정하고, 애니메이션을 시작하는 메소드
-    func animateTransitionIfNeeded (state:CardState, duration:TimeInterval) {
+    func animateTransitionIfNeeded (state: CardState, duration: TimeInterval) {
+        nextState = state
         switch state {
         case .expanded:
             UIView.animate(withDuration: 0.3) {
@@ -326,7 +318,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     }
     
     /// 애니메이션 배열이 비어있다면 채워넣고 현재 실행중인 애니메이션을 중지하는 메소드
-    func startInteractiveTransition(state:CardState, duration:TimeInterval) {
+    func startInteractiveTransition(state: CardState, duration: TimeInterval) {
         if runningAnimations.isEmpty {
             animateTransitionIfNeeded(state: state, duration: duration)
         }
@@ -351,33 +343,6 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     }
     
     // MARK: Gesture
-    /// Tap 했을 때 동작을 나타내는 메소드
-    @objc
-    func handleCardTap(recognzier: UITapGestureRecognizer) {
-        switch recognzier.state {
-        case .ended:
-            animateTransitionIfNeeded(state: nextState, duration: 0.9)
-        default:
-            break
-        }
-    }
-    
-    /// Swipe  Up했을 때 동작을 나타내는 메소드
-    @objc
-    func handleCardSwipeUp(recognizer: UISwipeGestureRecognizer) {
-        if nextState == .expanded {
-            animateTransitionIfNeeded(state: nextState, duration: 0.9)
-        }
-    }
-    
-    /// Swipe  Down했을 때 동작을 나타내는 메소드
-    @objc
-    func handleCardSwipeDown(recognizer: UISwipeGestureRecognizer) {
-        if nextState == .collapsed {
-            animateTransitionIfNeeded(state: nextState, duration: 0.9)
-        }
-    }
-    
     @objc
     func handleCardPan(sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: view)
@@ -404,11 +369,12 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
             }
             
         case .ended:
-            if cardViewController.view.frame.origin.y < self.view.frame.height - (self.view.bounds.height * 0.55) {
+            if cardViewController.view.frame.origin.y < self.view.frame.height - (self.view.bounds.height * (nextState == .collapsed ? 0.38 : 0.62)) {
                 animateTransitionIfNeeded(state: .expanded, duration: 0.9)
             } else if cardViewController.view.frame.origin.y > self.view.frame.height - (self.cardHandleAreaHeight * 2.5) {
                 cardViewController.removeFromParent()
                 cardViewController.view.removeFromSuperview()
+                animateTransitionIfNeeded(state: .collapsed, duration: 0.9)
             } else {
                 animateTransitionIfNeeded(state: .collapsed, duration: 0.9)
             }
