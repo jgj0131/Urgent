@@ -17,7 +17,7 @@ struct RestroomDataSource {
     }
     
     func getDataForFata() -> Array<[String:String]> {
-        let array = getSwiftArrayFromPlist(name: "toilet_20240531") + additionalData
+        let array = getSwiftArrayFromPlist(name: "toilet_20240719") + additionalData
         let filteredArray = array.filter { isCorrectData($0) }
         return filteredArray
     }

@@ -13,4 +13,5 @@ extension UIColor {
     static let urgent = UIColor(red: 239/255, green: 134 / 255, blue: 125/255, alpha: 1)
     static let ccMint = UIColor(red: 22/255, green: 231/255, blue: 207/255, alpha: 1)
     static let ccGreen = UIColor(red: 0/255, green: 171/255, blue: 142/255, alpha: 1)
+    static let glassmorphismBorder = UIColor(named: "glassmorphismBorder") ?? UIColor.clear
 }
