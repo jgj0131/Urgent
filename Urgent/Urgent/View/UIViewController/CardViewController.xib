@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -29,6 +29,7 @@
                 <outlet property="restroomSubTitle" destination="Uag-0z-1qG" id="lKp-Dl-Zcn"/>
                 <outlet property="useButton" destination="RBa-DS-Pkm" id="MgL-9Q-L9p"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="u09-h8-FKH"/>
+                <outlet property="visualEffectView" destination="Vce-Ia-oVp" id="ZTI-pZ-Ngs"/>
                 <outlet property="walkImage" destination="7Go-zr-asl" id="MD6-K0-frA"/>
                 <outlet property="womanToiletCount" destination="hcu-QJ-ayV" id="MXh-7F-aTo"/>
                 <outletCollection property="titles" destination="AbH-64-wHJ" collectionClass="NSMutableArray" id="5cH-FX-5Tx"/>
@@ -45,11 +46,33 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="700"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wdM-TU-K0a">
+                <visualEffectView opaque="NO" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vce-Ia-oVp">
+                    <rect key="frame" x="-1" y="3" width="416" height="707"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="DCa-Uk-obm">
+                        <rect key="frame" x="0.0" y="0.0" width="416" height="707"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R84-1b-Aiw">
+                                <rect key="frame" x="0.0" y="0.0" width="176" height="579"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="hFl-Rk-0oR">
+                                    <rect key="frame" x="0.0" y="0.0" width="176" height="579"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <vibrancyEffect>
+                                    <blurEffect style="regular"/>
+                                </vibrancyEffect>
+                            </visualEffectView>
+                        </subviews>
+                    </view>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <blurEffect style="prominent"/>
+                </visualEffectView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wdM-TU-K0a" userLabel="backgroundArea">
                     <rect key="frame" x="0.0" y="3" width="414" height="697"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Go-zr-asl">
-                            <rect key="frame" x="364" y="31" width="30" height="31"/>
+                            <rect key="frame" x="364" y="31" width="30" height="31.5"/>
                             <color key="tintColor" systemColor="labelColor"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="30" id="xvj-Ki-1h7"/>
@@ -103,7 +126,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="MxG-VY-GMx" secondAttribute="trailing" constant="10" id="1Oi-xS-2ha"/>
                         <constraint firstItem="7fD-Cg-mHF" firstAttribute="top" secondItem="Z1s-Th-ZWE" secondAttribute="bottom" constant="25" id="610-Oc-EdP"/>
@@ -121,9 +144,9 @@
                         <constraint firstAttribute="trailing" secondItem="fIl-vX-uSU" secondAttribute="trailing" constant="10" id="xSJ-Vk-idt"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tKo-Ta-KV8">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tKo-Ta-KV8" userLabel="handleaArea">
                     <rect key="frame" x="0.0" y="7" width="414" height="20"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="9M8-5D-edO"/>
                     </constraints>
@@ -258,6 +281,8 @@
                 <constraint firstItem="0jZ-nR-KQh" firstAttribute="height" secondItem="tKo-Ta-KV8" secondAttribute="height" multiplier="0.1" id="0Yq-o9-90Q"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="hFG-6l-cDi" secondAttribute="bottom" constant="20" id="2K5-7O-lsU"/>
                 <constraint firstItem="bDc-4K-p5B" firstAttribute="leading" secondItem="7VG-E9-kxJ" secondAttribute="trailing" constant="5" id="2zY-Os-35J"/>
+                <constraint firstItem="Vce-Ia-oVp" firstAttribute="trailing" secondItem="wdM-TU-K0a" secondAttribute="trailing" constant="1" id="3J1-V5-Vog"/>
+                <constraint firstItem="Vce-Ia-oVp" firstAttribute="bottom" secondItem="wdM-TU-K0a" secondAttribute="bottom" constant="10" id="3th-8w-utr"/>
                 <constraint firstItem="2vd-l8-tZL" firstAttribute="top" secondItem="7s7-XK-n9s" secondAttribute="bottom" constant="20" id="5eB-Gj-O9C"/>
                 <constraint firstItem="2iN-R2-tTD" firstAttribute="leading" secondItem="AbH-64-wHJ" secondAttribute="trailing" constant="10" id="624-U2-u5g"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="hcu-QJ-ayV" secondAttribute="trailing" constant="20" id="6XI-mX-4la"/>
@@ -272,6 +297,7 @@
                 <constraint firstItem="0jZ-nR-KQh" firstAttribute="width" secondItem="tKo-Ta-KV8" secondAttribute="width" multiplier="0.1" id="KU9-I7-UR6"/>
                 <constraint firstAttribute="bottom" secondItem="wdM-TU-K0a" secondAttribute="bottom" id="Kgl-cu-auK"/>
                 <constraint firstItem="VG0-Ll-YlV" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="LPl-68-HsZ"/>
+                <constraint firstItem="Vce-Ia-oVp" firstAttribute="leading" secondItem="wdM-TU-K0a" secondAttribute="leading" constant="-1" id="LmG-qS-4tb"/>
                 <constraint firstItem="wdM-TU-K0a" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="Lry-tM-LCt"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Uag-0z-1qG" secondAttribute="trailing" constant="20" id="Lsr-tk-p8l"/>
                 <constraint firstItem="7VG-E9-kxJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="OVP-x0-32d"/>
@@ -285,6 +311,7 @@
                 <constraint firstItem="hIO-Ko-nlg" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="XUF-A0-MqQ"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="2iN-R2-tTD" secondAttribute="trailing" constant="20" id="Xnn-93-6g2"/>
                 <constraint firstItem="ZV1-7y-cEu" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="Yd9-gn-buq"/>
+                <constraint firstItem="Vce-Ia-oVp" firstAttribute="top" secondItem="wdM-TU-K0a" secondAttribute="top" id="YrJ-3a-Ft0"/>
                 <constraint firstItem="tKo-Ta-KV8" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="aZv-Ud-tYw"/>
                 <constraint firstAttribute="trailing" secondItem="tKo-Ta-KV8" secondAttribute="trailing" id="bla-eI-0A6"/>
                 <constraint firstItem="RBa-DS-Pkm" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="cU8-gn-fWl"/>
@@ -318,19 +345,19 @@
     </objects>
     <resources>
         <image name="arrow.triangle.turn.up.right.circle.fill" catalog="system" width="128" height="123"/>
-        <image name="figure.walk" catalog="system" width="95" height="128"/>
+        <image name="figure.walk" catalog="system" width="94" height="128"/>
         <image name="phone.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

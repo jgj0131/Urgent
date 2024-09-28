@@ -22,6 +22,7 @@ class CardViewController: UIViewController {
     var callNumber: String = "114"
     
     // MARK: IBOutlet
+    @IBOutlet weak private var visualEffectView: UIVisualEffectView!
     @IBOutlet weak private var handleArea: UIView!
     @IBOutlet weak private var restroomName: UILabel!
     @IBOutlet weak private var restroomSubTitle: UILabel!
@@ -112,6 +113,11 @@ class CardViewController: UIViewController {
     
     // MARK: LifeCyvle
     override func viewDidLoad() {
+        self.visualEffectView.clipsToBounds = true
+        self.visualEffectView.layer.cornerRadius = 20
+        self.visualEffectView.layer.borderColor = UIColor.glassmorphismBorder.cgColor
+        self.visualEffectView.layer.borderWidth = 1
+        
         self.backgroundArea.layer.cornerRadius = 20
         self.handleArea.layer.cornerRadius = 15
         

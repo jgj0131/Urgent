@@ -32,8 +32,8 @@
 		157A1D6228A3F02400547225 /* CLLocationCoordinate2D+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157A1D6128A3F02400547225 /* CLLocationCoordinate2D+Extension.swift */; };
 		158860082C08D5B30053225D /* EmergencyBellDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158860072C08D5B30053225D /* EmergencyBellDataSource.swift */; };
 		1588600A2C09801A0053225D /* emergencybell_20240531.plist in Resources */ = {isa = PBXBuildFile; fileRef = 158860092C09801A0053225D /* emergencybell_20240531.plist */; };
-		1588600C2C09854D0053225D /* toilet_20240531.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1588600B2C09854D0053225D /* toilet_20240531.plist */; };
 		1588600E2C0989470053225D /* complete.json in Resources */ = {isa = PBXBuildFile; fileRef = 1588600D2C0989470053225D /* complete.json */; };
+		15AA8C492CA81F37008688A8 /* toilet_20240719.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15AA8C482CA81F37008688A8 /* toilet_20240719.plist */; };
 		15AD879823255B8800DE0B7A /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AD879623255B8800DE0B7A /* ContactTableViewCell.swift */; };
 		15AD879B2325985800DE0B7A /* CallContactViewCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AD879A2325985800DE0B7A /* CallContactViewCellViewController.swift */; };
 		15AD879D2325990E00DE0B7A /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AD879C2325990E00DE0B7A /* Contacts.swift */; };
@@ -101,8 +101,8 @@
 		1581CC4C06FF6CC9234D2A5E /* libPods-UrgentTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UrgentTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		158860072C08D5B30053225D /* EmergencyBellDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyBellDataSource.swift; sourceTree = "<group>"; };
 		158860092C09801A0053225D /* emergencybell_20240531.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = emergencybell_20240531.plist; sourceTree = "<group>"; };
-		1588600B2C09854D0053225D /* toilet_20240531.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = toilet_20240531.plist; sourceTree = "<group>"; };
 		1588600D2C0989470053225D /* complete.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = complete.json; sourceTree = "<group>"; };
+		15AA8C482CA81F37008688A8 /* toilet_20240719.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = toilet_20240719.plist; sourceTree = "<group>"; };
 		15AD879623255B8800DE0B7A /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		15AD879A2325985800DE0B7A /* CallContactViewCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallContactViewCellViewController.swift; sourceTree = "<group>"; };
 		15AD879C2325990E00DE0B7A /* Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
@@ -337,7 +337,7 @@
 		15BA311C230019F900B8B971 /* Plist */ = {
 			isa = PBXGroup;
 			children = (
-				1588600B2C09854D0053225D /* toilet_20240531.plist */,
+				15AA8C482CA81F37008688A8 /* toilet_20240719.plist */,
 				158860092C09801A0053225D /* emergencybell_20240531.plist */,
 			);
 			path = Plist;
@@ -478,6 +478,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15AA8C492CA81F37008688A8 /* toilet_20240719.plist in Resources */,
 				15BA30CD22FC9AE500B8B971 /* LaunchScreen.storyboard in Resources */,
 				151470DC2330B9C100E2BAF9 /* TimerPickerTableViewCell.xib in Resources */,
 				151470092327520700E2BAF9 /* OnOffTableViewCell.xib in Resources */,
@@ -488,7 +489,6 @@
 				15BA31B52305FA9F00B8B971 /* CardViewController.xib in Resources */,
 				1588600A2C09801A0053225D /* emergencybell_20240531.plist in Resources */,
 				15BA30C822FC9AE400B8B971 /* Main.storyboard in Resources */,
-				1588600C2C09854D0053225D /* toilet_20240531.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -815,7 +815,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "jang-gukjin.Urgent";
 				PRODUCT_NAME = Urgent;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -840,7 +840,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "jang-gukjin.Urgent";
 				PRODUCT_NAME = Urgent;
 				PROVISIONING_PROFILE_SPECIFIER = "";
