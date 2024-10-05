@@ -38,6 +38,7 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     @IBOutlet weak var inquireButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var dateInfoView: UILabel!
+    @IBOutlet weak var optionButton: UIButton!
     
     // MARK: Google Mobile Ads --------------------
     private var bannerView: GADBannerView!
@@ -94,13 +95,61 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         return .default
     }
     
+    /// system Image Configure
+    let largeConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
+    
     let restroomData: RestroomDataSource = .init()
     let emergencyBellData: EmergencyBellDataSource = .init()
+    
+    let toiletAnnotations: [CustomAnnotation]
+    let emergencyAnnotations: [CustomAnnotation]
     
     // MARK: Enum --------------------
     enum CardState {
         case expanded
         case collapsed
+    }
+    
+    enum Mode: String {
+        case onlyToilet = "bell.slash.circle.fill"
+        case withBell = "bell.circle.fill"
+    }
+    
+    // MARK: Init --------------------
+    required init?(coder: NSCoder) {
+        toiletAnnotations = self.restroomData.getDataForFata().map { datum in
+            if datum["위도"] != "", datum["경도"] != "" {
+                let data = datum
+                let item = POIItem(data: data, coordinate: CLLocationCoordinate2DMake(Double(datum["위도"] ?? "0.00") ?? 0.1, Double(datum["경도"] ?? "0.00") ?? 0.1))
+                let annotation = CustomAnnotation()
+                annotation.coordinate = item.coordinate
+    //                if (data["개방시간상세"] == "" || data["개방시간상세"] == ":~:" || data["개방시간상세"] == "-" || data["개방시간상세"] == "-시간") {
+    //                    annotation.title = "정보 없음"
+    //                } else {
+    //                    annotation.title = data["개방시간상세"] ?? "정보 없음"
+    //                }
+                annotation.title = data["화장실명"]
+                annotation.data = data
+                return annotation
+            } else {
+                return CustomAnnotation()
+            }
+        }
+        
+        emergencyAnnotations = self.emergencyBellData.getDataForFata().map { datum in
+            if datum["위도"] != "", datum["경도"] != "" {
+                let data = datum
+                let item = POIItem(data: data, coordinate: CLLocationCoordinate2DMake(Double(datum["위도"] ?? "0.00") ?? 0.1, Double(datum["경도"] ?? "0.00") ?? 0.1))
+                let annotation = CustomAnnotation()
+                annotation.coordinate = item.coordinate
+                annotation.title = "비상벨"//data["화장실명"]
+                annotation.data = data
+                return annotation
+            } else {
+                return CustomAnnotation()
+            }
+        }
+        super.init(coder: coder)
     }
     
     // MARK: LifeCyle --------------------
@@ -146,6 +195,14 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         inquireButton.layer.shadowOffset = .zero
         inquireButton.layer.shadowRadius = 1.5
         inquireButton.layer.shadowPath = nil
+        
+        optionButton.addTarget(self, action: #selector(showOrHideBell), for: .touchUpInside)
+        optionButton.layer.shadowColor = UIColor.black.cgColor
+        optionButton.layer.shadowOpacity = 0.25
+        optionButton.layer.shadowOffset = .zero
+        optionButton.layer.shadowRadius = 1.5
+        optionButton.layer.shadowPath = nil
+        optionButton.setImage(.init(systemName: App.util.userDefaults.get(key: .emergencyBellImageName) ?? Mode.withBell.rawValue, withConfiguration: largeConfig), for: .normal)
         
         myLocationButton.layer.cornerRadius = 15
         myLocationButton.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
@@ -228,7 +285,6 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
     }
 
     // MARK: - view positioning
-    @available (iOS 11, *)
     func positionBannerViewFullWidthAtBottomOfSafeArea(_ bannerView: UIView) {
         let guide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -412,13 +468,31 @@ class ViewController: UIViewController, GMSMapViewDelegate, GMUClusterManagerDel
         }
     }
     
-    /// 문의 메일을 보냅니다
+    /// 문의 메일 송신
     @objc
     func sendMail() {
         App.util.mail.sendEmail()
     }
     
-    /// 내 위치로 이동합니다.
+    /// 안심벨을 보여주거나 숨김
+    @objc
+    func showOrHideBell() {
+        var systemName: String
+        
+        if let currentImage = UIImage(systemName: Mode.onlyToilet.rawValue, withConfiguration: largeConfig), optionButton.currentImage == currentImage {
+            systemName = Mode.withBell.rawValue
+            emergencyBellClusterManager.add(emergencyAnnotations)
+        } else {
+            systemName = Mode.onlyToilet.rawValue
+            emergencyBellClusterManager.removeAll()
+        }
+        
+        optionButton.setImage(.init(systemName: systemName, withConfiguration: largeConfig), for: .normal)
+        App.util.userDefaults.set(key: .emergencyBellImageName, value: systemName)
+        emergencyBellClusterManager.reload(mapView: mapView)
+    }
+    
+    /// 내 위치로 이동
     @objc
     func findMyLocation() {
         mapView.showsUserLocation = true
@@ -500,40 +574,12 @@ extension ViewController: CLLocationManagerDelegate {
     
     /// MapView에 화장실 마커를 남깁니다.
     func setMapView(){
-        let toiletAnnotations: [CustomAnnotation] = self.restroomData.getDataForFata().map { datum in
-            if datum["위도"] != "", datum["경도"] != "" {
-                let data = datum
-                let item = POIItem(data: data, coordinate: CLLocationCoordinate2DMake(Double(datum["위도"] ?? "0.00") ?? 0.1, Double(datum["경도"] ?? "0.00") ?? 0.1))
-                let annotation = CustomAnnotation()
-                annotation.coordinate = item.coordinate
-//                if (data["개방시간상세"] == "" || data["개방시간상세"] == ":~:" || data["개방시간상세"] == "-" || data["개방시간상세"] == "-시간") {
-//                    annotation.title = "정보 없음"
-//                } else {
-//                    annotation.title = data["개방시간상세"] ?? "정보 없음"
-//                }
-                annotation.title = data["화장실명"]
-                annotation.data = data
-                return annotation
-            } else {
-                return CustomAnnotation()
-            }
+        if let emergencySystemName = App.util.userDefaults.get(key: .emergencyBellImageName), emergencySystemName == Mode.withBell.rawValue {
+            emergencyBellClusterManager.add(emergencyAnnotations)
+        } else {
+            emergencyBellClusterManager.removeAll()
         }
         
-        let emergencyAnnotations: [CustomAnnotation] = self.emergencyBellData.getDataForFata().map { datum in
-            if datum["위도"] != "", datum["경도"] != "" {
-                let data = datum
-                let item = POIItem(data: data, coordinate: CLLocationCoordinate2DMake(Double(datum["위도"] ?? "0.00") ?? 0.1, Double(datum["경도"] ?? "0.00") ?? 0.1))
-                let annotation = CustomAnnotation()
-                annotation.coordinate = item.coordinate
-                annotation.title = "비상벨"//data["화장실명"]
-                annotation.data = data
-                return annotation
-            } else {
-                return CustomAnnotation()
-            }
-        }
-        
-        emergencyBellClusterManager.add(emergencyAnnotations)
         clusterManager.add(toiletAnnotations)
         
         emergencyBellClusterManager.reload(mapView: mapView)

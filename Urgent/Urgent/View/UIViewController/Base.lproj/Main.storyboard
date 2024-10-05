@@ -41,7 +41,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AcS-kV-SO6">
-                                <rect key="frame" x="351" y="236" width="58" height="58"/>
+                                <rect key="frame" x="351" y="294" width="58" height="58"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="58" id="FGr-zY-UIh"/>
@@ -78,17 +78,31 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 </state>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ke2-Xp-iSU">
+                                <rect key="frame" x="351" y="236" width="58" height="58"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="22"/>
+                                <color key="tintColor" red="0.93725490199999995" green="0.52549019610000003" blue="0.49019607840000001" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="bell.circle.fill" catalog="system" symbolScale="large"/>
+                                </state>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="MkG-Ms-tmL" firstAttribute="top" secondItem="ybA-gq-7FP" secondAttribute="bottom" id="0ht-HK-mOI"/>
                             <constraint firstAttribute="trailing" secondItem="aK0-1j-wpI" secondAttribute="trailing" id="2it-gc-H2G"/>
+                            <constraint firstItem="ke2-Xp-iSU" firstAttribute="top" secondItem="MkG-Ms-tmL" secondAttribute="bottom" id="4lc-xk-oNW"/>
+                            <constraint firstItem="ke2-Xp-iSU" firstAttribute="height" secondItem="AcS-kV-SO6" secondAttribute="height" id="AOb-ry-BAa"/>
                             <constraint firstItem="ybA-gq-7FP" firstAttribute="top" secondItem="aK0-1j-wpI" secondAttribute="top" constant="120" id="IhT-Hj-Xp4"/>
                             <constraint firstAttribute="bottom" secondItem="aK0-1j-wpI" secondAttribute="bottom" id="Kdl-c3-j5x"/>
                             <constraint firstItem="aK0-1j-wpI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="NHu-M6-PcR"/>
+                            <constraint firstItem="ke2-Xp-iSU" firstAttribute="centerX" secondItem="MkG-Ms-tmL" secondAttribute="centerX" id="OWk-OV-CcT"/>
+                            <constraint firstItem="ke2-Xp-iSU" firstAttribute="width" secondItem="AcS-kV-SO6" secondAttribute="width" id="QIu-wx-Sjo"/>
+                            <constraint firstItem="AcS-kV-SO6" firstAttribute="top" secondItem="ke2-Xp-iSU" secondAttribute="bottom" id="WvZ-CZ-d2K"/>
                             <constraint firstItem="MkG-Ms-tmL" firstAttribute="height" secondItem="AcS-kV-SO6" secondAttribute="height" id="aQD-Rg-Mmf"/>
-                            <constraint firstItem="AcS-kV-SO6" firstAttribute="top" secondItem="MkG-Ms-tmL" secondAttribute="bottom" id="ahj-Vy-IwW"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="AcS-kV-SO6" secondAttribute="trailing" constant="5" id="bxR-N2-icd"/>
                             <constraint firstItem="Ahy-xc-p0z" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="e9G-3Z-MoT"/>
                             <constraint firstItem="Ahy-xc-p0z" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="-20" id="fKh-Lg-VkE"/>
@@ -104,6 +118,7 @@
                         <outlet property="inquireButton" destination="MkG-Ms-tmL" id="7Zy-La-zha"/>
                         <outlet property="mapView" destination="aK0-1j-wpI" id="8Og-2b-CvR"/>
                         <outlet property="myLocationButton" destination="AcS-kV-SO6" id="ouh-7J-IXh"/>
+                        <outlet property="optionButton" destination="ke2-Xp-iSU" id="MTD-jY-Gi4"/>
                         <outlet property="settingButton" destination="ybA-gq-7FP" id="tYE-GB-kr3"/>
                     </connections>
                 </viewController>
@@ -249,6 +264,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bell.circle.fill" catalog="system" width="128" height="123"/>
         <image name="gearshape.fill" catalog="system" width="128" height="123"/>
         <image name="location.fill" catalog="system" width="128" height="119"/>
         <image name="pencil" catalog="system" width="128" height="113"/>

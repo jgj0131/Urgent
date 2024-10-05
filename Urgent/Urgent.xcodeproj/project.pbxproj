@@ -40,6 +40,7 @@
 		15AD87A323266C4A00DE0B7A /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AD87A223266C4A00DE0B7A /* UserData.swift */; };
 		15AD87A62326739900DE0B7A /* UserContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AD87A42326739900DE0B7A /* UserContactsTableViewCell.swift */; };
 		15AD87A72326739900DE0B7A /* UserContactsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15AD87A52326739900DE0B7A /* UserContactsTableViewCell.xib */; };
+		15AE902A2CB0E6DA005F0F7E /* UserDefaultsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AE90292CB0E5EE005F0F7E /* UserDefaultsUtil.swift */; };
 		15BA30C322FC9AE400B8B971 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30C222FC9AE400B8B971 /* AppDelegate.swift */; };
 		15BA30C522FC9AE400B8B971 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30C422FC9AE400B8B971 /* ViewController.swift */; };
 		15BA30C822FC9AE400B8B971 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15BA30C622FC9AE400B8B971 /* Main.storyboard */; };
@@ -109,6 +110,7 @@
 		15AD87A223266C4A00DE0B7A /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		15AD87A42326739900DE0B7A /* UserContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContactsTableViewCell.swift; sourceTree = "<group>"; };
 		15AD87A52326739900DE0B7A /* UserContactsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserContactsTableViewCell.xib; sourceTree = "<group>"; };
+		15AE90292CB0E5EE005F0F7E /* UserDefaultsUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsUtil.swift; sourceTree = "<group>"; };
 		15BA30BF22FC9AE400B8B971 /* Urgent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Urgent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15BA30C222FC9AE400B8B971 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15BA30C422FC9AE400B8B971 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 			children = (
 				152449F62C1031DF00B2C082 /* MailUtil.swift */,
 				152449FC2C10560B00B2C082 /* NaviUtil.swift */,
+				15AE90292CB0E5EE005F0F7E /* UserDefaultsUtil.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -605,6 +608,7 @@
 				152449FD2C10560B00B2C082 /* NaviUtil.swift in Sources */,
 				15BA31672303258D00B8B971 /* SendDataDelegate.swift in Sources */,
 				152449F92C10329000B2C082 /* AppUI.swift in Sources */,
+				15AE902A2CB0E6DA005F0F7E /* UserDefaultsUtil.swift in Sources */,
 				15BA311A2300198100B8B971 /* RestroomDataSource.swift in Sources */,
 				156F36FB2C11FFF300172991 /* String+Extension.swift in Sources */,
 				151470082327520700E2BAF9 /* OnOffTableViewCell.swift in Sources */,
@@ -815,7 +819,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "jang-gukjin.Urgent";
 				PRODUCT_NAME = Urgent;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -840,7 +844,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "jang-gukjin.Urgent";
 				PRODUCT_NAME = Urgent;
 				PROVISIONING_PROFILE_SPECIFIER = "";
