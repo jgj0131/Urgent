@@ -302,8 +302,8 @@ extension CardViewController: SendDataDelegate {
         publicManAndWoman.text = data["남녀공용화장실여부"] == "Y" ? "공용" : "남녀 분리"
         openingTime.text = (data["개방시간상세"] == "" || data["개방시간상세"] == ":~:" || data["개방시간상세"] == "-" || data["개방시간상세"] == "-시간") ? "정보없음" : data["개방시간상세"]!
         openingTime.numberOfLines = 0
-        manToiletCount.text = ("일반: \(data["남성용-대변기수"] == "" ? "정보없음" : data["남성용-대변기수"]!) / 장애인용: \(data["남성용-장애인용대변기수"] == "" ? "정보없음" : data["남성용-장애인용대변기수"]!)")
-        womanToiletCount.text = ("일반: \(data["여성용-대변기수"] == "" ? "정보없음" : data["여성용-대변기수"]!) / 장애인용: \(data["여성용-장애인용대변기수"] == "" ? "정보없음" : data["여성용-장애인용대변기수"]!)")
+        manToiletCount.text = ("일반: \((data["남성용-대변기수"] ?? "") == "" ? "정보없음" : data["남성용-대변기수"]!) / 장애인용: \((data["남성용-장애인용대변기수"] ?? "") == "" ? "정보없음" : data["남성용-장애인용대변기수"]!)")
+        womanToiletCount.text = ("일반: \((data["여성용-대변기수"] ?? "") == "" ? "정보없음" : data["여성용-대변기수"]!) / 장애인용: \((data["여성용-장애인용대변기수"] ?? "") == "" ? "정보없음" : data["여성용-장애인용대변기수"]!)")
         useButton.setTitle(UserDefaults.standard.string(forKey: "useButtonTitle"), for: .normal)
         latitudeAndLongitude = "\(data["위도"]!), \(data["경도"]!)"
         emergencyBellValue.text = (data["비상벨설치여부"] == "Y" ? "비상벨 O" + (data["비상벨설치장소"] == "" ? "" : " (위치: \(data["비상벨설치장소"] ?? ""))") : "비상벨 X")
@@ -315,13 +315,17 @@ extension CardViewController: SendDataDelegate {
         diaperValue.text = (data["기저귀교환대유무"] == "Y" ? "기저귀교환대 O" + (data["비상벨설치장소"] == "" ? "" : " (위치: \(data["기저귀교환대장소"] ?? ""))") : "기저귀교환대 X")
         diaperValue.numberOfLines = 2
         diaperValue.attributedText = changeTextColor(text: diaperValue.text ?? "")
-        if data["전화번호"] == "" {
-            callButton.tintColor = .secondarySystemBackground
+        if let number = data["전화번호"] {
+            if number.isEmpty {
+                callButton.tintColor = .secondarySystemBackground
+            } else {
+                callButton.tintColor = UIColor(red: 0, green: 178/255, blue: 167/255, alpha: 1)
+                callNumber = number
+                let tapGesture: UITapGestureRecognizer = .init(target: self, action: #selector(calling(_ :)))
+                callButton.addGestureRecognizer(tapGesture)
+            }
         } else {
-            callButton.tintColor = UIColor(red: 0, green: 178/255, blue: 167/255, alpha: 1)
-            callNumber = data["전화번호"]!
-            let tapGesture: UITapGestureRecognizer = .init(target: self, action: #selector(calling(_ :)))
-            callButton.addGestureRecognizer(tapGesture)
+            callButton.tintColor = .secondarySystemBackground
         }
     }
     
